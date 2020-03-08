@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<installation installDirectory="C:\Source\Repos" projectName="Crm">
+  <projects>
+    <project name="Crm.Web" path="C:\Source\Repos\Crm\Crm.Web" />
+    <project name="Crm.Broker" path="C:\Source\Repos\Crm\Crm.Broker" />
+    <project name="Crm.Contracts" path="C:\Source\Repos\Crm\Crm.Contracts" />
+    <project name="Crm.Data" path="C:\Source\Repos\Crm\Crm.Data" />
+    <project name="Crm.Domains" path="C:\Source\Repos\Crm\Crm.Domains" />
+    <project name="Crm.Services" path="C:\Source\Repos\Crm\Crm.Services" />
+    <project name="Crm.Shared" path="C:\Source\Repos\Crm\Crm.Shared" />
+  </projects>
+</installation>

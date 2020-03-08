@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DNI.Core.Services" Version="1.0.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Crm.Contracts\Crm.Contracts.csproj" />
+    <ProjectReference Include="..\Crm.Data\Crm.Data.csproj" />
+    <ProjectReference Include="..\Crm.Domains\Crm.Domains.csproj" />
+    <ProjectReference Include="..\Crm.Services\Crm.Services.csproj" />
+  </ItemGroup>
+
+</Project>
