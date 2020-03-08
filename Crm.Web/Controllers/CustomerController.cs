@@ -18,6 +18,7 @@ namespace Crm.Web.Controllers
         {
         }
 
+        [HttpGet]
         public async Task<ActionResult> SearchCustomers(GetCustomerViewModel model, CancellationToken cancellationToken)
         {
             var request = MapperProvider.Map<GetCustomerViewModel, SearchCustomersRequest>(model);
@@ -30,6 +31,7 @@ namespace Crm.Web.Controllers
             return BadRequest(response.Errors);
         }
 
+        [HttpGet]
         public async Task<ActionResult> GetCustomer(GetCustomerViewModel model, CancellationToken cancellationToken)
         {
             var request = MapperProvider.Map<GetCustomerViewModel, GetCustomerRequest>(model);

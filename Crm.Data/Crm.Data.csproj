@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DNI.Core.Services" Version="1.0.0.13" />
+    <PackageReference Include="DNI.Core.Services" Version="1.0.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Crm.Domains\Crm.Domains.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DNI.Core.Services.Extensions;
+using Crm.Broker;
 
 namespace Crm.Web
 {
@@ -16,7 +18,16 @@ namespace Crm.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services
+                .RegisterServiceBroker<ServiceBroker>(configure => { 
+                    configure.RegisterAutoMappingProviders = true;
+                    configure.RegisterCacheProviders = true; 
+                    configure.RegisterCryptographicProviders = true;
+                    configure.RegisterExceptionHandlers = true;
+                    configure.RegisterMediatorServices = true;
+                    configure.RegisterMessagePackSerialisers = true;
+                }, out var serviceBroker)
+                .AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
