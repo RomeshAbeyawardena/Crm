@@ -35,12 +35,12 @@ namespace Crm.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> SearchCustomers(GetCustomerViewModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult> SearchCustomers(SearchCustomerViewModel model, CancellationToken cancellationToken)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var request = MapperProvider.Map<GetCustomerViewModel, SearchCustomersRequest>(model);
+            var request = MapperProvider.Map<SearchCustomerViewModel, SearchCustomersRequest>(model);
             
             var response = await MediatorService.Send(request, cancellationToken);
 

@@ -15,11 +15,11 @@ namespace Crm.Services
         private readonly IRepository<Customer> _customerRepository;
         private IQueryable<Customer> DefaultCustomerQuery => _customerRepository.Query(customer => customer.Active);
         private IQueryable<Customer> DefaultCustomerSearchQuery(Customer encryptedSearchCustomer) => from customer in DefaultCustomerQuery
-                        where customer.FirstName == encryptedSearchCustomer.FirstName
-                        || customer.MiddleName == encryptedSearchCustomer.MiddleName
-                        || customer.LastName == encryptedSearchCustomer.LastName
-                        || customer.EmailAddress == encryptedSearchCustomer.EmailAddress
-                        select customer;
+                                                                                                     where customer.FirstName == encryptedSearchCustomer.FirstName
+                                                                                                     || customer.MiddleName == encryptedSearchCustomer.MiddleName
+                                                                                                     || customer.LastName == encryptedSearchCustomer.LastName
+                                                                                                     || customer.EmailAddress == encryptedSearchCustomer.EmailAddress
+                                                                                                     select customer;
 
 
         public async Task<Customer> GetCustomerById(int value, CancellationToken cancellationToken)
@@ -51,7 +51,7 @@ namespace Crm.Services
 
         public async Task<Customer> SaveCustomer(Customer encryptedCustomer, CancellationToken cancellationToken)
         {
-            if(encryptedCustomer == null)
+            if (encryptedCustomer == null)
                 throw new ArgumentNullException(nameof(encryptedCustomer));
 
             return await _customerRepository.SaveChanges(encryptedCustomer, cancellationToken: cancellationToken);
@@ -59,7 +59,7 @@ namespace Crm.Services
 
         public bool PasswordIsValid(Customer foundCustomer, IEnumerable<byte> password)
         {
-            if(foundCustomer == null)
+            if (foundCustomer == null)
                 throw new ArgumentNullException(nameof(foundCustomer));
 
             var actualPasswordHash = Convert.ToBase64String(foundCustomer.Password);

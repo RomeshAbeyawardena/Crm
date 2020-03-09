@@ -1,20 +1,20 @@
 ﻿using Crm.Domains.Contracts;
-using Crm.Domains.Response;
-using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crm.Domains.Request
+namespace Crm.Domains.ViewModels
 {
-    public class GetCustomerRequest : IRequest<GetCustomerResponse>, ICustomerIdentifier, ICustomer
+    public class SearchCustomerViewModel : ICustomerIdentifier, ICustomer, IPagedRequest
     {
-        public int? Id { get; set; }
         public string EmailAddress { get; set; }
+        public int? Id { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public int PageNumber { get; set; }
+        public int MaximumRowsPerPage { get; set; }
     }
 }

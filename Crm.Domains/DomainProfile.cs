@@ -47,7 +47,7 @@ namespace Crm.Domains
                 memberOptions => memberOptions.ConvertUsing(base64StringConvertor));
 
             CreateMap<GetCustomerRequest, CustomerDto>();
-            CreateMap<GetCustomerViewModel, SearchCustomersRequest>();
+            CreateMap<SearchCustomerViewModel, SearchCustomersRequest>();
             CreateMap<SearchCustomersRequest, CustomerDto>();
             CreateMap<SaveCustomerRequest, CustomerDto>().ForMember(member => member.Password, 
                 memberOptions => memberOptions.ConvertUsing(base64StringConvertor));
