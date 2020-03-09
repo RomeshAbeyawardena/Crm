@@ -48,7 +48,22 @@ namespace Crm.Services
 
         public async Task<Customer> SaveCustomer(Customer encryptedCustomer, CancellationToken cancellationToken)
         {
+            if(encryptedCustomer == null)
+                throw new ArgumentNullException(nameof(encryptedCustomer));
+
             return await _customerRepository.SaveChanges(encryptedCustomer, cancellationToken: cancellationToken);
+        }
+
+        public bool PasswordIsValid(Customer foundCustomer, IEnumerable<byte> password)
+        {
+            if(foundCustomer == null)
+                throw new ArgumentNullException(nameof(foundCustomer));
+
+            var actual = Convert.ToBase64String(foundCustomer.Password);
+
+            var expected = Convert.ToBase64String(password.ToArray());
+
+            return expected.Equals(actual);
         }
 
         public CustomerService(IRepository<Customer> customerRepository)
