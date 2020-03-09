@@ -20,10 +20,10 @@ namespace Crm.Domains.Data
         [Encrypt(Encryption.IdentificationKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public byte[] EmailAddress { get; set; }
         
-        [Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
+        [Encrypt(Encryption.CommonDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public byte[] FirstName { get; set; }
         
-        [Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
+        [Encrypt(Encryption.CommonDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public byte[] MiddleName { get; set; }
         
         [Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
@@ -37,7 +37,7 @@ namespace Crm.Domains.Data
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }
 
-        [Modifier(ModifierFlag.Modified)]
+        [Modifier(ModifierFlag.Created | ModifierFlag.Modified)]
         public DateTimeOffset Modified { get; set; }
 #pragma warning restore CA1819
     }

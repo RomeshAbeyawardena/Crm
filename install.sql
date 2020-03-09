@@ -34,3 +34,8 @@ ADD MEMBER AppUser
 
 ALTER ROLE db_datawriter
 ADD MEMBER AppUser
+
+SELECT * FROM [dbo].[Customer]
+
+UPDATE dbo.Customer
+SET Active = 1

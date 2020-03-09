@@ -17,10 +17,10 @@ namespace Crm.Domains.Dto
         [Encrypt(Encryption.IdentificationKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public string EmailAddress { get; set; }
 
-        [Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
+        [Encrypt(Encryption.CommonDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public string FirstName { get; set; }
 
-        [Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
+        [Encrypt(Encryption.CommonDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public string MiddleName { get; set; }
 
         [Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
@@ -28,7 +28,7 @@ namespace Crm.Domains.Dto
 
         [Encrypt(Encryption.HashingDataKey, EncryptionMethod.Hashing, StringCase.None)]
         public string Password { get; set; }
-
+        public bool Active { get;set; }
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset Modified { get; set; }
     }

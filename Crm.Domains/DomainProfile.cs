@@ -19,6 +19,7 @@ namespace Crm.Domains
             encodingConvertor = new EncodingConvertor();
             base64StringConvertor = new Base64StringConvertor();
 
+            CreateMap<SaveCustomerViewModel, SaveCustomerRequest>();
 
             CreateMap<ConfigCryptographicCredentials, AppCryptographicCredentials>()
                 .ForMember(member => member.Key, options => options.ConvertUsing(base64StringByteConvertor))
@@ -31,13 +32,15 @@ namespace Crm.Domains
                 .ForMember(member => member.EmailAddress, memberOptions => memberOptions.Ignore())
                 .ForMember(member => member.FirstName, memberOptions => memberOptions.Ignore())
                 .ForMember(member => member.MiddleName, memberOptions => memberOptions.Ignore())
-                .ForMember(member => member.LastName, memberOptions => memberOptions.Ignore());
+                .ForMember(member => member.LastName, memberOptions => memberOptions.Ignore())
+                .ForMember(member => member.Password, memberOptions => memberOptions.Ignore());
 
             CreateMap<Customer, CustomerDto>()
                 .ForMember(member => member.EmailAddress, memberOptions => memberOptions.Ignore())
                 .ForMember(member => member.FirstName, memberOptions => memberOptions.Ignore())
                 .ForMember(member => member.MiddleName, memberOptions => memberOptions.Ignore())
-                .ForMember(member => member.LastName, memberOptions => memberOptions.Ignore());
+                .ForMember(member => member.LastName, memberOptions => memberOptions.Ignore())
+                .ForMember(member => member.Password, memberOptions => memberOptions.Ignore());
 
             CreateMap<GetCustomerRequest, CustomerDto>();
             CreateMap<GetCustomerViewModel, SearchCustomersRequest>();
