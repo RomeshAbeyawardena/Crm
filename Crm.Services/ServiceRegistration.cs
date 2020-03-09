@@ -28,14 +28,14 @@ namespace Crm.Services
                 .WithTransientLifetime());
         }
 
-        private void ConfigureCryptographicCredentialsFactory(ISwitch<string, ICryptographicCredentials> arg1, ICryptographyProvider arg2, IServiceProvider arg3)
+        private void ConfigureCryptographicCredentialsFactory(ISwitch<string, ICryptographicCredentials> credentialsSwitch, ICryptographyProvider cryptographicProvider, IServiceProvider serviceProvider)
         {
-            var applicationSettings = arg3.GetRequiredService<ApplicationSettings>();
+            var applicationSettings = serviceProvider.GetRequiredService<ApplicationSettings>();
             if(applicationSettings.EncryptionKeys.TryGetValue(Encryption.IdentificationKey, out var identificationCredentials))
-                arg1.CaseWhen(Encryption.IdentificationKey, identificationCredentials);
+                credentialsSwitch.CaseWhen(Encryption.IdentificationKey, identificationCredentials);
 
             if(applicationSettings.EncryptionKeys.TryGetValue(Encryption.PersonalDataKey, out var personalDataCredentials))
-                arg1.CaseWhen(Encryption.IdentificationKey, personalDataCredentials);
+                credentialsSwitch.CaseWhen(Encryption.IdentificationKey, personalDataCredentials);
         }
     }
 }

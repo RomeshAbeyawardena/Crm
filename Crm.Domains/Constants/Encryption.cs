@@ -8,7 +8,7 @@ namespace Crm.Domains.Constants
 {
     public static class Encryption
     {
-        public const string IdentificationKey = nameof(IdentificationKey);
-        public const string PersonalDataKey = nameof(PersonalDataKey);
+        public const string IdentificationKey = "Identification";
+        public const string PersonalDataKey = "PersonalData";
     }
 }
