@@ -27,6 +27,6 @@ namespace Crm.Domains
         public KeyDerivationPrf KeyDerivationPrf { get; set; }
         public int Iterations { get; set; }
         public int TotalNumberOfBytes { get; set; }
-        public Encoding Encoding { get; set; }
+        public string Encoding { get; set; }
     }
 }

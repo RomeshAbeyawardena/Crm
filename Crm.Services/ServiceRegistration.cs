@@ -39,7 +39,7 @@ namespace Crm.Services
                     .Map<ConfigCryptographicCredentials, AppCryptographicCredentials>(identificationCredentials));
 
             if(applicationSettings.EncryptionKeys.TryGetValue(Encryption.PersonalDataKey, out var personalDataCredentials))
-                credentialsSwitch.CaseWhen(Encryption.IdentificationKey, mapperProvider
+                credentialsSwitch.CaseWhen(Encryption.PersonalDataKey, mapperProvider
                     .Map<ConfigCryptographicCredentials, AppCryptographicCredentials>(personalDataCredentials));
         }
     }
