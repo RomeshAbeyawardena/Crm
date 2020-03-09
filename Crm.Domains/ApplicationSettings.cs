@@ -13,10 +13,13 @@ namespace Crm.Domains
         public ApplicationSettings(IConfiguration configuration)
         {
             configuration.Bind(this);
-            configuration.GetConnectionString(DataConstants.ConnectionStringKey);
+            DefaultConnectionString = configuration.GetConnectionString(DataConstants.ConnectionStringKey);
         }
 
         public string DefaultConnectionString { get; set; }
-        public IDictionary<string, AppCryptographicCredentials> EncryptionKeys { get; set; }
+        public IDictionary<string, ConfigCryptographicCredentials> EncryptionKeys { get; set; }
+        public long? MemoryCacheSizeLimit { get; set; }
+        public double MemoryCacheCompactionPercentage { get; set; }
+        public TimeSpan MemoryCacheExpirationScanFrequency { get; set; }
     }
 }

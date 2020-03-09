@@ -1,5 +1,5 @@
-﻿using DNI.Core.Services;
-using DNI.Core.Services.Abstraction;
+﻿using DNI.Core.Services.Abstraction;
+using Crm.Services;
 using System;
 using DataServiceRegistration = Crm.Data.ServiceRegistration;
 namespace Crm.Broker

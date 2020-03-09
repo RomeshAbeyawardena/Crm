@@ -9,6 +9,7 @@ using Crm.Domains;
 using DNI.Core.Services.Extensions;
 using DNI.Core.Contracts.Providers;
 using Crm.Domains.Constants;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Crm.Services
 {
@@ -31,11 +32,15 @@ namespace Crm.Services
         private void ConfigureCryptographicCredentialsFactory(ISwitch<string, ICryptographicCredentials> credentialsSwitch, ICryptographyProvider cryptographicProvider, IServiceProvider serviceProvider)
         {
             var applicationSettings = serviceProvider.GetRequiredService<ApplicationSettings>();
-            if(applicationSettings.EncryptionKeys.TryGetValue(Encryption.IdentificationKey, out var identificationCredentials))
-                credentialsSwitch.CaseWhen(Encryption.IdentificationKey, identificationCredentials);
+            var mapperProvider = serviceProvider.GetRequiredService<IMapperProvider>();
+
+            if (applicationSettings.EncryptionKeys.TryGetValue(Encryption.IdentificationKey, out var identificationCredentials))
+                credentialsSwitch.CaseWhen(Encryption.IdentificationKey, mapperProvider
+                    .Map<ConfigCryptographicCredentials, AppCryptographicCredentials>(identificationCredentials));
 
             if(applicationSettings.EncryptionKeys.TryGetValue(Encryption.PersonalDataKey, out var personalDataCredentials))
-                credentialsSwitch.CaseWhen(Encryption.IdentificationKey, personalDataCredentials);
+                credentialsSwitch.CaseWhen(Encryption.IdentificationKey, mapperProvider
+                    .Map<ConfigCryptographicCredentials, AppCryptographicCredentials>(personalDataCredentials));
         }
     }
 }

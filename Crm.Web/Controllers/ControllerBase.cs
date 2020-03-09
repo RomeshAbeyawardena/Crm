@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Crm.Web.Controllers
 {
+    [Route("api/[controller]/[action]")]
     public class ControllerBase : Controller
     {
         protected readonly IMediatorService MediatorService;
         protected readonly IMapperProvider MapperProvider;
-
+        
         public ControllerBase(IMediatorService mediatorService, IMapperProvider mapperProvider)
         {
             MediatorService = mediatorService;
