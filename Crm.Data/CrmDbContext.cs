@@ -1,4 +1,5 @@
-﻿using DNI.Core.Services.Abstraction;
+﻿using Crm.Domains.Data;
+using DNI.Core.Services.Abstraction;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,7 @@ namespace Crm.Data
             : base(dbContextOptions, true, true, true)
         {
         }
+
+        public DbSet<Customer> Customers { get; set; }
     }
 }
