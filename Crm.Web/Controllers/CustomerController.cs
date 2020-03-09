@@ -66,7 +66,7 @@ namespace Crm.Web.Controllers
             return BadRequest(response.Errors);
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<ActionResult> VerifyCustomerCredentials(VerifyCustomerCredentialsViewModel model, CancellationToken cancellationToken)
         {
             if(!ModelState.IsValid)

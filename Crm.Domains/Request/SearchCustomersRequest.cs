@@ -1,4 +1,5 @@
 ﻿using Crm.Domains.Response;
+using DNI.Core.Contracts.Options;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,8 @@ namespace Crm.Domains.Request
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+
+        public int PageNumber { get; set; }
+        public int MaximumRowsPerPage { get; set; }
     }
 }

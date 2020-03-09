@@ -1,4 +1,5 @@
 ﻿using Crm.Domains.Data;
+using DNI.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Crm.Contracts.Services
     public interface ICustomerService
     {
         Task<Customer> GetCustomerById(int value, CancellationToken cancellationToken);
+        IPagerResult<Customer> SearchCustomers(Customer encryptedSearchCustomer);
         Task<IEnumerable<Customer>> SearchCustomers(Customer encryptedSearchCustomer, CancellationToken cancellationToken);
         Task<Customer> GetCustomerByEmailAddress(IEnumerable<byte> emailAddress, CancellationToken cancellationToken);
         Task<Customer> SaveCustomer(Customer encryptedCustomer, CancellationToken cancellationToken);

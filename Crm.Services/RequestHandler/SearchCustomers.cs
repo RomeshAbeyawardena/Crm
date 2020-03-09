@@ -39,16 +39,25 @@ namespace Crm.Services.RequestHandler
 
             var encryptedSearchCustomer = await EncryptionProvider.Encrypt<CustomerDto, Customer>(mappedCustomer);
 
-            var results = await _customerService
-                .SearchCustomers(encryptedSearchCustomer, cancellationToken);
+            var pager = _customerService
+                .SearchCustomers(encryptedSearchCustomer);
 
-            if (results == null || !results.Any())
+            if(await pager.LengthAsync == 0)
                 return Response.Failed<SearchCustomersResponse>(
                     new ValidationFailure(string.Empty, "Unable to find customer with specified search parameters"));
 
+            var results = await pager.GetPagedItems(pagerOptions => { 
+                pagerOptions.PageNumber = request.PageNumber; 
+                pagerOptions.MaximumRowsPerPage = request.MaximumRowsPerPage;  }, cancellationToken);
+
             var decryptedResults = await EncryptionProvider.Decrypt<Customer, CustomerDto>(results);
 
-            return Response.Success<SearchCustomersResponse>(decryptedResults);
+            var response = Response.Success<SearchCustomersResponse>(decryptedResults);
+
+            response.TotalPages = await pager.GetTotalNumberOfPages(request.MaximumRowsPerPage);
+            response.PageNumber = request.PageNumber;
+
+            return response;
         }
     }
 }

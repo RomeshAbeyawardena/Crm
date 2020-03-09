@@ -14,23 +14,26 @@ namespace Crm.Services
     {
         private readonly IRepository<Customer> _customerRepository;
         private IQueryable<Customer> DefaultCustomerQuery => _customerRepository.Query(customer => customer.Active);
-        public async Task<Customer> GetCustomerById(int value, CancellationToken cancellationToken)
-        {
-            return await _customerRepository.Find(false, cancellationToken, value);
-        }
-
-        public async Task<IEnumerable<Customer>> SearchCustomers(Customer encryptedSearchCustomer, CancellationToken cancellationToken)
-        {
-            var query = from customer in DefaultCustomerQuery
+        private IQueryable<Customer> DefaultCustomerSearchQuery(Customer encryptedSearchCustomer) => from customer in DefaultCustomerQuery
                         where customer.FirstName == encryptedSearchCustomer.FirstName
                         || customer.MiddleName == encryptedSearchCustomer.MiddleName
                         || customer.LastName == encryptedSearchCustomer.LastName
                         || customer.EmailAddress == encryptedSearchCustomer.EmailAddress
                         select customer;
 
-            return await _customerRepository
+
+        public async Task<Customer> GetCustomerById(int value, CancellationToken cancellationToken)
+        {
+            return await _customerRepository.Find(false, cancellationToken, value);
+        }
+
+        public IPagerResult<Customer> SearchCustomers(Customer encryptedSearchCustomer)
+        {
+            var query = DefaultCustomerSearchQuery(encryptedSearchCustomer);
+
+            return _customerRepository
                 .For(query)
-                .ToArrayAsync(cancellationToken);
+                .AsPager();
         }
 
         public async Task<Customer> GetCustomerByEmailAddress(IEnumerable<byte> emailAddress, CancellationToken cancellationToken)
@@ -59,11 +62,20 @@ namespace Crm.Services
             if(foundCustomer == null)
                 throw new ArgumentNullException(nameof(foundCustomer));
 
-            var actual = Convert.ToBase64String(foundCustomer.Password);
+            var actualPasswordHash = Convert.ToBase64String(foundCustomer.Password);
 
-            var expected = Convert.ToBase64String(password.ToArray());
+            var expectedPasswordHash = Convert.ToBase64String(password.ToArray());
 
-            return expected.Equals(actual);
+            return expectedPasswordHash.Equals(actualPasswordHash);
+        }
+
+        public Task<IEnumerable<Customer>> SearchCustomers(Customer encryptedSearchCustomer, CancellationToken cancellationToken)
+        {
+            var query = DefaultCustomerSearchQuery(encryptedSearchCustomer);
+
+            return _customerRepository
+                .For(query)
+                .ToArrayAsync(cancellationToken);
         }
 
         public CustomerService(IRepository<Customer> customerRepository)
