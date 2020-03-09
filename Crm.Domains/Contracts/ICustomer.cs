@@ -13,5 +13,6 @@ namespace Crm.Domains.Contracts
         string FirstName { get; set; }
         string MiddleName { get; set; }
         string LastName { get; set; }
+        string Password { get; set; }
     }
 }

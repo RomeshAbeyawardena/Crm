@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace Crm.Domains.Convertors
 {
-    public class Base64StringConvertor : IValueConverter<string, IEnumerable<byte>>
+    public class Base64StringConvertor : IValueConverter<string, string>
     {
-        public IEnumerable<byte> Convert(string sourceMember, ResolutionContext context)
+        public string Convert(string sourceMember, ResolutionContext context)
         {
-            return System.Convert.FromBase64String(sourceMember);
+            var sourceMemberBytes = Encoding.UTF8.GetBytes(sourceMember);
+            return System.Convert.ToBase64String(sourceMemberBytes);
         }
     }
 }

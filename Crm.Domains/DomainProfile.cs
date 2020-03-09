@@ -9,17 +9,15 @@ namespace Crm.Domains
 {
     public class DomainProfile : Profile
     {
-        private readonly Base64StringConvertor _base64StringConvertor;
-        private readonly EncodingConvertor _encodingConvertor;
-        public DomainProfile()
+        public DomainProfile(Base64StringByteConvertor base64StringByteConvertor = default, 
+            EncodingConvertor encodingConvertor = default, 
+            Base64StringConvertor base64StringConvertor = default)
         {
-            _base64StringConvertor = new Base64StringConvertor();
-            _encodingConvertor = new EncodingConvertor();
-
+            
             CreateMap<ConfigCryptographicCredentials, AppCryptographicCredentials>()
-                .ForMember(member => member.Key, options => options.ConvertUsing(_base64StringConvertor))
-                .ForMember(member => member.InitialVector, options => options.ConvertUsing(_base64StringConvertor))
-                .ForMember(member => member.Encoding, options => options.ConvertUsing(_encodingConvertor));
+                .ForMember(member => member.Key, options => options.ConvertUsing(base64StringByteConvertor))
+                .ForMember(member => member.InitialVector, options => options.ConvertUsing(base64StringByteConvertor))
+                .ForMember(member => member.Encoding, options => options.ConvertUsing(encodingConvertor));
 
             CreateMap<GetCustomerViewModel, GetCustomerRequest>();
             CreateMap<CustomerDto, Customer>()
@@ -27,7 +25,7 @@ namespace Crm.Domains
             CreateMap<GetCustomerRequest, CustomerDto>();
             CreateMap<GetCustomerViewModel, SearchCustomersRequest>();
             CreateMap<SearchCustomersRequest, CustomerDto>();
-            CreateMap<SaveCustomerRequest, CustomerDto>();
+            CreateMap<SaveCustomerRequest, CustomerDto>().ForMember(member => member.Password, memberOptions => memberOptions.ConvertUsing(base64StringConvertor));
         }
     }
 }

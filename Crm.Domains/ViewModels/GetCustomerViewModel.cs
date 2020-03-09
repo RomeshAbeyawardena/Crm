@@ -23,5 +23,8 @@ namespace Crm.Domains.ViewModels
 
         [MinLength(3), MaxLength(32)]
         public string LastName { get; set; }
+
+        [MinLength(3), MaxLength(16)]
+        public string Password { get; set; }
     }
 }
