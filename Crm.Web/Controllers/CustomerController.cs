@@ -79,7 +79,7 @@ namespace Crm.Web.Controllers
 
             if(ResponseHelper.IsSuccessful(response))
                 return Ok(response.Result);
-
+            
             return BadRequest(response.Errors);
         }
     }

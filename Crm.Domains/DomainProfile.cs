@@ -42,10 +42,15 @@ namespace Crm.Domains
                 .ForMember(member => member.LastName, memberOptions => memberOptions.Ignore())
                 .ForMember(member => member.Password, memberOptions => memberOptions.Ignore());
 
+            CreateMap<VerifyCustomerCredentialsViewModel, VerifyCustomerCredentialsRequest>();
+            CreateMap<VerifyCustomerCredentialsRequest, CustomerDto>().ForMember(member => member.Password, 
+                memberOptions => memberOptions.ConvertUsing(base64StringConvertor));
+
             CreateMap<GetCustomerRequest, CustomerDto>();
             CreateMap<GetCustomerViewModel, SearchCustomersRequest>();
             CreateMap<SearchCustomersRequest, CustomerDto>();
-            CreateMap<SaveCustomerRequest, CustomerDto>().ForMember(member => member.Password, memberOptions => memberOptions.ConvertUsing(base64StringConvertor));
+            CreateMap<SaveCustomerRequest, CustomerDto>().ForMember(member => member.Password, 
+                memberOptions => memberOptions.ConvertUsing(base64StringConvertor));
         }
     }
 }
