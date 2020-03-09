@@ -34,13 +34,10 @@ namespace Crm.Services
             var applicationSettings = serviceProvider.GetRequiredService<ApplicationSettings>();
             var mapperProvider = serviceProvider.GetRequiredService<IMapperProvider>();
 
-            if (applicationSettings.EncryptionKeys.TryGetValue(Encryption.IdentificationKey, out var identificationCredentials))
-                credentialsSwitch.CaseWhen(Encryption.IdentificationKey, mapperProvider
-                    .Map<ConfigCryptographicCredentials, AppCryptographicCredentials>(identificationCredentials));
-
-            if(applicationSettings.EncryptionKeys.TryGetValue(Encryption.PersonalDataKey, out var personalDataCredentials))
-                credentialsSwitch.CaseWhen(Encryption.PersonalDataKey, mapperProvider
-                    .Map<ConfigCryptographicCredentials, AppCryptographicCredentials>(personalDataCredentials));
+            foreach(var keyValue in applicationSettings.EncryptionKeys)
+                credentialsSwitch.CaseWhen(keyValue.Key, mapperProvider
+                    .Map<ConfigCryptographicCredentials, AppCryptographicCredentials>(keyValue.Value));
+            
         }
     }
 }
