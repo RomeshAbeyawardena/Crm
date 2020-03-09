@@ -19,7 +19,7 @@ namespace Crm.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveCustomer(SaveCustomerViewModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult> SaveCustomer([FromForm] SaveCustomerViewModel model, CancellationToken cancellationToken)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -67,7 +67,7 @@ namespace Crm.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> VerifyCustomerCredentials(VerifyCustomerCredentialsViewModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult> VerifyCustomerCredentials([FromForm] VerifyCustomerCredentialsViewModel model, CancellationToken cancellationToken)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -84,7 +84,7 @@ namespace Crm.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveCustomerAttribute(SaveCustomerAttributeViewModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult> SaveCustomerAttribute([FromForm] SaveCustomerAttributeViewModel model, CancellationToken cancellationToken)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
