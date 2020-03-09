@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Crm.Domains.ViewModels
 {
-    public class GetCustomerViewModel : ICustomer
+    public class GetCustomerViewModel : ICustomerIdentifier, ICustomer
     {
         public int? Id { get; set; }
         
@@ -23,8 +23,5 @@ namespace Crm.Domains.ViewModels
 
         [MinLength(3), MaxLength(32)]
         public string LastName { get; set; }
-
-        [MinLength(3), MaxLength(16)]
-        public string Password { get; set; }
     }
 }

@@ -65,5 +65,22 @@ namespace Crm.Web.Controllers
 
             return BadRequest(response.Errors);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> VerifyCustomerCredentials(VerifyCustomerCredentialsViewModel model, CancellationToken cancellationToken)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var request = MapperProvider
+                .Map<VerifyCustomerCredentialsViewModel, VerifyCustomerCredentialsRequest>(model);
+
+            var response = await MediatorService.Send(request, cancellationToken);
+
+            if(ResponseHelper.IsSuccessful(response))
+                return Ok(response.Result);
+
+            return BadRequest(response.Errors);
+        }
     }
 }

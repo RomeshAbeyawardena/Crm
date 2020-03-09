@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Crm.Domains.ViewModels
 {
-    public class SaveCustomerViewModel : ICustomer
+    public class SaveCustomerViewModel : ICustomerIdentifier, ICustomer, ICustomerCredential
     {
         public int? Id { get; set; }
 
