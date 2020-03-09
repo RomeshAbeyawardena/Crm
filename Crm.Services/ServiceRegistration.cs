@@ -19,14 +19,19 @@ namespace Crm.Services
         {
             services
                 .AddSingleton<ApplicationSettings>()
-                .AddAutoMapper(Assembly.GetAssembly(typeof(DomainProfile)))
+                .AddAutoMapper(ConfigureAutoMapper, Assembly.GetAssembly(typeof(DomainProfile)))
                 .RegisterCryptographicCredentialsFactory<AppCryptographicCredentials>(ConfigureCryptographicCredentialsFactory)
                 .AddMediatR(Assembly.GetAssembly(typeof(ServiceRegistration)))
                 .Scan(scan => scan
-                .FromAssemblyOf<ServiceRegistration>()
-                .AddClasses()
-                .AsImplementedInterfaces()
-                .WithTransientLifetime());
+                    .FromAssemblyOf<ServiceRegistration>()
+                    .AddClasses()
+                    .AsImplementedInterfaces()
+                    .WithTransientLifetime());
+        }
+
+        private void ConfigureAutoMapper(IServiceProvider serviceProvider, IMapperConfigurationExpression configuration)
+        {
+            configuration.ConstructServicesUsing(serviceProvider.GetService);
         }
 
         private void ConfigureCryptographicCredentialsFactory(ISwitch<string, ICryptographicCredentials> credentialsSwitch, ICryptographyProvider cryptographicProvider, IServiceProvider serviceProvider)
