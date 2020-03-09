@@ -9,25 +9,36 @@ namespace Crm.Domains
 {
     public class DomainProfile : Profile
     {
-        private Base64StringByteConvertor base64StringByteConvertor;
-        private EncodingConvertor encodingConvertor;
-        private Base64StringConvertor base64StringConvertor;
+        private readonly Base64StringByteConvertor base64StringByteConvertor;
+        private readonly EncodingConvertor encodingConvertor;
+        private readonly Base64StringConvertor base64StringConvertor;
 
         public DomainProfile()
         {
             base64StringByteConvertor = new Base64StringByteConvertor();
-            base64StringByteConvertor = new EncodingConvertor();
+            encodingConvertor = new EncodingConvertor();
             base64StringConvertor = new Base64StringConvertor();
 
 
             CreateMap<ConfigCryptographicCredentials, AppCryptographicCredentials>()
-                .ForMember(member => member.Key, options => options.ConvertUsing<Base64StringConvertor, string>())
+                .ForMember(member => member.Key, options => options.ConvertUsing(base64StringByteConvertor))
                 .ForMember(member => member.InitialVector, options => options.ConvertUsing(base64StringByteConvertor))
                 .ForMember(member => member.Encoding, options => options.ConvertUsing(encodingConvertor));
 
             CreateMap<GetCustomerViewModel, GetCustomerRequest>();
+
             CreateMap<CustomerDto, Customer>()
-                .ReverseMap();
+                .ForMember(member => member.EmailAddress, memberOptions => memberOptions.Ignore())
+                .ForMember(member => member.FirstName, memberOptions => memberOptions.Ignore())
+                .ForMember(member => member.MiddleName, memberOptions => memberOptions.Ignore())
+                .ForMember(member => member.LastName, memberOptions => memberOptions.Ignore());
+
+            CreateMap<Customer, CustomerDto>()
+                .ForMember(member => member.EmailAddress, memberOptions => memberOptions.Ignore())
+                .ForMember(member => member.FirstName, memberOptions => memberOptions.Ignore())
+                .ForMember(member => member.MiddleName, memberOptions => memberOptions.Ignore())
+                .ForMember(member => member.LastName, memberOptions => memberOptions.Ignore());
+
             CreateMap<GetCustomerRequest, CustomerDto>();
             CreateMap<GetCustomerViewModel, SearchCustomersRequest>();
             CreateMap<SearchCustomersRequest, CustomerDto>();

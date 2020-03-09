@@ -1,21 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.Web", "Crm.Web\Crm.Web.csproj", "{BFC8C476-E0AC-41BF-8122-568CACA7C2C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crm.Web", "Crm.Web\Crm.Web.csproj", "{BFC8C476-E0AC-41BF-8122-568CACA7C2C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.Broker", "Crm.Broker\Crm.Broker.csproj", "{237A80A7-42C3-43BF-B160-5915FDFF33FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crm.Broker", "Crm.Broker\Crm.Broker.csproj", "{237A80A7-42C3-43BF-B160-5915FDFF33FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.Contracts", "Crm.Contracts\Crm.Contracts.csproj", "{E763C8A7-4CCB-47DA-B5B9-338426BC5F83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crm.Contracts", "Crm.Contracts\Crm.Contracts.csproj", "{E763C8A7-4CCB-47DA-B5B9-338426BC5F83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.Data", "Crm.Data\Crm.Data.csproj", "{2F4897E4-7016-4449-ADC3-7B3BC61540E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crm.Data", "Crm.Data\Crm.Data.csproj", "{2F4897E4-7016-4449-ADC3-7B3BC61540E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.Domains", "Crm.Domains\Crm.Domains.csproj", "{96BD1B21-FCDF-4896-9E0C-E146168C8A06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crm.Domains", "Crm.Domains\Crm.Domains.csproj", "{96BD1B21-FCDF-4896-9E0C-E146168C8A06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.Services", "Crm.Services\Crm.Services.csproj", "{E1D23A10-3407-4667-B510-23165DD500C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crm.Services", "Crm.Services\Crm.Services.csproj", "{E1D23A10-3407-4667-B510-23165DD500C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.Shared", "Crm.Shared\Crm.Shared.csproj", "{71E6A2D4-5EE7-4576-94F6-580207E755F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crm.Shared", "Crm.Shared\Crm.Shared.csproj", "{71E6A2D4-5EE7-4576-94F6-580207E755F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7F296F5F-2D79-4ADA-B1CD-FA6C48E58D6A}"
+	ProjectSection(SolutionItems) = preProject
+		install.sql = install.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,9 +30,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{BFC8C476-E0AC-41BF-8122-568CACA7C2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -114,5 +116,11 @@ Global
 		{71E6A2D4-5EE7-4576-94F6-580207E755F7}.Release|x64.Build.0 = Release|Any CPU
 		{71E6A2D4-5EE7-4576-94F6-580207E755F7}.Release|x86.ActiveCfg = Release|Any CPU
 		{71E6A2D4-5EE7-4576-94F6-580207E755F7}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45CDB7A6-71EB-4A1D-B01E-2201DF09C7DB}
 	EndGlobalSection
 EndGlobal

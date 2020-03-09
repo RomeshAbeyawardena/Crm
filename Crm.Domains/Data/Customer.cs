@@ -17,19 +17,19 @@ namespace Crm.Domains.Data
         [Key]
         public int Id { get; set; }
 
-        [Ignore, Encrypt(Encryption.IdentificationKey, EncryptionMethod.Encryption, StringCase.Upper)]
+        [Encrypt(Encryption.IdentificationKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public byte[] EmailAddress { get; set; }
         
-        [Ignore, Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
+        [Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public byte[] FirstName { get; set; }
         
-        [Ignore, Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
+        [Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public byte[] MiddleName { get; set; }
         
-        [Ignore, Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
+        [Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public byte[] LastName { get; set; }
 
-        [Ignore, Encrypt(Encryption.HashingDataKey, EncryptionMethod.Hashing, StringCase.None)]
+        [Encrypt(Encryption.HashingDataKey, EncryptionMethod.Hashing, StringCase.None)]
         public byte[] Password { get; set; }
 
         public bool Active { get; set; }

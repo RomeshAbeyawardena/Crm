@@ -30,9 +30,9 @@ namespace Crm.Services.RequestHandler
         public override async Task<SearchCustomersResponse> Handle(SearchCustomersRequest request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(request.EmailAddress)
-                || string.IsNullOrWhiteSpace(request.FirstName)
-                || string.IsNullOrWhiteSpace(request.MiddleName)
-                || string.IsNullOrWhiteSpace(request.LastName))
+                && string.IsNullOrWhiteSpace(request.FirstName)
+                && string.IsNullOrWhiteSpace(request.MiddleName)
+                && string.IsNullOrWhiteSpace(request.LastName))
                 return Response.Failed<SearchCustomersResponse>(new ValidationFailure(string.Empty, "Must specify a search parameter"));
 
             var mappedCustomer = MapperProvider.Map<SearchCustomersRequest, CustomerDto>(request);

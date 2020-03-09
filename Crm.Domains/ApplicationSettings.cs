@@ -15,8 +15,8 @@ namespace Crm.Domains
             configuration.Bind(this);
             DefaultConnectionString = configuration.GetConnectionString(DataConstants.ConnectionStringKey);
         }
-        
-        public string Encoding { get; set; }
+        public Encoding Encoding => Encoding.GetEncoding(TextEncoding);
+        public string TextEncoding { get; set; }
         public string DefaultConnectionString { get; set; }
         public IDictionary<string, ConfigCryptographicCredentials> EncryptionKeys { get; set; }
         public long? MemoryCacheSizeLimit { get; set; }

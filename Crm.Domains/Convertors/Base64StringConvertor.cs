@@ -11,7 +11,8 @@ namespace Crm.Domains.Convertors
     {
         public string Convert(string sourceMember, ResolutionContext context)
         {
-            var sourceMemberBytes = Encoding.UTF8.GetBytes(sourceMember);
+            var applicationSettings = context.Options.CreateInstance<ApplicationSettings>();
+            var sourceMemberBytes = applicationSettings.Encoding.GetBytes(sourceMember);
             return System.Convert.ToBase64String(sourceMemberBytes);
         }
     }
