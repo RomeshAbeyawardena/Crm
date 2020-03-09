@@ -26,6 +26,9 @@ namespace Crm.Domains.Dto
         [Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public string LastName { get; set; }
 
+        [Encrypt(Encryption.HashingDataKey, EncryptionMethod.Hashing, StringCase.None)]
+        public string Password { get; set; }
+
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset Modified { get; set; }
     }

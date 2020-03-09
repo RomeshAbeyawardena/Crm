@@ -29,6 +29,9 @@ namespace Crm.Domains.Data
         [Ignore, Encrypt(Encryption.PersonalDataKey, EncryptionMethod.Encryption, StringCase.Upper)]
         public byte[] LastName { get; set; }
 
+        [Ignore, Encrypt(Encryption.HashingDataKey, EncryptionMethod.Hashing, StringCase.None)]
+        public byte[] Password { get; set; }
+
         public bool Active { get; set; }
 
         [Modifier(ModifierFlag.Created)]
