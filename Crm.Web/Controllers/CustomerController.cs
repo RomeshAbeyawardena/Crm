@@ -18,9 +18,21 @@ namespace Crm.Web.Controllers
         {
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SaveCustomer(SaveCustomerViewModel model, CancellationToken cancellationToken)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var request = MapperProvider.Map<SaveCustomerViewModel, SaveCustomerRequest>(model);
+        }
+
         [HttpGet]
         public async Task<ActionResult> SearchCustomers(GetCustomerViewModel model, CancellationToken cancellationToken)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var request = MapperProvider.Map<GetCustomerViewModel, SearchCustomersRequest>(model);
             
             var response = await MediatorService.Send(request, cancellationToken);
@@ -34,6 +46,9 @@ namespace Crm.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> GetCustomer(GetCustomerViewModel model, CancellationToken cancellationToken)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var request = MapperProvider.Map<GetCustomerViewModel, GetCustomerRequest>(model);
             
             var response = await MediatorService.Send(request, cancellationToken);

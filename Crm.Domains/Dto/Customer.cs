@@ -13,5 +13,7 @@ namespace Crm.Domains.Dto
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public DateTimeOffset Created { get; set; }
+        public DateTimeOffset Modified { get; set; }
     }
 }

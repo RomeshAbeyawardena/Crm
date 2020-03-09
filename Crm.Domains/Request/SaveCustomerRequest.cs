@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Crm.Domains.Response;
+using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crm.Domains.ViewModels
+namespace Crm.Domains.Request
 {
-    public class GetCustomerViewModel : ICustomerViewModel
+    public class SaveCustomerRequest : IRequest<SaveCustomerResponse>
     {
         public int? Id { get; set; }
         public string EmailAddress { get; set; }
