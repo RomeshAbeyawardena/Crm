@@ -9,5 +9,6 @@ namespace Crm.Domains
     public class ApplicationSettings
     {
         public string DefaultConnectionString { get; set; }
+        public IDictionary<string, AppCryptographicCredentials> EncryptionKeys { get; set; }
     }
 }
