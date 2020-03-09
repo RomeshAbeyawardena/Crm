@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Crm.Domains.Data
 {
+    #pragma warning disable CA1819
     public class CustomerAttribute
     {
         public int Id { get; set; }
@@ -19,4 +20,5 @@ namespace Crm.Domains.Data
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset Modified { get; set; }
     }
+    #pragma warning restore CA1819
 }

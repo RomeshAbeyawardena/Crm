@@ -12,6 +12,5 @@ namespace Crm.Domains.Data
         public string Key { get; set; }
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset Modified { get; set; }
-        public bool Active { get; set; }
     }
 }

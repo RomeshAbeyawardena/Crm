@@ -13,7 +13,7 @@ namespace Crm.Services
     {
         private readonly IRepository<Domains.Data.Attribute> _attributeRepository;
 
-        private IQueryable<Domains.Data.Attribute> DefaultAttributeQuery => _attributeRepository.Query(attribute => attribute.Active);
+        private IQueryable<Domains.Data.Attribute> DefaultAttributeQuery => _attributeRepository.Query();
         public async Task<Domains.Data.Attribute> GetAttribute(string property, CancellationToken cancellationToken)
         {
             var query = from attribute in DefaultAttributeQuery
