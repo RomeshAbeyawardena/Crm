@@ -82,5 +82,21 @@ namespace Crm.Web.Controllers
             
             return BadRequest(response.Errors);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveCustomerAttribute(SaveCustomerAttributeViewModel model, CancellationToken cancellationToken)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var request = MapperProvider.Map<SaveCustomerAttributeViewModel, SaveCustomerAttributeRequest>(model);
+
+            var response = await MediatorService.Send(request, cancellationToken);
+
+            if(ResponseHelper.IsSuccessful(response))
+                return Ok(response.Result);
+
+            return BadRequest(response.Errors);
+        }
     }
 }

@@ -17,7 +17,10 @@ namespace Crm.Data
             {
                 configure.UseDbContextPool = true;
                 configure.DbContextServiceProviderOptions = ConfigureDbContext;
-                configure.EntityTypeDescriber = describer => describer.Describe<Customer>();
+                configure.EntityTypeDescriber = describer => describer
+                .Describe<Domains.Data.Attribute>()
+                .Describe<Customer>()
+                .Describe<CustomerAttribute>();
                 configure.ServiceLifetime = ServiceLifetime.Transient;
             });
         }

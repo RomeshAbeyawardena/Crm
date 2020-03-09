@@ -5,6 +5,8 @@ using Crm.Domains.Request;
 using Crm.Domains.ViewModels;
 using System;
 using CustomerDto = Crm.Domains.Dto.Customer;
+using CustomerAttributeDto = Crm.Domains.Dto.CustomerAttribute;
+
 namespace Crm.Domains
 {
     public class DomainProfile : Profile
@@ -51,6 +53,10 @@ namespace Crm.Domains
             CreateMap<SearchCustomersRequest, CustomerDto>();
             CreateMap<SaveCustomerRequest, CustomerDto>().ForMember(member => member.Password, 
                 memberOptions => memberOptions.ConvertUsing(base64StringConvertor));
+
+            CreateMap<SaveCustomerAttributeViewModel, SaveCustomerAttributeRequest>();
+            CreateMap<CustomerAttributeDto, CustomerAttribute>().ForMember(member => member.Value, 
+                options => options.Ignore());
         }
     }
 }
