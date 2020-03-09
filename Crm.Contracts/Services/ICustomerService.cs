@@ -12,5 +12,7 @@ namespace Crm.Contracts.Services
     {
         Task<Customer> GetCustomerById(int value, CancellationToken cancellationToken);
         Task<IEnumerable<Customer>> SearchCustomers(Customer encryptedSearchCustomer, CancellationToken cancellationToken);
+        Task<Customer> GetCustomerByEmailAddress(IEnumerable<byte> emailAddress, CancellationToken cancellationToken);
+        Task<Customer> SaveCustomer(Customer encryptedCustomer, CancellationToken cancellationToken);
     }
 }

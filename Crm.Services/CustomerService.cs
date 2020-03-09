@@ -33,6 +33,24 @@ namespace Crm.Services
                 .ToArrayAsync(cancellationToken);
         }
 
+        public async Task<Customer> GetCustomerByEmailAddress(IEnumerable<byte> emailAddress, CancellationToken cancellationToken)
+        {
+            var emailAddressArray = emailAddress.ToArray();
+
+            var query = from customer in DefaultCustomerQuery
+                        where customer.EmailAddress == emailAddress
+                        select customer;
+
+            return await _customerRepository
+                .For(query)
+                .ToSingleOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<Customer> SaveCustomer(Customer encryptedCustomer, CancellationToken cancellationToken)
+        {
+            return await _customerRepository.SaveChanges(encryptedCustomer, cancellationToken: cancellationToken);
+        }
+
         public CustomerService(IRepository<Customer> customerRepository)
         {
             _customerRepository = customerRepository;

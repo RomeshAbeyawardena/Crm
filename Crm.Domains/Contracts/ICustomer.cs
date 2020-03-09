@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crm.Domains.ViewModels
+namespace Crm.Domains.Contracts
 {
-    public interface ICustomerViewModel
+    public interface ICustomer
     {
         int? Id { get; set; }
         string EmailAddress { get; set; }

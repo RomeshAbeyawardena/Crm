@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crm.Domains.Contracts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace Crm.Domains.ViewModels
 {
-    public class SaveCustomerViewModel : ICustomerViewModel
+    public class SaveCustomerViewModel : ICustomer
     {
         public int? Id { get; set; }
 
         [EmailAddress, Required]
         public string EmailAddress { get; set; }
 
-        [Required]
+        [Required, MinLength(3), MaxLength(32)]
         public string FirstName { get; set; }
 
-
+        [MaxLength(32)]
         public string MiddleName { get; set; }
 
-        [Required]
+        [Required, MinLength(3), MaxLength(32)]
         public string LastName { get; set; }
     }
 }

@@ -17,20 +17,17 @@ using CustomerDto = Crm.Domains.Dto.Customer;
 
 namespace Crm.Services.RequestHandler
 {
-    public class SearchCustomers : IRequestHandler<SearchCustomersRequest, SearchCustomersResponse>
+    public class SearchCustomers : RequestHandlerBase<SearchCustomersRequest, SearchCustomersResponse>
     {
         private readonly ICustomerService _customerService;
-        private readonly IMapperProvider _mapperProvider;
-        private readonly IEncryptionProvider _encryptionProvider;
-
+        
         public SearchCustomers(ICustomerService customerService, IMapperProvider mapperProvider, IEncryptionProvider encryptionProvider)
+            : base(mapperProvider, encryptionProvider)
         {
             _customerService = customerService;
-            _mapperProvider = mapperProvider;
-            _encryptionProvider = encryptionProvider;
         }
 
-        public async Task<SearchCustomersResponse> Handle(SearchCustomersRequest request, CancellationToken cancellationToken)
+        public override async Task<SearchCustomersResponse> Handle(SearchCustomersRequest request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(request.EmailAddress)
                 || string.IsNullOrWhiteSpace(request.FirstName)
@@ -38,9 +35,9 @@ namespace Crm.Services.RequestHandler
                 || string.IsNullOrWhiteSpace(request.LastName))
                 return Response.Failed<SearchCustomersResponse>(new ValidationFailure(string.Empty, "Must specify a search parameter"));
 
-            var mappedCustomer = _mapperProvider.Map<SearchCustomersRequest, CustomerDto>(request);
+            var mappedCustomer = MapperProvider.Map<SearchCustomersRequest, CustomerDto>(request);
 
-            var encryptedSearchCustomer = await _encryptionProvider.Encrypt<CustomerDto, Customer>(mappedCustomer);
+            var encryptedSearchCustomer = await EncryptionProvider.Encrypt<CustomerDto, Customer>(mappedCustomer);
 
             var results = await _customerService
                 .SearchCustomers(encryptedSearchCustomer, cancellationToken);
@@ -49,9 +46,9 @@ namespace Crm.Services.RequestHandler
                 return Response.Failed<SearchCustomersResponse>(
                     new ValidationFailure(string.Empty, "Unable to find customer with specified search parameters"));
 
-            var decryptedResult = await _encryptionProvider.Decrypt<Customer, CustomerDto>(results);
+            var decryptedResults = await EncryptionProvider.Decrypt<Customer, CustomerDto>(results);
 
-            return Response.Success<SearchCustomersResponse>(results);
+            return Response.Success<SearchCustomersResponse>(decryptedResults);
         }
     }
 }

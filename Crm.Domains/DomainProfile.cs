@@ -15,6 +15,7 @@ namespace Crm.Domains
                 .ReverseMap();
             CreateMap<GetCustomerRequest, CustomerDto>();
             CreateMap<SearchCustomersRequest, CustomerDto>();
+            CreateMap<SaveCustomerRequest, CustomerDto>();
         }
     }
 }

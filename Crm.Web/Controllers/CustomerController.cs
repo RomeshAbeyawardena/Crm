@@ -25,6 +25,13 @@ namespace Crm.Web.Controllers
                 return BadRequest(ModelState);
 
             var request = MapperProvider.Map<SaveCustomerViewModel, SaveCustomerRequest>(model);
+
+            var response = await MediatorService.Send(request, cancellationToken);
+
+            if (ResponseHelper.IsSuccessful(response))
+                return Ok(response.Result);
+
+            return BadRequest(response.Errors);
         }
 
         [HttpGet]
