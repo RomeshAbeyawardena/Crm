@@ -12,5 +12,6 @@ namespace Crm.Contracts.Services
     {
         Task<CustomerAttribute> GetCustomerAttribute(int id, int customerId, CancellationToken cancellationToken);
         Task<CustomerAttribute> SaveCustomerAttribute(CustomerAttribute encryptedCustomerAttribute, CancellationToken cancellationToken);
+        Task<IEnumerable<CustomerAttribute>> GetCustomerAttributes(int customerId, CancellationToken cancellationToken);
     }
 }

@@ -14,13 +14,16 @@ namespace Crm.Services
     {
         private readonly IRepository<CustomerAttribute> _customerAttributeRepository;
         private IQueryable<CustomerAttribute> DefaultCustomerAttributeQuery => _customerAttributeRepository.Query();
+        private IQueryable<CustomerAttribute> DefaultCustomerAttributeFilteredQuery(int customerId) 
+            => from customerAttribute in DefaultCustomerAttributeQuery
+                            where customerAttribute.CustomerId == customerId
+                            select customerAttribute;
 
         public async Task<CustomerAttribute> GetCustomerAttribute(int attributeId, int customerId, CancellationToken cancellationToken)
         {
-            var query = from customerAttribute in DefaultCustomerAttributeQuery
+            var query = from customerAttribute in DefaultCustomerAttributeFilteredQuery(customerId)
                         where customerAttribute.AttributeId == attributeId
-                            && customerAttribute.CustomerId == customerId
-                            select customerAttribute;
+                        select customerAttribute;
 
             return await _customerAttributeRepository.For(query).ToSingleOrDefaultAsync(cancellationToken);
         }
@@ -28,6 +31,15 @@ namespace Crm.Services
         public async Task<CustomerAttribute> SaveCustomerAttribute(CustomerAttribute encryptedCustomerAttribute, CancellationToken cancellationToken)
         {
             return await _customerAttributeRepository.SaveChanges(encryptedCustomerAttribute, cancellationToken: cancellationToken);
+        }
+
+        public async Task<IEnumerable<CustomerAttribute>> GetCustomerAttributes(int customerId, CancellationToken cancellationToken)
+        {
+            var query = DefaultCustomerAttributeFilteredQuery(customerId);
+
+            return await _customerAttributeRepository
+                .For(query)
+                .ToArrayAsync(cancellationToken);
         }
 
         public CustomerAttributeService(IRepository<CustomerAttribute> customerAttributeRepository)
