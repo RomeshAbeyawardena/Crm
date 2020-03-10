@@ -28,16 +28,15 @@ namespace Crm.Services.NotificationHandlers
         {
             var characters = _characterHashService.GetCharacters(notification.SavedCustomer.FirstName).ToArray();
             
-            BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters, CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(30));
+            BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters, CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(10));
 
             characters = _characterHashService.GetCharacters(notification.SavedCustomer.MiddleName).ToArray();
             
-            BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters, CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(160));
+            BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters, CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(30));
 
             characters = _characterHashService.GetCharacters(notification.SavedCustomer.LastName).ToArray();
             
-            BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters, CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(320));
-
+            BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters, CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(60));
 
             return Task.CompletedTask;
         }

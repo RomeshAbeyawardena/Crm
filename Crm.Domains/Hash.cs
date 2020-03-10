@@ -13,7 +13,7 @@ namespace Crm.Domains
     /// </summary>
     public class Hash
     {
-        public static IHashes CreateHashes(IDictionary<char, string> hashDictionary)
+        public static IHashes CreateHashes(IDictionary<string, string> hashDictionary)
         {
             return Hashes.Create(hashDictionary);
         }
@@ -30,17 +30,18 @@ namespace Crm.Domains
         private readonly IDictionary<char, IEnumerable<byte>> _hashDictionary;
         private readonly IDictionary<char, string> _originalHashDictionary;
 
-        private Hashes(IDictionary<char, string> hashDictionary)
+        private Hashes(IDictionary<string, string> hashDictionary)
         {
-            _originalHashDictionary = hashDictionary;
+            _originalHashDictionary = hashDictionary
+                .ToDictionary(key => key.Key.FirstOrDefault(), value => value.Value);
             _hashDictionary = new Dictionary<char, IEnumerable<byte>>();
 
-            foreach(var (key, value) in hashDictionary)
+            foreach(var (key, value) in _originalHashDictionary)
                 _hashDictionary.Add(key, Convert.FromBase64String(value));
 
         }
 
-        public static IHashes Create(IDictionary<char, string> hashDictionary)
+        public static IHashes Create(IDictionary<string, string> hashDictionary)
         {
             return new Hashes(hashDictionary);
         }

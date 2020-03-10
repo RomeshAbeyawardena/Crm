@@ -13,12 +13,12 @@ namespace Crm.Services
     {
         public bool ContainsCharacters(IEnumerable<char> characters, string value)
         {
-            return value.ToLower().All(v => characters.Contains(v));
+            return value.ToUpper().All(v => characters.Contains(v));
         }
 
         public IEnumerable<char> GetCharacters(string value)
         {
-            return value.ToLower().ToCharArray().OrderBy(c => c);
+            return value.ToUpper().ToCharArray().OrderBy(c => c);
         }
 
         public IEnumerable<Hash> GetHashes(IHashes hashes, IEnumerable<char> characters)

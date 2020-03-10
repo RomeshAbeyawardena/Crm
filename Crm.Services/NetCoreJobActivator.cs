@@ -9,29 +9,33 @@ using System.Threading.Tasks;
 
 namespace Crm.Services
 {
-    internal class NetCoreJobActivatorScope : JobActivatorScope
+    internal sealed class NetCoreJobActivatorScope : JobActivatorScope
     {
-        private readonly IServiceScope _serviceScope;
+        private readonly IServiceProvider _serviceProvider;
+        private IServiceScope _serviceScope;
+
         public NetCoreJobActivatorScope(IServiceProvider serviceProvider)
         {
-            _serviceScope = serviceProvider.CreateScope();
+            _serviceProvider = serviceProvider;
         }
 
         public override object Resolve(Type type)
         {
-            return _serviceScope.ServiceProvider.GetRequiredService(type);
+            return (_serviceScope = _serviceProvider.CreateScope())
+                .ServiceProvider
+                .GetRequiredService(type);
         }
 
         public override void DisposeScope()
         {
-            _serviceScope.Dispose();
+            _serviceScope?.Dispose();
         }
     }
 
-    public class NetCoreJobActivator : JobActivator
+    public sealed class NetCoreJobActivator : JobActivator
     {
         private readonly IServiceProvider _serviceProvider;
-
+        
         public NetCoreJobActivator(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;

@@ -22,8 +22,8 @@ namespace Crm.Services.RequestHandlers
         private readonly ICustomerHashService _customerHashService;
         private readonly IHashes _hashes;
 
-        public SaveCustomerHashes(IMapperProvider mapperProvider, 
-            IEncryptionProvider encryptionProvider, 
+        public SaveCustomerHashes(IMapperProvider mapperProvider,
+            IEncryptionProvider encryptionProvider,
             ICharacterHashService characterHashService,
             ICustomerHashService customerHashService,
             ApplicationSettings applicationSettings) : base(mapperProvider, encryptionProvider)
@@ -37,22 +37,25 @@ namespace Crm.Services.RequestHandlers
         {
             var savedHashes = new List<CustomerHash>();
             var customerHashes = await _customerHashService.GetCustomerHashes(request.CustomerId, cancellationToken);
-            foreach (var characterHash in _characterHashService.GetHashes(_hashes, request.Characters))
+
+            var characterHashes = _characterHashService.GetHashes(_hashes, request.Characters);
+
+            foreach (var characterHash in characterHashes)
             {
                 var customerHash = _customerHashService.GetCustomerHash(customerHashes, characterHash.HashValue);
 
-                if(customerHash != null)
+                if (customerHash != null)
                     continue;
 
                 customerHash = await _customerHashService.SaveCustomerHash(new CustomerHash
-                { 
-                        CustomerId = request.CustomerId,
-                        Hash = characterHash.HashValue
-                    }, false, cancellationToken);
+                {
+                    CustomerId = request.CustomerId,
+                    Hash = characterHash.HashValue
+                }, false, cancellationToken);
                 savedHashes.Add(customerHash);
             }
 
-            if(savedHashes.Any())
+            if (savedHashes.Any())
                 await _customerHashService.CommitChanges(cancellationToken);
 
             return Response.Success<SaveCustomerHashesResponse>(savedHashes.ToArray());

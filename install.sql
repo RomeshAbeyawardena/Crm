@@ -99,3 +99,5 @@ ADD MEMBER AppUser
 
 ALTER ROLE db_owner
 ADD MEMBER AppUser
+
+SELECT * FROM Crm.dbo.CustomerHash

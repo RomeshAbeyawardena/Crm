@@ -20,6 +20,7 @@ namespace Crm.Services
         {
             services
                 .AddSingleton<NetCoreJobActivator>()
+                .AddSingleton<NetCoreJobActivatorScope>()
                 .AddSingleton<ApplicationSettings>()
                 .AddAutoMapper(ConfigureAutoMapper, Assembly.GetAssembly(typeof(DomainProfile)))
                 .RegisterCryptographicCredentialsFactory<AppCryptographicCredentials>(ConfigureCryptographicCredentialsFactory)

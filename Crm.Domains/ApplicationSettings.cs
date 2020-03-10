@@ -21,7 +21,7 @@ namespace Crm.Domains
         public Encoding Encoding => Encoding.GetEncoding(TextEncoding);
         public string DefaultConnectionString { get; set; }
         public IDictionary<string, ConfigCryptographicCredentials> EncryptionKeys { get; set; }
-        public IDictionary<char, string> Hashes { get; set; }
+        public IDictionary<string, string> Hashes { get; set; }
         public IHashes GetHashes() => Hash.CreateHashes(Hashes);
         public long? MemoryCacheSizeLimit { get; set; }
         public double MemoryCacheCompactionPercentage { get; set; }
