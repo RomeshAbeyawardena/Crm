@@ -12,7 +12,7 @@ using Crm.Broker;
 using Microsoft.Extensions.Caching.Memory;
 using Crm.Domains;
 using Hangfire;
-
+using Hangfire.SqlServer;
 namespace Crm.Web
 {
     public class Startup
@@ -35,7 +35,20 @@ namespace Crm.Web
                 }, out var serviceBroker)
                 .AddControllers();
             
-            services.AddHangfireServer(ConfigureHangfireServer);
+            services
+                .AddHangfire(ConfigureHangfire)
+                .AddHangfireServer(ConfigureHangfireServer);
+        }
+
+        private void ConfigureHangfire(IServiceProvider serviceProvider, IGlobalConfiguration configuration)
+        {
+            var applicationSettings = serviceProvider.GetService<ApplicationSettings>();
+
+            configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseDefaultActivator()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(applicationSettings.HangfireConnectionString);
         }
 
         private void ConfigureHangfireServer(BackgroundJobServerOptions serverOptions)

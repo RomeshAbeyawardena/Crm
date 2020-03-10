@@ -7,6 +7,9 @@ WITH
 	CHECK_POLICY = OFF
 GO
 
+ALTER DATABASE Crm
+SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+
 DROP DATABASE Crm
 GO
 CREATE DATABASE Crm
@@ -26,9 +29,6 @@ CREATE TABLE [dbo].[Customer](
 	,[Created] DATETIMEOFFSET NOT NULL
 	,[Modified] DATETIMEOFFSET NOT NULL
 )
-
-DROP TABLE CustomerAttribute
-DROP TABLE Attribute
 
 CREATE TABLE [dbo].[Attribute] (
 	[Id] INT NOT NULL IDENTITY(1,1)
@@ -75,5 +75,28 @@ ADD MEMBER AppUser
 ALTER ROLE db_datawriter
 ADD MEMBER AppUser
 
-SELECT * FROM dbo.Attribute
-SELECT * FROM dbo.CustomerAttribute
+USE [master]
+
+ALTER DATABASE [Hangfire]
+SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+
+DROP DATABASE [Hangfire]
+
+CREATE DATABASE [Hangfire]
+GO
+
+USE Hangfire
+
+
+
+CREATE USER [AppUser]
+FOR LOGIN [AppUser]
+
+ALTER ROLE db_datareader
+ADD MEMBER AppUser
+
+ALTER ROLE db_datawriter
+ADD MEMBER AppUser
+
+ALTER ROLE db_owner
+ADD MEMBER AppUser

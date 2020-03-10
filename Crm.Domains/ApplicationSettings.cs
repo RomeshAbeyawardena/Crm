@@ -14,7 +14,8 @@ namespace Crm.Domains
         public ApplicationSettings(IConfiguration configuration)
         {
             configuration.Bind(this);
-            DefaultConnectionString = configuration.GetConnectionString(DataConstants.ConnectionStringKey);
+            DefaultConnectionString = configuration.GetConnectionString(DataConstants.DefaultConnectionStringKey);
+            HangfireConnectionString = configuration.GetConnectionString(DataConstants.HangfireConnectionStringKey);
         }
         public string TextEncoding { get; set; }
         public Encoding Encoding => Encoding.GetEncoding(TextEncoding);
@@ -25,5 +26,6 @@ namespace Crm.Domains
         public long? MemoryCacheSizeLimit { get; set; }
         public double MemoryCacheCompactionPercentage { get; set; }
         public TimeSpan MemoryCacheExpirationScanFrequency { get; set; }
+        public string HangfireConnectionString { get; set; }
     }
 }
