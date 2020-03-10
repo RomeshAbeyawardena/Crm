@@ -27,6 +27,9 @@ CREATE TABLE [dbo].[Customer](
 	,[Modified] DATETIMEOFFSET NOT NULL
 )
 
+DROP TABLE CustomerAttribute
+DROP TABLE Attribute
+
 CREATE TABLE [dbo].[Attribute] (
 	[Id] INT NOT NULL IDENTITY(1,1)
 		CONSTRAINT PK_Attribute PRIMARY KEY 
@@ -44,6 +47,8 @@ CREATE TABLE [dbo].[CustomerAttribute] (
 		CONSTRAINT FK_CustomerAttribute_Attribute
 		REFERENCES [dbo].[Attribute]
 	,[CustomerId] INT NOT NULL
+		CONSTRAINT FK_CustomerAttribute_Customer
+		REFERENCES [dbo].[Customer]
 	,[Value] VARBINARY(MAX) NOT NULL
 	,[Created] DATETIMEOFFSET NOT NULL
 	,[Modified] DATETIMEOFFSET NOT NULL
@@ -61,3 +66,6 @@ ADD MEMBER AppUser
 
 ALTER ROLE db_datawriter
 ADD MEMBER AppUser
+
+SELECT * FROM dbo.Attribute
+SELECT * FROM dbo.CustomerAttribute

@@ -39,7 +39,7 @@ namespace Crm.Services.RequestHandler
                     .SaveAttribute(new Domains.Data.Attribute { Key = request.Property }, false, cancellationToken);            
             
             CustomerAttributeDto customerAttribute = new CustomerAttributeDto {
-                Attribute = attribute,
+                CustomerId = request.CustomerId,
                 Value = request.Value
             };
 
@@ -54,9 +54,13 @@ namespace Crm.Services.RequestHandler
             var encryptedCustomerAttribute = await EncryptionProvider
                 .Encrypt<CustomerAttributeDto, CustomerAttribute>(customerAttribute);
 
-            var result = await _customerAttributeService.SaveCustomerAttribute(encryptedCustomerAttribute, cancellationToken);
+            encryptedCustomerAttribute.Attribute = attribute;
 
-            return Response.Success<SaveCustomerAttributeResponse>(result);
+            var result = await _customerAttributeService.SaveCustomerAttribute(encryptedCustomerAttribute, cancellationToken);
+            
+            customerAttribute = await EncryptionProvider.Decrypt<CustomerAttribute, CustomerAttributeDto>(result);
+
+            return Response.Success<SaveCustomerAttributeResponse>(customerAttribute);
         }
     }
 }
