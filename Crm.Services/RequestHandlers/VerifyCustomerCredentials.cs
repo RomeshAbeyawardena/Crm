@@ -13,7 +13,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CustomerDto = Crm.Domains.Dto.Customer;
-namespace Crm.Services.RequestHandler
+
+namespace Crm.Services.RequestHandlers
 {
     public class VerifyCustomerCredentials : RequestHandlerBase<VerifyCustomerCredentialsRequest, VerifyCustomerCredentialsResponse>
     {

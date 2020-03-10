@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using CustomerDto = Crm.Domains.Dto.Customer;
 using FluentValidation.Results;
 
-namespace Crm.Services.RequestHandler
+namespace Crm.Services.RequestHandlers
 {
     public class SaveCustomer : RequestHandlerBase<SaveCustomerRequest, SaveCustomerResponse>
     {

@@ -11,6 +11,7 @@ using DNI.Core.Services.Extensions;
 using Crm.Broker;
 using Microsoft.Extensions.Caching.Memory;
 using Crm.Domains;
+using Hangfire;
 
 namespace Crm.Web
 {
@@ -33,6 +34,13 @@ namespace Crm.Web
                     configure.RegisterMessagePackSerialisers = true;
                 }, out var serviceBroker)
                 .AddControllers();
+            
+            services.AddHangfireServer(ConfigureHangfireServer);
+        }
+
+        private void ConfigureHangfireServer(BackgroundJobServerOptions serverOptions)
+        {
+           serverOptions.WorkerCount = 3;
         }
 
         private void SetupDistrubutedCache(MemoryDistributedCacheOptions options)
@@ -51,9 +59,9 @@ namespace Crm.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseHangfireDashboard();
             app.UseRouting();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

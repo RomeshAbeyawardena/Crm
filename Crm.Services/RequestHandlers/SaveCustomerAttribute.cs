@@ -13,7 +13,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CustomerAttributeDto = Crm.Domains.Dto.CustomerAttribute;
-namespace Crm.Services.RequestHandler
+
+namespace Crm.Services.RequestHandlers
 {
     public class SaveCustomerAttribute : RequestHandlerBase<SaveCustomerAttributeRequest, SaveCustomerAttributeResponse>
     {
