@@ -19,5 +19,8 @@ namespace Crm.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Domains.Data.Attribute> Attributes { get; set; }
         public DbSet<CustomerAttribute> CustomerAttributes { get; set; }
+        public DbSet<CustomerHash> CustomerHashes { get; set; }
+
+        
     }
 }

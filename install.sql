@@ -58,6 +58,17 @@ CREATE TABLE [dbo].[CustomerAttribute] (
 		NONCLUSTERED (AttributeId, CustomerId)
 )
 
+CREATE TABLE [dbo].[CustomerHash](
+	[Hash] CHAR(6) NOT NULL
+	,[CustomerId] INT NOT NULL
+		CONSTRAINT FK_CustomerHash_Customer
+		REFERENCES [dbo].[Customer]
+	,CONSTRAINT PK_CustomerHash 
+		PRIMARY KEY([Hash],[CustomerId])
+	,CONSTRAINT IQ_CustomerHash
+		UNIQUE([Hash],[CustomerId])
+)
+
 CREATE USER [AppUser]
 FOR LOGIN [AppUser]
 
