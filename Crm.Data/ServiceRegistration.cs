@@ -20,7 +20,8 @@ namespace Crm.Data
                 configure.EntityTypeDescriber = describer => describer
                 .Describe<Domains.Data.Attribute>()
                 .Describe<Customer>()
-                .Describe<CustomerAttribute>();
+                .Describe<CustomerAttribute>()
+                .Describe<CustomerHash>();
                 configure.ServiceLifetime = ServiceLifetime.Transient;
             });
         }

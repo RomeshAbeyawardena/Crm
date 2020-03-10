@@ -21,6 +21,12 @@ namespace Crm.Data
         public DbSet<CustomerAttribute> CustomerAttributes { get; set; }
         public DbSet<CustomerHash> CustomerHashes { get; set; }
 
-        
+        protected override void ModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CustomerHash>(action => action.HasKey(customerHash => new { 
+                customerHash.Hash, 
+                customerHash.CustomerId }));
+            base.ModelCreating(modelBuilder);
+        }
     }
 }

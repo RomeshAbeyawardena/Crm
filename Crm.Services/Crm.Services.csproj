@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="DNI.Core.Services" Version="1.0.0.16" />
+    <PackageReference Include="DNI.Core.Services" Version="1.0.0.17" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Scrutor" Version="3.2.0" />
   </ItemGroup>
