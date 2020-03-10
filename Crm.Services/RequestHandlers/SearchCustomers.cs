@@ -35,9 +35,9 @@ namespace Crm.Services.RequestHandlers
                 && string.IsNullOrWhiteSpace(request.LastName))
                 return Response.Failed<SearchCustomersResponse>(new ValidationFailure(string.Empty, "Must specify a search parameter"));
 
-            var mappedCustomer = MapperProvider.Map<SearchCustomersRequest, CustomerDto>(request);
+            var mappedCustomer = Mapper.Map<SearchCustomersRequest, CustomerDto>(request);
 
-            var encryptedSearchCustomer = await EncryptionProvider.Encrypt<CustomerDto, Customer>(mappedCustomer);
+            var encryptedSearchCustomer = await Encryption.Encrypt<CustomerDto, Customer>(mappedCustomer);
 
             var pager = _customerService
                 .SearchCustomers(encryptedSearchCustomer);
@@ -50,7 +50,7 @@ namespace Crm.Services.RequestHandlers
                 pagerOptions.PageNumber = request.PageNumber; 
                 pagerOptions.MaximumRowsPerPage = request.MaximumRowsPerPage;  }, cancellationToken);
 
-            var decryptedResults = await EncryptionProvider.Decrypt<Customer, CustomerDto>(results);
+            var decryptedResults = await Encryption.Decrypt<Customer, CustomerDto>(results);
 
             var response = Response.Success<SearchCustomersResponse>(decryptedResults);
 

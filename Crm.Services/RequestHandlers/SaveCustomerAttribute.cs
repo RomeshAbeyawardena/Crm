@@ -52,14 +52,14 @@ namespace Crm.Services.RequestHandlers
                 customerAttribute.Created = foundCustomerAttribute.Created;
             }
 
-            var encryptedCustomerAttribute = await EncryptionProvider
+            var encryptedCustomerAttribute = await Encryption
                 .Encrypt<CustomerAttributeDto, CustomerAttribute>(customerAttribute);
 
             encryptedCustomerAttribute.Attribute = attribute;
 
             var result = await _customerAttributeService.SaveCustomerAttribute(encryptedCustomerAttribute, cancellationToken);
             
-            customerAttribute = await EncryptionProvider.Decrypt<CustomerAttribute, CustomerAttributeDto>(result);
+            customerAttribute = await Encryption.Decrypt<CustomerAttribute, CustomerAttributeDto>(result);
 
             return Response.Success<SaveCustomerAttributeResponse>(customerAttribute);
         }

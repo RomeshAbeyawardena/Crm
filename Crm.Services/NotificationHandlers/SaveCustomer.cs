@@ -26,15 +26,15 @@ namespace Crm.Services.NotificationHandlers
 
         public Task Handle(SaveCustomerNotification notification, CancellationToken cancellationToken)
         {
-            var characters = _characterHashService.GetCharacters(notification.SavedCustomer.FirstName);
+            var characters = _characterHashService.GetCharacters(notification.SavedCustomer.FirstName).ToArray();
             
             BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters, CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(30));
 
-            characters = _characterHashService.GetCharacters(notification.SavedCustomer.MiddleName);
+            characters = _characterHashService.GetCharacters(notification.SavedCustomer.MiddleName).ToArray();
             
             BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters, CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(160));
 
-            characters = _characterHashService.GetCharacters(notification.SavedCustomer.LastName);
+            characters = _characterHashService.GetCharacters(notification.SavedCustomer.LastName).ToArray();
             
             BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters, CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(320));
 

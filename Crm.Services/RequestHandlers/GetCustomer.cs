@@ -39,7 +39,7 @@ namespace Crm.Services.RequestHandlers
                     return Response.Failed<GetCustomerResponse>(
                         new ValidationFailure(nameof(request.Id), "Unable to find customer with specified Id"));
 
-                decryptedResult = await EncryptionProvider.Decrypt<Customer, CustomerDto>(result);
+                decryptedResult = await Encryption.Decrypt<Customer, CustomerDto>(result);
 
                 return Response.Success<GetCustomerResponse>(decryptedResult);
             }
@@ -50,9 +50,9 @@ namespace Crm.Services.RequestHandlers
                 || string.IsNullOrWhiteSpace(request.LastName))
                 return Response.Failed<GetCustomerResponse>(new ValidationFailure(string.Empty, "Must specify a search parameter"));
 
-            var mappedCustomer = MapperProvider.Map<GetCustomerRequest, CustomerDto>(request);
+            var mappedCustomer = Mapper.Map<GetCustomerRequest, CustomerDto>(request);
 
-            var encryptedSearchCustomer = await EncryptionProvider.Encrypt<CustomerDto, Customer>(mappedCustomer);
+            var encryptedSearchCustomer = await Encryption.Encrypt<CustomerDto, Customer>(mappedCustomer);
 
             var results = await _customerService
                 .SearchCustomers(encryptedSearchCustomer, cancellationToken);
@@ -62,7 +62,7 @@ namespace Crm.Services.RequestHandlers
                 return Response.Failed<GetCustomerResponse>(
                     new ValidationFailure(string.Empty, "Unable to find customer with specified search parameters"));
 
-            decryptedResult = await EncryptionProvider.Decrypt<Customer, CustomerDto>(result);
+            decryptedResult = await Encryption.Decrypt<Customer, CustomerDto>(result);
 
             return Response.Success<GetCustomerResponse>(result);
         }

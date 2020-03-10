@@ -11,13 +11,13 @@ namespace Crm.Web.Controllers
     [Route("api/[controller]/[action]")]
     public class ControllerBase : Controller
     {
-        protected readonly IMediatorService MediatorService;
-        protected readonly IMapperProvider MapperProvider;
+        protected readonly IMediatorService Mediator;
+        protected readonly IMapperProvider Mapper;
         
         public ControllerBase(IMediatorService mediatorService, IMapperProvider mapperProvider)
         {
-            MediatorService = mediatorService;
-            MapperProvider = mapperProvider;
+            Mediator = mediatorService;
+            Mapper = mapperProvider;
         }
     }
 }

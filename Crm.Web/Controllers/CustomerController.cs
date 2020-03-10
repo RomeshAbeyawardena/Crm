@@ -1,4 +1,5 @@
-﻿using Crm.Domains.Request;
+﻿using Crm.Domains.Notifications;
+using Crm.Domains.Request;
 using Crm.Domains.ViewModels;
 using DNI.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -24,14 +25,16 @@ namespace Crm.Web.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var request = MapperProvider.Map<SaveCustomerViewModel, SaveCustomerRequest>(model);
+            var request = Mapper.Map<SaveCustomerViewModel, SaveCustomerRequest>(model);
 
-            var response = await MediatorService.Send(request, cancellationToken);
+            var response = await Mediator.Send(request, cancellationToken);
 
-            if (ResponseHelper.IsSuccessful(response))
-                return Ok(response.Result);
+            if (!ResponseHelper.IsSuccessful(response))
+                return BadRequest(response.Errors);
+            
+            await Mediator.Publish(new SaveCustomerNotification { SavedCustomer = response.Result });
 
-            return BadRequest(response.Errors);
+            return Ok(response.Result);
         }
 
         [HttpGet]
@@ -40,9 +43,9 @@ namespace Crm.Web.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var request = MapperProvider.Map<SearchCustomerViewModel, SearchCustomersRequest>(model);
+            var request = Mapper.Map<SearchCustomerViewModel, SearchCustomersRequest>(model);
             
-            var response = await MediatorService.Send(request, cancellationToken);
+            var response = await Mediator.Send(request, cancellationToken);
 
             if(ResponseHelper.IsSuccessful(response))
                 return Ok(response.Result);
@@ -56,9 +59,9 @@ namespace Crm.Web.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var request = MapperProvider.Map<GetCustomerViewModel, GetCustomerRequest>(model);
+            var request = Mapper.Map<GetCustomerViewModel, GetCustomerRequest>(model);
             
-            var response = await MediatorService.Send(request, cancellationToken);
+            var response = await Mediator.Send(request, cancellationToken);
 
             if(ResponseHelper.IsSuccessful(response))
                 return Ok(response.Result);
@@ -72,10 +75,10 @@ namespace Crm.Web.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var request = MapperProvider
+            var request = Mapper
                 .Map<VerifyCustomerCredentialsViewModel, VerifyCustomerCredentialsRequest>(model);
 
-            var response = await MediatorService.Send(request, cancellationToken);
+            var response = await Mediator.Send(request, cancellationToken);
 
             if(ResponseHelper.IsSuccessful(response))
                 return Ok(response.Result);
@@ -89,9 +92,9 @@ namespace Crm.Web.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var request = MapperProvider.Map<SaveCustomerAttributeViewModel, SaveCustomerAttributeRequest>(model);
+            var request = Mapper.Map<SaveCustomerAttributeViewModel, SaveCustomerAttributeRequest>(model);
 
-            var response = await MediatorService.Send(request, cancellationToken);
+            var response = await Mediator.Send(request, cancellationToken);
 
             if(ResponseHelper.IsSuccessful(response))
                 return Ok(response.Result);
@@ -105,9 +108,9 @@ namespace Crm.Web.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var request = MapperProvider.Map<GetCustomerAttributeViewModel, GetCustomerAttributeRequest>(model);
+            var request = Mapper.Map<GetCustomerAttributeViewModel, GetCustomerAttributeRequest>(model);
 
-            var response = await MediatorService.Send(request, cancellationToken);
+            var response = await Mediator.Send(request, cancellationToken);
 
             if(ResponseHelper.IsSuccessful(response))
                 return Ok(response.Result);

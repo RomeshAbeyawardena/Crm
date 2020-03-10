@@ -13,13 +13,13 @@ namespace Crm.Services.RequestHandlers
     public abstract class RequestHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
-        protected readonly IMapperProvider MapperProvider;
-        protected readonly IEncryptionProvider EncryptionProvider;
+        protected readonly IMapperProvider Mapper;
+        protected readonly IEncryptionProvider Encryption;
 
         public RequestHandlerBase(IMapperProvider mapperProvider, IEncryptionProvider encryptionProvider)
         {
-            MapperProvider = mapperProvider;
-            EncryptionProvider = encryptionProvider;
+            Mapper = mapperProvider;
+            Encryption = encryptionProvider;
         }
 
         public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);

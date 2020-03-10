@@ -29,9 +29,9 @@ namespace Crm.Services.RequestHandlers
 
         public override async Task<VerifyCustomerCredentialsResponse> Handle(VerifyCustomerCredentialsRequest request, CancellationToken cancellationToken)
         {
-            var customer = MapperProvider.Map<VerifyCustomerCredentialsRequest, CustomerDto>(request);
+            var customer = Mapper.Map<VerifyCustomerCredentialsRequest, CustomerDto>(request);
 
-            var encryptedCustomer = await EncryptionProvider.Encrypt<CustomerDto, Customer>(customer);
+            var encryptedCustomer = await Encryption.Encrypt<CustomerDto, Customer>(customer);
             
             var foundCustomer = await _customerService
                 .GetCustomerByEmailAddress(encryptedCustomer.EmailAddress, cancellationToken);
@@ -40,7 +40,7 @@ namespace Crm.Services.RequestHandlers
                 return Response
                     .Failed<VerifyCustomerCredentialsResponse>(new ValidationFailure(nameof(request.EmailAddress), "Invalid e-mail address"));
 
-            customer = await EncryptionProvider.Decrypt<Customer, CustomerDto>(foundCustomer);
+            customer = await Encryption.Decrypt<Customer, CustomerDto>(foundCustomer);
 
             if(_customerService.PasswordIsValid(foundCustomer, encryptedCustomer.Password))
                 return Response.Success<VerifyCustomerCredentialsResponse>(customer);

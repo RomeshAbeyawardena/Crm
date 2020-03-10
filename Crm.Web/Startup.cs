@@ -13,6 +13,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Crm.Domains;
 using Hangfire;
 using Hangfire.SqlServer;
+using Crm.Services;
+
 namespace Crm.Web
 {
     public class Startup
@@ -43,10 +45,10 @@ namespace Crm.Web
         private void ConfigureHangfire(IServiceProvider serviceProvider, IGlobalConfiguration configuration)
         {
             var applicationSettings = serviceProvider.GetService<ApplicationSettings>();
-
+            var netCoreJobActivator = serviceProvider.GetService<NetCoreJobActivator>();
             configuration
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                .UseDefaultActivator()
+                .UseActivator<NetCoreJobActivator>(netCoreJobActivator)
                 .UseRecommendedSerializerSettings()
                 .UseSqlServerStorage(applicationSettings.HangfireConnectionString);
         }

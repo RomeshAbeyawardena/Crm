@@ -10,7 +10,7 @@ namespace Crm.Domains.Request
 {
     public class SaveCustomerHashesRequest :IRequest<SaveCustomerHashesResponse>
     {
-        public IEnumerable<char> Characters { get; set; }
+        public char[] Characters { get; set; }
         public int CustomerId { get; set; }
     }
 }

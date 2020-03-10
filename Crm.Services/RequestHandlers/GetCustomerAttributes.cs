@@ -29,7 +29,7 @@ namespace Crm.Services.RequestHandlers
         {
             var customerAttributes = await _customerAttributeService.GetCustomerAttributes(request.CustomerId, cancellationToken);
 
-            var decryptedCustomAttributes = await EncryptionProvider.Decrypt<CustomerAttribute, CustomerAttributeDto>(customerAttributes);
+            var decryptedCustomAttributes = await Encryption.Decrypt<CustomerAttribute, CustomerAttributeDto>(customerAttributes);
 
             return Response.Success<GetCustomerAttributesResponse>(decryptedCustomAttributes);
         }

@@ -29,9 +29,9 @@ namespace Crm.Services.RequestHandlers
 
         public override async Task<SaveCustomerResponse> Handle(SaveCustomerRequest request, CancellationToken cancellationToken)
         {
-            var newCustomer = MapperProvider.Map<SaveCustomerRequest, CustomerDto>(request);
+            var newCustomer = Mapper.Map<SaveCustomerRequest, CustomerDto>(request);
 
-            var encryptedCustomer = await EncryptionProvider.Encrypt<CustomerDto, Customer>(newCustomer);
+            var encryptedCustomer = await Encryption.Encrypt<CustomerDto, Customer>(newCustomer);
 
             var foundCustomer = await _customerService.GetCustomerByEmailAddress(encryptedCustomer.EmailAddress, cancellationToken);
 
@@ -40,7 +40,7 @@ namespace Crm.Services.RequestHandlers
 
             encryptedCustomer = await _customerService.SaveCustomer(encryptedCustomer, cancellationToken);
 
-            newCustomer = await EncryptionProvider.Decrypt<Customer, CustomerDto>(encryptedCustomer);
+            newCustomer = await Encryption.Decrypt<Customer, CustomerDto>(encryptedCustomer);
 
             return Response.Success<SaveCustomerResponse>(newCustomer);
         }

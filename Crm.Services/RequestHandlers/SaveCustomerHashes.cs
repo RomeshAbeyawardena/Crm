@@ -44,7 +44,8 @@ namespace Crm.Services.RequestHandlers
                 if(customerHash != null)
                     continue;
 
-                customerHash = await _customerHashService.SaveCustomerHash(new Domains.Data.CustomerHash { 
+                customerHash = await _customerHashService.SaveCustomerHash(new CustomerHash
+                { 
                         CustomerId = request.CustomerId,
                         Hash = characterHash.HashValue
                     }, false, cancellationToken);
