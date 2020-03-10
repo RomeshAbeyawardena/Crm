@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Crm.Domains
 {
+    /// <summary>
+    /// Represents a hash
+    /// </summary>
     public class Hash
     {
         public static IHashes CreateHashes(IDictionary<char, string> hashDictionary)
@@ -19,6 +22,9 @@ namespace Crm.Domains
         public IEnumerable<byte> Value { get; set; }
     }
 
+    /// <summary>
+    /// Represents a dictionary of hashes
+    /// </summary>
     internal class Hashes : IHashes
     {
         private readonly IDictionary<char, IEnumerable<byte>> _hashDictionary;

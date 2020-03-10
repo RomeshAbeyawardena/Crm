@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Crm.Domains.Contracts
 {
+    /// <summary>
+    /// Represents a dictionary of character hashes
+    /// </summary>
     public interface IHashes
     {
         Hash GetHash(char character);
