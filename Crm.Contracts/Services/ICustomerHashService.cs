@@ -17,5 +17,6 @@ namespace Crm.Contracts.Services
         CustomerHash GetCustomerHash(IEnumerable<CustomerHash> customerHashes, string hash);
 
         Task<IEnumerable<Customer>> GetCustomersByHash(IEnumerable<string> hashes, CancellationToken cancellationToken);
+        Task<int> CommitChanges(CancellationToken cancellationToken);
     }
 }

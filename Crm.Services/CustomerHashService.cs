@@ -48,6 +48,11 @@ namespace Crm.Services
                     .ToArrayAsync(cancellationToken);
         }
 
+        public async Task<int> CommitChanges(CancellationToken cancellationToken)
+        {
+            return await _customerHashRepository.Commit(cancellationToken);
+        }
+
         public CustomerHashService(IRepository<CustomerHash> customerHashRepository)
         {
             _customerHashRepository = customerHashRepository;
