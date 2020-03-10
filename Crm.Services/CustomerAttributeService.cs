@@ -21,7 +21,9 @@ namespace Crm.Services
 
         public async Task<CustomerAttribute> GetCustomerAttribute(int attributeId, int customerId, CancellationToken cancellationToken)
         {
-            var query = from customerAttribute in DefaultCustomerAttributeFilteredQuery(customerId)
+            var query = from customerAttribute in _customerAttributeRepository
+                        .For(DefaultCustomerAttributeFilteredQuery(customerId))
+                        .Include(customerAttribute => customerAttribute.Attribute)
                         where customerAttribute.AttributeId == attributeId
                         select customerAttribute;
 

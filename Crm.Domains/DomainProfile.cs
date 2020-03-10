@@ -57,6 +57,8 @@ namespace Crm.Domains
             CreateMap<SaveCustomerAttributeViewModel, SaveCustomerAttributeRequest>();
             CreateMap<CustomerAttributeDto, CustomerAttribute>().ForMember(member => member.Value, 
                 options => options.Ignore()).ReverseMap();
+
+            CreateMap<GetCustomerAttributeViewModel, GetCustomerAttributeRequest>();
         }
     }
 }
