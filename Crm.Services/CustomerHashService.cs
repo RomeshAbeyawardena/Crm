@@ -29,16 +29,20 @@ namespace Crm.Services
 
         public async Task<CustomerHash> SaveCustomerHash(CustomerHash customerHash, bool saveChanges, CancellationToken cancellationToken)
         {
-            return await _customerHashRepository.SaveChanges(customerHash, saveChanges, cancellationToken: cancellationToken);
+            return await _customerHashRepository.SaveChanges(customerHash, saveChanges, false, cancellationToken: cancellationToken);
         }
 
-        public CustomerHash GetCustomerHash(IEnumerable<CustomerHash> customerHashes, string hash)
+        public CustomerHash GetCustomerHash(IEnumerable<CustomerHash> customerHashes, IEnumerable<byte> hash)
         {
-            return customerHashes.SingleOrDefault(customerHash => customerHash.Hash == hash);
+            var hashByteArray = hash.ToArray();
+            var hashedString = Convert.ToBase64String(hashByteArray);
+            return customerHashes.SingleOrDefault(customerHash => Convert.ToBase64String(customerHash.Hash) == hashedString);
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomersByHash(IEnumerable<string> hashes, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Customer>> GetCustomersByHash(IEnumerable<IEnumerable<byte>> hashes, CancellationToken cancellationToken)
         {
+            var hashBytes = hashes.Select(h => h.ToArray());
+
             var query = from customerHash in DefaultQuery
                         where hashes.Contains(customerHash.Hash)
                         select customerHash.Customer;

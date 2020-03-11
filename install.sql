@@ -27,6 +27,7 @@ CREATE TABLE [dbo].[Customer](
 	,[Password] VARBINARY(MAX) NOT NULL
 	,[Created] DATETIMEOFFSET NOT NULL
 	,[Modified] DATETIMEOFFSET NOT NULL
+	,[LastIndexed] DATETIMEOFFSET NULL
 )
 
 CREATE TABLE [dbo].[Attribute] (
@@ -57,9 +58,9 @@ CREATE TABLE [dbo].[CustomerAttribute] (
 		NONCLUSTERED (AttributeId, CustomerId)
 )
 CREATE TABLE [dbo].[CustomerHash](
-	[Id] INT NOT NULL
+	[Id] INT NOT NULL IDENTITY(1,1)
 		CONSTRAINT PK_CustomerHash PRIMARY KEY
-	,[Hash] CHAR(6) NOT NULL
+	,[Hash] BINARY(6) NOT NULL
 	,[CustomerId] INT NOT NULL
 		CONSTRAINT FK_CustomerHash_Customer
 		REFERENCES [dbo].[Customer]
@@ -100,4 +101,5 @@ ADD MEMBER AppUser
 ALTER ROLE db_owner
 ADD MEMBER AppUser
 
-SELECT * FROM Crm.dbo.CustomerHash
+SELECT * FROM Crm.dbo.CustomerHash ch
+WHERE (SELECT COUNT(*) Id FROM Crm.dbo.CustomerHash ch1 WHERE ch1.Hash = ch.Hash) > 1

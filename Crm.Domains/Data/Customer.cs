@@ -39,6 +39,8 @@ namespace Crm.Domains.Data
 
         [Modifier(ModifierFlag.Created | ModifierFlag.Modified)]
         public DateTimeOffset Modified { get; set; }
+
+        public DateTimeOffset? LastIndexed { get; set; }
 #pragma warning restore CA1819
     }
 }
