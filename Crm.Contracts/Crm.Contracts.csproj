@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.9" />
+    <PackageReference Include="Hangfire.Core" Version="1.7.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Crm.Domains\Crm.Domains.csproj" />
   </ItemGroup>
 

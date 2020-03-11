@@ -31,7 +31,7 @@ namespace Crm.Services.NotificationHandlers
             characters =  characters.Append(_characterHashService.GetCharacters(notification.SavedCustomer.MiddleName));
             characters = characters.Append(_characterHashService.GetCharacters(notification.SavedCustomer.LastName));
             
-            BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters.ToArray(), CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(60));
+            //BackgroundJob.Schedule<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters.ToArray(), CustomerId = notification.SavedCustomer.Id }, cancellationToken), TimeSpan.FromSeconds(60));
 
             return Task.CompletedTask;
         }

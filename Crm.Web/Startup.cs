@@ -35,7 +35,9 @@ namespace Crm.Web
                     configure.RegisterMessagePackSerialisers = true;
                 }, out var serviceBroker)
                 .AddControllers();
-                
+
+            services
+                .AddHangfire(ServiceBroker.ConfigureHangfire);
         }
 
 
@@ -55,7 +57,7 @@ namespace Crm.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseRouting();
             
             app.UseEndpoints(endpoints =>

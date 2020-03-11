@@ -35,8 +35,9 @@ namespace Crm.Services.RequestHandlers
 
             var foundCustomer = await _customerService.GetCustomerByEmailAddress(encryptedCustomer.EmailAddress, cancellationToken);
 
-            if(foundCustomer != null && encryptedCustomer.Id != foundCustomer.Id)
-                Response.Failed<SaveCustomerResponse>(new ValidationFailure(nameof(request.EmailAddress), "Email address already taken"));
+            if(foundCustomer != null 
+                && encryptedCustomer.Id != foundCustomer.Id)
+                return Response.Failed<SaveCustomerResponse>(new ValidationFailure(nameof(request.EmailAddress), "Email address already taken"));
 
             encryptedCustomer = await _customerService.SaveCustomer(encryptedCustomer, true, cancellationToken);
 

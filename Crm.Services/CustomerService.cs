@@ -41,7 +41,7 @@ namespace Crm.Services
             var emailAddressArray = emailAddress.ToArray();
 
             var query = from customer in DefaultCustomerQuery
-                        where customer.EmailAddress == emailAddress
+                        where customer.EmailAddress == emailAddressArray
                         select customer;
 
             return await _customerRepository

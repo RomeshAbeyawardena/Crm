@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Crm.Broker;
+using Crm.Contracts;
 using Crm.Domains;
 using Crm.Services;
 using DNI.Core.Services.Extensions;
@@ -31,12 +32,12 @@ namespace Crm.Hangfire.Web
                     configure.RegisterMessagePackSerialisers = true;
                 }, out var serviceBroker)
                 .AddControllers();
-
+            
             services
+                .AddHangfire(ServiceBroker.ConfigureHangfire)
                 .AddHangfireServer(ConfigureHangfireServer);
         }
 
-       
 
         private void ConfigureHangfireServer(BackgroundJobServerOptions serverOptions)
         {
