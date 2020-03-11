@@ -49,7 +49,7 @@ namespace Crm.Services
                 .ToSingleOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<Customer> SaveCustomer(Customer encryptedCustomer, CancellationToken cancellationToken)
+        public async Task<Customer> SaveCustomer(Customer encryptedCustomer, bool saveChange, CancellationToken cancellationToken)
         {
             if (encryptedCustomer == null)
                 throw new ArgumentNullException(nameof(encryptedCustomer));

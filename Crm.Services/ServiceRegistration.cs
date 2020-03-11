@@ -29,7 +29,20 @@ namespace Crm.Services
                     .FromAssemblyOf<ServiceRegistration>()
                     .AddClasses()
                     .AsImplementedInterfaces()
-                    .WithTransientLifetime());
+                    .WithTransientLifetime())
+                .AddHangfire(ConfigureHangfire);
+        }
+
+        
+        private void ConfigureHangfire(IServiceProvider serviceProvider, IGlobalConfiguration configuration)
+        {
+            var applicationSettings = serviceProvider.GetService<ApplicationSettings>();
+            var netCoreJobActivator = serviceProvider.GetService<NetCoreJobActivator>();
+            configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseActivator(netCoreJobActivator)
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(applicationSettings.HangfireConnectionString);
         }
 
         private void ConfigureAutoMapper(IServiceProvider serviceProvider, IMapperConfigurationExpression configuration)

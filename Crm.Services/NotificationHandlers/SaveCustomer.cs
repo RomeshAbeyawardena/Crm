@@ -19,7 +19,6 @@ namespace Crm.Services.NotificationHandlers
     public class SaveCustomer : INotificationHandler<SaveCustomerNotification>
     {
         private readonly ICharacterHashService _characterHashService;
-        private readonly ICustomerService _customerService;
 
         public SaveCustomer(ICharacterHashService characterHashService)
         {
