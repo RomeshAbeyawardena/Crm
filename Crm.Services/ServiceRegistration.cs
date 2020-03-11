@@ -19,6 +19,7 @@ namespace Crm.Services
         public void RegisterServices(IServiceCollection services, IServiceRegistrationOptions options)
         {
             services
+                .AddSingleton(ConfigureHangfire)
                 .AddSingleton<NetCoreJobActivator>()
                 .AddSingleton<NetCoreJobActivatorScope>()
                 .AddSingleton<ApplicationSettings>()
@@ -34,7 +35,20 @@ namespace Crm.Services
             
         }
 
-        
+        private Func<IServiceProvider, IGlobalConfiguration> ConfigureHangfire(IServiceProvider serviceProvider)
+        {
+            return (serviceProvider) =>
+            {
+                var applicationSettings = serviceProvider.GetService<ApplicationSettings>();
+                var netCoreJobActivator = serviceProvider.GetService<NetCoreJobActivator>();
+
+                return GlobalConfiguration.Configuration
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseActivator(netCoreJobActivator)
+                    .UseRecommendedSerializerSettings()
+                    .UseSqlServerStorage(applicationSettings.HangfireConnectionString);
+            };
+        }
 
         private void ConfigureAutoMapper(IServiceProvider serviceProvider, IMapperConfigurationExpression configuration)
         {

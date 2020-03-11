@@ -25,7 +25,7 @@ namespace Crm.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDistributedMemoryCache(SetupDistrubutedCache)
+                .AddDistributedMemoryCache(SetupDistributedCache)
                 .RegisterServiceBroker<ServiceBroker>(configure => { 
                     configure.RegisterAutoMappingProviders = true;
                     configure.RegisterCacheProviders = true; 
@@ -36,12 +36,10 @@ namespace Crm.Web
                 }, out var serviceBroker)
                 .AddControllers();
 
-            services
-                .AddHangfire(ServiceBroker.ConfigureHangfire);
         }
 
 
-        private void SetupDistrubutedCache(MemoryDistributedCacheOptions options)
+        private void SetupDistributedCache(MemoryDistributedCacheOptions options)
         {
             options.SizeLimit = _applicationSettings.MemoryCacheSizeLimit;
             options.CompactionPercentage = _applicationSettings.MemoryCacheCompactionPercentage;
@@ -50,6 +48,7 @@ namespace Crm.Web
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            IServiceProvider serviceProvider,
             ApplicationSettings applicationSettings)
         {
             _applicationSettings = applicationSettings;
@@ -64,6 +63,11 @@ namespace Crm.Web
             {
                 endpoints.MapControllers();
             });
+
+            var configureGlobalConfiguration = serviceProvider
+                .GetRequiredService<Func<IServiceProvider, IGlobalConfiguration>>();
+
+            configureGlobalConfiguration(serviceProvider);
         }
     }
 }

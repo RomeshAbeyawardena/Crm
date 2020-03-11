@@ -34,14 +34,17 @@ namespace Crm.Hangfire.Web
                 .AddControllers();
             
             services
-                .AddHangfire(ServiceBroker.ConfigureHangfire)
+                .AddHangfire((serviceProvider, configuration) => serviceProvider
+                    .GetRequiredService<Func<IServiceProvider, IGlobalConfiguration>>()
+                        ?.Invoke(serviceProvider))
+
                 .AddHangfireServer(ConfigureHangfireServer);
         }
 
 
         private void ConfigureHangfireServer(BackgroundJobServerOptions serverOptions)
         {
-           serverOptions.WorkerCount = 3;
+           serverOptions.WorkerCount = 1;
         }
 
 
