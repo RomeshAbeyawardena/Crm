@@ -39,7 +39,7 @@ namespace Crm.Services.RequestHandlers
                 && encryptedCustomer.Id != foundCustomer.Id)
                 return Response.Failed<SaveCustomerResponse>(new ValidationFailure(nameof(request.EmailAddress), "Email address already taken"));
 
-            encryptedCustomer = await _customerService.SaveCustomer(encryptedCustomer, true, cancellationToken);
+            encryptedCustomer = await _customerService.SaveCustomer(encryptedCustomer, true, true, cancellationToken);
 
             newCustomer = await Encryption.Decrypt<Customer, CustomerDto>(encryptedCustomer);
 

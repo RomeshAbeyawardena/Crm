@@ -49,12 +49,12 @@ namespace Crm.Services
                 .ToSingleOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<Customer> SaveCustomer(Customer encryptedCustomer, bool saveChange, CancellationToken cancellationToken)
+        public async Task<Customer> SaveCustomer(Customer encryptedCustomer, bool saveChange, bool detachAfterSave, CancellationToken cancellationToken)
         {
             if (encryptedCustomer == null)
                 throw new ArgumentNullException(nameof(encryptedCustomer));
 
-            return await _customerRepository.SaveChanges(encryptedCustomer, cancellationToken: cancellationToken);
+            return await _customerRepository.SaveChanges(encryptedCustomer, saveChange, detachAfterSave, cancellationToken: cancellationToken);
         }
 
         public bool PasswordIsValid(Customer foundCustomer, IEnumerable<byte> password)

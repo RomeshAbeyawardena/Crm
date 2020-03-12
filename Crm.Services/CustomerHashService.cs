@@ -54,7 +54,7 @@ namespace Crm.Services
 
         public async Task<int> CommitChanges(CancellationToken cancellationToken)
         {
-            return await _customerHashRepository.Commit(cancellationToken);
+            return await _customerHashRepository.Commit(true, cancellationToken);
         }
 
         public CustomerHashService(IRepository<CustomerHash> customerHashRepository)

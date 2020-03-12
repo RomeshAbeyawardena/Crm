@@ -100,7 +100,7 @@ ADD MEMBER AppUser
 
 ALTER ROLE db_owner
 ADD MEMBER AppUser
-
+	
 SELECT * FROM Crm.dbo.CustomerHash ch
 WHERE (SELECT COUNT(*) Id FROM Crm.dbo.CustomerHash ch1 WHERE ch1.Hash = ch.Hash) > 1
 

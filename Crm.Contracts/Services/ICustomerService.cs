@@ -15,7 +15,7 @@ namespace Crm.Contracts.Services
         IPagerResult<Customer> SearchCustomers(Customer encryptedSearchCustomer);
         Task<IEnumerable<Customer>> SearchCustomers(Customer encryptedSearchCustomer, CancellationToken cancellationToken);
         Task<Customer> GetCustomerByEmailAddress(IEnumerable<byte> emailAddress, CancellationToken cancellationToken);
-        Task<Customer> SaveCustomer(Customer encryptedCustomer, bool saveChanges, CancellationToken cancellationToken);
+        Task<Customer> SaveCustomer(Customer encryptedCustomer, bool saveChanges, bool detachAfterSave, CancellationToken cancellationToken);
         bool PasswordIsValid(Customer foundCustomer, IEnumerable<byte> password);
     }
 }

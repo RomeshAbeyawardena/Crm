@@ -70,7 +70,7 @@ namespace Crm.Services.RequestHandlers
             }
 
             customer.LastIndexed = DateTimeOffset.UtcNow;
-            await _customerService.SaveCustomer(customer, false, cancellationToken);
+            await _customerService.SaveCustomer(customer, false, false, cancellationToken);
 
             if (savedHashes.Any())
                 await _customerHashService.CommitChanges(cancellationToken);
