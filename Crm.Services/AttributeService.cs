@@ -30,6 +30,16 @@ namespace Crm.Services
             return await _attributeRepository.SaveChanges(attribute, v, cancellationToken: cancellationToken);
         }
 
+        public async Task<IEnumerable<Domains.Data.Attribute>> GetAttributes(CancellationToken cancellationToken)
+        {
+            var query = from attribute in DefaultAttributeQuery
+                        select attribute;
+
+            return await _attributeRepository
+                .For(query)
+                .ToArrayAsync(cancellationToken);
+        }
+
         public AttributeService(IRepository<Domains.Data.Attribute> attributeRepository)
         {
             _attributeRepository = attributeRepository;
