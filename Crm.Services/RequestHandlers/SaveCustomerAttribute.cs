@@ -1,8 +1,10 @@
 ﻿using Crm.Contracts.Services;
+using Crm.Domains.Constants;
 using Crm.Domains.Data;
 using Crm.Domains.Request;
 using Crm.Domains.Response;
 using DNI.Core.Contracts;
+using DNI.Core.Contracts.Enumerations;
 using DNI.Core.Contracts.Providers;
 using DNI.Core.Domains;
 using MediatR;
@@ -20,14 +22,17 @@ namespace Crm.Services.RequestHandlers
     {
         private readonly IAttributeService _attributeService;
         private readonly ICustomerAttributeService _customerAttributeService;
+        private readonly ICacheEntryTracker _cacheEntryTracker;
 
         public SaveCustomerAttribute(IMapperProvider mapperProvider, IEncryptionProvider encryptionProvider, 
             IAttributeService attributeService,
-            ICustomerAttributeService customerAttributeService) 
+            ICustomerAttributeService customerAttributeService,
+            ICacheEntryTracker cacheEntryTracker) 
             : base(mapperProvider, encryptionProvider)
         {
             _attributeService = attributeService;
             _customerAttributeService = customerAttributeService;
+            _cacheEntryTracker = cacheEntryTracker;
         }
 
         public override async Task<SaveCustomerAttributeResponse> Handle(SaveCustomerAttributeRequest request, CancellationToken cancellationToken)
@@ -47,7 +52,8 @@ namespace Crm.Services.RequestHandlers
             foundCustomerAttribute = await _customerAttributeService
                 .GetCustomerAttribute(attribute.Id, request.CustomerId, cancellationToken);
 
-            if(foundCustomerAttribute != null){
+            if(foundCustomerAttribute != null)
+            {
                 customerAttribute.Id = foundCustomerAttribute.Id;
                 customerAttribute.Created = foundCustomerAttribute.Created;
             }
@@ -60,6 +66,8 @@ namespace Crm.Services.RequestHandlers
             var result = await _customerAttributeService.SaveCustomerAttribute(encryptedCustomerAttribute, cancellationToken);
             
             customerAttribute = await Encryption.Decrypt<CustomerAttribute, CustomerAttributeDto>(result);
+
+            await _cacheEntryTracker.SetState(CacheConstants.AttributeCache, CacheEntryState.Invalid, cancellationToken);
 
             return Response.Success<SaveCustomerAttributeResponse>(customerAttribute);
         }
