@@ -66,6 +66,27 @@ CREATE TABLE [dbo].[CustomerHash](
 		REFERENCES [dbo].[Customer]
 )
 
+
+CREATE TYPE [dbo].[Hash] AS TABLE
+([Value] VARBINARY(MAX))
+GO
+
+ALTER PROC [dbo].[ContainsHash]
+	@hashes [dbo].[Hash] readonly
+AS BEGIN
+	SELECT DISTINCT([Customer].[Id]), [dbo].[Customer].[EmailAddress],
+			[dbo].[Customer].[FirstName], [dbo].[Customer].[MiddleName],
+			[dbo].[Customer].[LastName], [dbo].[Customer].[Password],
+			[dbo].[Customer].[Active], [dbo].[Customer].[Created],
+			[dbo].[Customer].[Modified],[dbo].[Customer].[LastIndexed] 
+		FROM @hashes h
+		INNER JOIN [dbo].[CustomerHash]
+		ON [dbo].[CustomerHash].[Hash] = h.[Value]
+		INNER JOIN [dbo].[Customer]
+		ON [Customer].[Id] = [CustomerHash].[CustomerId]
+END
+GO
+
 CREATE USER [AppUser]
 FOR LOGIN [AppUser]
 
@@ -74,6 +95,12 @@ ADD MEMBER AppUser
 
 ALTER ROLE db_datawriter
 ADD MEMBER AppUser
+
+GRANT EXECUTE ON [dbo].[ContainsHash]
+TO [AppUser]
+
+GRANT EXECUTE ON TYPE::[dbo].[Hash]
+TO [AppUser]
 
 USE [master]
 

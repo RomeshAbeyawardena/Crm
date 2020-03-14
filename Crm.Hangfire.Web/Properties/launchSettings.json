@@ -10,7 +10,6 @@
   "profiles": {
     "Crm.Hangfire.Web": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "http://localhost:5003/Hangfire",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

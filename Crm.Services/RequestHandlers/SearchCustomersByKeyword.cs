@@ -49,7 +49,7 @@ namespace Crm.Services.RequestHandlers
                                     configure.UseAsync = true;
                     });
 
-            var decryptedCustomers = Encryption.Decrypt<Customer, CustomerDto>(customers);
+            var decryptedCustomers = await Encryption.Decrypt<Customer, CustomerDto>(customers);
 
             return Response.Success<SearchCustomersByKeywordResponse>(decryptedCustomers);
         }

@@ -18,10 +18,10 @@ namespace Crm.Data
                 configure.UseDbContextPool = true;
                 configure.DbContextServiceProviderOptions = ConfigureDbContext;
                 configure.EntityTypeDescriber = describer => describer
-                .Describe<Domains.Data.Attribute>()
-                .Describe<Customer>()
-                .Describe<CustomerAttribute>()
-                .Describe<CustomerHash>();
+                    .Describe<Domains.Data.Attribute>()
+                    .Describe<Customer>()
+                    .Describe<CustomerAttribute>()
+                    .Describe<CustomerHash>();
                 configure.ServiceLifetime = ServiceLifetime.Transient;
             });
         }
@@ -29,7 +29,7 @@ namespace Crm.Data
         private void ConfigureDbContext(IServiceProvider services, DbContextOptionsBuilder builder)
         {
             var applicationSettings = services.GetRequiredService<ApplicationSettings>();
-
+            builder.EnableSensitiveDataLogging();
             builder.UseSqlServer(applicationSettings.DefaultConnectionString);
         }
     }
