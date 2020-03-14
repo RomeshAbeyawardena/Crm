@@ -42,7 +42,7 @@ namespace Crm.Web
                         var webHostEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>(); 
                         configuration.FileName = Path.Combine(webHostEnvironment.ContentRootPath, "cache.json");  });
                 }, out var serviceBroker)
-                .AddControllers();
+                .AddControllersWithViews();
 
         }
 
@@ -71,7 +71,7 @@ namespace Crm.Web
             {
                 endpoints.MapControllers();
             });
-
+            app.UseStatusCodePages();
             var configureGlobalConfiguration = serviceProvider
                 .GetRequiredService<Func<IServiceProvider, IGlobalConfiguration>>();
 

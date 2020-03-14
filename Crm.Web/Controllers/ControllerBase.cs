@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Crm.Web.Controllers
 {
-    [Route("api/[controller]/[action]")]
     public class ControllerBase : Controller
     {
         protected readonly IMediatorService Mediator;

@@ -71,7 +71,7 @@ CREATE TYPE [dbo].[Hash] AS TABLE
 ([Value] VARBINARY(MAX) NOT NULL, [Index] INT NOT NULL)
 GO
 
-ALTER PROC [dbo].[ContainsHash]
+CREATE PROC [dbo].[ContainsHash]
 	@hashes [dbo].[Hash] readonly
 AS BEGIN
 	SELECT DISTINCT([Customer].[Id]), [dbo].[Customer].[EmailAddress],
