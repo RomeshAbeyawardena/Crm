@@ -14,6 +14,7 @@ using Crm.Domains;
 using Crm.Services;
 using Hangfire;
 using System.IO;
+using System.Text.Json;
 
 namespace Crm.Web
 {
@@ -34,6 +35,9 @@ namespace Crm.Web
                     configure.RegisterExceptionHandlers = true;
                     configure.RegisterMediatorServices = true;
                     configure.RegisterMessagePackSerialisers = true;
+                    configure.RegisterJsonSerializerOptions((serviceProvider, options) => {
+                        options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    });
                     configure.RegisterJsonFileCacheTrackerStore((serviceProvider, configuration) => { 
                         var webHostEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>(); 
                         configuration.FileName = Path.Combine(webHostEnvironment.ContentRootPath, "cache.json");  });

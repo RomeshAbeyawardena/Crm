@@ -22,28 +22,20 @@ namespace Crm.Services.RequestHandlers
         private readonly ICharacterHashService _characterHashService;
         private readonly ICustomerHashService _customerHashService;
         private readonly IHashes _hashes;
-        private readonly ICustomerService _customerService;
 
         public SaveCustomerHashes(IMapperProvider mapperProvider,
             IEncryptionProvider encryptionProvider,
             ICharacterHashService characterHashService,
             ICustomerHashService customerHashService,
-            ICustomerService customerService,
             ApplicationSettings applicationSettings) : base(mapperProvider, encryptionProvider)
         {
             _characterHashService = characterHashService;
             _customerHashService = customerHashService;
             _hashes = applicationSettings.GetHashes();
-            _customerService = customerService;
         }
 
         public override async Task<SaveCustomerHashesResponse> Handle(SaveCustomerHashesRequest request, CancellationToken cancellationToken)
         {
-            var customer = await _customerService.GetCustomerById(request.CustomerId, cancellationToken);
-
-            if(customer.LastIndexed.HasValue && customer.LastIndexed.Value > customer.Modified)
-                return Response.Failed<SaveCustomerHashesResponse>(new ValidationFailure(nameof(request.CustomerId), "Indexing has already taken place"));
-
             async Task<IEnumerable<CustomerHash>> GetCustomerHashes() => await _customerHashService.GetCustomerHashes(request.CustomerId, cancellationToken);
 
             var customerHashes = await GetCustomerHashes();
@@ -68,9 +60,6 @@ namespace Crm.Services.RequestHandlers
 
                 customerHashes = customerHashes.Append(customerHash);
             }
-
-            customer.LastIndexed = DateTimeOffset.UtcNow;
-            await _customerService.SaveCustomer(customer, false, false, cancellationToken);
 
             if (savedHashes.Any())
                 await _customerHashService.CommitChanges(cancellationToken);

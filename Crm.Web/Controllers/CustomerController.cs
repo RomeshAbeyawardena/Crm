@@ -32,7 +32,7 @@ namespace Crm.Web.Controllers
             if (!ResponseHelper.IsSuccessful(response))
                 return BadRequest(response.Errors);
             
-            await Mediator.Publish(new SaveCustomerNotification { SavedCustomer = response.Result });
+            await Mediator.Publish(new SaveCustomerNotification { SavedCustomer = response.Result }, cancellationToken);
 
             return Ok(response.Result);
         }

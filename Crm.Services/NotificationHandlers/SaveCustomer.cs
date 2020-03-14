@@ -4,6 +4,7 @@ using Crm.Domains.Request;
 using Crm.Domains.Response;
 using Crm.Services.RequestHandlers;
 using DNI.Core.Contracts;
+using DNI.Core.Contracts.Providers;
 using DNI.Core.Shared.Extensions;
 using Hangfire;
 using MediatR;
@@ -18,22 +19,34 @@ namespace Crm.Services.NotificationHandlers
 {
     public class SaveCustomer : INotificationHandler<SaveCustomerNotification>
     {
+        private readonly IClockProvider _clockProvider;
+        private readonly ICustomerService _customerService;
         private readonly ICharacterHashService _characterHashService;
 
-        public SaveCustomer(ICharacterHashService characterHashService)
+        public SaveCustomer(IClockProvider clockProvider, ICustomerService customerService, ICharacterHashService characterHashService)
         {
+            _clockProvider = clockProvider;
+            _customerService = customerService;
             _characterHashService = characterHashService;
         }
 
-        public Task Handle(SaveCustomerNotification notification, CancellationToken cancellationToken)
+        public async Task Handle(SaveCustomerNotification notification, CancellationToken cancellationToken)
         {
             var characters = _characterHashService.GetCharacters(notification.SavedCustomer.FirstName);
             characters =  characters.Append(_characterHashService.GetCharacters(notification.SavedCustomer.MiddleName));
-            characters = characters.Append(_characterHashService.GetCharacters(notification.SavedCustomer.LastName));
+            characters = characters.Append(_characterHashService.GetCharacters(notification.SavedCustomer.LastName)).Distinct();
             
+            var customer = await _customerService.GetCustomerById(notification.SavedCustomer.Id, cancellationToken);
+
+            if(customer == null || customer.LastIndexed.HasValue)
+                return;
+
             BackgroundJob.Enqueue<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters.ToArray(), CustomerId = notification.SavedCustomer.Id }, cancellationToken));
 
-            return Task.CompletedTask;
+            customer.LastIndexed = _clockProvider.DateTimeOffset;
+
+            await _customerService.SaveCustomer(customer, true, true, cancellationToken);
+
         }
     }
 }

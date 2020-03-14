@@ -48,6 +48,7 @@ namespace Crm.Services
 
         public override JobActivatorScope BeginScope(PerformContext context)
         {
+            
             return new NetCoreJobActivatorScope(_serviceProvider);
         }
         

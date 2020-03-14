@@ -22,17 +22,15 @@ namespace Crm.Services.RequestHandlers
     {
         private readonly IAttributeService _attributeService;
         private readonly ICustomerAttributeService _customerAttributeService;
-        private readonly ICacheEntryTracker _cacheEntryTracker;
+        
 
         public SaveCustomerAttribute(IMapperProvider mapperProvider, IEncryptionProvider encryptionProvider, 
             IAttributeService attributeService,
-            ICustomerAttributeService customerAttributeService,
-            ICacheEntryTracker cacheEntryTracker) 
+            ICustomerAttributeService customerAttributeService) 
             : base(mapperProvider, encryptionProvider)
         {
             _attributeService = attributeService;
             _customerAttributeService = customerAttributeService;
-            _cacheEntryTracker = cacheEntryTracker;
         }
 
         public override async Task<SaveCustomerAttributeResponse> Handle(SaveCustomerAttributeRequest request, CancellationToken cancellationToken)
@@ -66,8 +64,6 @@ namespace Crm.Services.RequestHandlers
             var result = await _customerAttributeService.SaveCustomerAttribute(encryptedCustomerAttribute, cancellationToken);
             
             customerAttribute = await Encryption.Decrypt<CustomerAttribute, CustomerAttributeDto>(result);
-
-            await _cacheEntryTracker.SetState(CacheConstants.AttributeCache, CacheEntryState.Invalid, cancellationToken);
 
             return Response.Success<SaveCustomerAttributeResponse>(customerAttribute);
         }

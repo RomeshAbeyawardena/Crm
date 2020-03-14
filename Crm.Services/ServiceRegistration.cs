@@ -28,7 +28,8 @@ namespace Crm.Services
                 .AddMediatR(Assembly.GetAssembly(typeof(ServiceRegistration)))
                 .Scan(scan => scan
                     .FromAssemblyOf<ServiceRegistration>()
-                    .AddClasses()
+                    .AddClasses(implementation => implementation.Where(
+                        imp => imp.Name.EndsWith("Service") || imp.Name.EndsWith("Activator")))
                     .AsImplementedInterfaces()
                     .WithTransientLifetime());
 

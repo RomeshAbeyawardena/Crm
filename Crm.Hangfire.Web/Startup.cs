@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Crm.Broker;
 using Crm.Contracts;
@@ -19,17 +21,27 @@ namespace Crm.Hangfire.Web
 {
     public class Startup
     {
+        private ApplicationSettings _applicationSettings;
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddDistributedMemoryCache(SetupDistributedCache)
                 .RegisterServiceBroker<ServiceBroker>(configure => { 
+                    configure.RegisterCacheProviders = true;
                     configure.RegisterAutoMappingProviders = true;
                     configure.RegisterCryptographicProviders = true;
                     configure.RegisterExceptionHandlers = true;
                     configure.RegisterMediatorServices = true;
                     configure.RegisterMessagePackSerialisers = true;
+                    configure.RegisterJsonSerializerOptions((serviceProvider, options) => {
+                        options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    });
+                    configure.RegisterJsonFileCacheTrackerStore((serviceProvider, configuration) => { 
+                        var webHostEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>(); 
+                        configuration.FileName = Path.Combine(webHostEnvironment.ContentRootPath, "cache.json");  });
                 }, out var serviceBroker)
                 .AddControllers();
             
@@ -41,6 +53,14 @@ namespace Crm.Hangfire.Web
                 .AddHangfireServer(ConfigureHangfireServer);
         }
 
+        
+        private void SetupDistributedCache(MemoryDistributedCacheOptions options)
+        {
+            options.SizeLimit = _applicationSettings.MemoryCacheSizeLimit;
+            options.CompactionPercentage = _applicationSettings.MemoryCacheCompactionPercentage;
+            options.ExpirationScanFrequency = _applicationSettings.MemoryCacheExpirationScanFrequency;
+        }
+
 
         private void ConfigureHangfireServer(BackgroundJobServerOptions serverOptions)
         {
@@ -49,8 +69,9 @@ namespace Crm.Hangfire.Web
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationSettings applicationSettings)
         {
+            _applicationSettings = applicationSettings;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
