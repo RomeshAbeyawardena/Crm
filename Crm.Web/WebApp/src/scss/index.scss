@@ -1,1 +1,13 @@
-﻿@import "_reset.scss";
+﻿@import "_colours.scss";
+
+$body-bg: $color-primary-4;
+$body-color: $color-primary-1;
+
+$theme-colors: (
+    "dark": $color-primary-4, 
+    "primary": $color-primary-0, 
+    "danger": #ff4136 
+);
+
+
+@import "~bootstrap/scss/bootstrap";

@@ -1,10 +1,8 @@
 ﻿
-<h2>No</h2>
-<p>Fuck</p>
-<ul>
-    <li>im</li>
-    <li>going</li>
-    <li>on</li>
-    <li>porn</li>
-    <li>{{ counter }}</li>
-</ul>
+@section topNav  {
+    @(await Component.InvokeAsync<NavigationViewComponent>(NavigationView.Header))
+}
+
+@section footerNav {
+    @(await Component.InvokeAsync<NavigationViewComponent>(NavigationView.Footer))
+}

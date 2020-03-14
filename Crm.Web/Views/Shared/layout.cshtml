@@ -6,8 +6,12 @@
     <script type="text/javascript" src="~/content/app.js"></script>
 </head>
 <body>
-    <div id="app">
-        @RenderBody()
+    <div id="app" class="container-fluid">
+        @await RenderSectionAsync("topNav", false)
+        <div class="container">
+            @RenderBody()
+        </div>
+        @await RenderSectionAsync("footerNav", false)
     </div>
 </body>
 </html>

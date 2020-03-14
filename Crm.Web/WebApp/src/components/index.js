@@ -5,6 +5,6 @@ import updateCustomerComponent from "./update-customer";
 require("./ajax-form");
 
 //Add main components from imports
-export default components = {
+export default {
     "update-customer": updateCustomerComponent
 };
