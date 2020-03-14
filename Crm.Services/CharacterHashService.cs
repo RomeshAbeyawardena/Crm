@@ -1,6 +1,7 @@
 ﻿using Crm.Contracts.Services;
 using Crm.Domains;
 using Crm.Domains.Contracts;
+using Crm.Domains.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,20 @@ namespace Crm.Services
             return value.ToUpper().All(v => characters.Contains(v));
         }
 
-        public IEnumerable<char> GetCharacters(string value)
+        public IEnumerable<CharacterIndex> GetCharacters(string value)
         {
-            return value.ToUpper().ToCharArray().OrderBy(c => c);
+            var currentCharacterIndex = 0;
+            foreach(var character in value)
+            yield return new CharacterIndex { Character = character, Index = currentCharacterIndex++ };
         }
 
-        public IEnumerable<Hash> GetHashes(IHashes hashes, IEnumerable<char> characters)
+        public IEnumerable<CharacterIndex> GetHashes(IHashes hashes, IEnumerable<CharacterIndex> characters)
         {
-            foreach(var character in characters)
-                yield return hashes.GetHash(character);
+            foreach(var character in characters){
+
+                character.Hash = hashes.GetHash(character.Character);
+                yield return character;
+            }
         }
     }
 }

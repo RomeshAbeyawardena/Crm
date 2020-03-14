@@ -61,6 +61,7 @@ CREATE TABLE [dbo].[CustomerHash](
 	[Id] INT NOT NULL IDENTITY(1,1)
 		CONSTRAINT PK_CustomerHash PRIMARY KEY
 	,[Hash] BINARY(6) NOT NULL
+	,[Index] INT NOT NULL
 	,[CustomerId] INT NOT NULL
 		CONSTRAINT FK_CustomerHash_Customer
 		REFERENCES [dbo].[Customer]

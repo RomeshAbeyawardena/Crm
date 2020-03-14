@@ -46,7 +46,7 @@ namespace Crm.Services.RequestHandlers
 
             foreach (var characterHash in characterHashes)
             {
-                var customerHash = _customerHashService.GetCustomerHash(customerHashes, characterHash.Value);
+                var customerHash = _customerHashService.GetCustomerHash(customerHashes, characterHash.Hash.Value);
 
                 if (customerHash != null)
                     continue;
@@ -54,7 +54,8 @@ namespace Crm.Services.RequestHandlers
                 customerHash = await _customerHashService.SaveCustomerHash(new CustomerHash
                 {
                     CustomerId = request.CustomerId,
-                    Hash = characterHash.Value.ToArray()
+                    Index = characterHash.Index,
+                    Hash = characterHash.Hash.Value.ToArray()
                 }, false, cancellationToken);
                 savedHashes.Add(customerHash);
 

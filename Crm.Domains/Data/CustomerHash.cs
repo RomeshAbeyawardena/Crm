@@ -13,6 +13,7 @@ namespace Crm.Domains.Data
         [Key]
         public int Id { get; set; }
         public byte[] Hash { get; set; }
+        public int Index { get; set; }
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
     }

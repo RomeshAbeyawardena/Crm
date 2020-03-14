@@ -43,7 +43,7 @@ namespace Crm.Services.RequestHandlers
 
             var customers = await _customerHashService
                 .GetCustomersByHash(characterHashes
-                    .Select(hash => hash.Value), cancellationToken, 
+                    .Select(characterIndex => characterIndex.Hash.Value), cancellationToken, 
                     configure => {  configure.PageNumber = request.PageNumber; 
                                     configure.MaximumRowsPerPage = request.MaximumRowsPerPage;
                                     configure.UseAsync = true;

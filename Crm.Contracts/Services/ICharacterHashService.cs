@@ -1,5 +1,6 @@
 ﻿using Crm.Domains;
 using Crm.Domains.Contracts;
+using Crm.Domains.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace Crm.Contracts.Services
 {
     public interface ICharacterHashService
     {
-        IEnumerable<char> GetCharacters(string value);
+        IEnumerable<CharacterIndex> GetCharacters(string value);
         bool ContainsCharacters(IEnumerable<char> characters, string value);
-        IEnumerable<Hash> GetHashes(IHashes hashes, IEnumerable<char> characters);
+        IEnumerable<CharacterIndex> GetHashes(IHashes hashes, IEnumerable<CharacterIndex> characters);
     }
 }

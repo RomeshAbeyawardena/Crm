@@ -34,14 +34,15 @@ namespace Crm.Services.NotificationHandlers
         {
             var characters = _characterHashService.GetCharacters(notification.SavedCustomer.FirstName);
             characters =  characters.Append(_characterHashService.GetCharacters(notification.SavedCustomer.MiddleName));
-            characters = characters.Append(_characterHashService.GetCharacters(notification.SavedCustomer.LastName)).Distinct();
+            characters = characters.Append(_characterHashService.GetCharacters(notification.SavedCustomer.LastName));
             
             var customer = await _customerService.GetCustomerById(notification.SavedCustomer.Id, cancellationToken);
 
             if(customer == null || customer.LastIndexed.HasValue)
                 return;
 
-            BackgroundJob.Enqueue<IMediatorService>((mediator) => mediator.Send(new SaveCustomerHashesRequest { Characters = characters.ToArray(), CustomerId = notification.SavedCustomer.Id }, cancellationToken));
+            BackgroundJob.Enqueue<IMediatorService>((mediator) => mediator.Send(new 
+                SaveCustomerHashesRequest { Characters = characters.ToArray(), CustomerId = notification.SavedCustomer.Id }, cancellationToken));
 
             customer.LastIndexed = _clockProvider.DateTimeOffset;
 
