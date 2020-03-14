@@ -59,6 +59,7 @@ namespace Crm.Domains
                 options => options.Ignore()).ReverseMap();
 
             CreateMap<GetCustomerAttributeViewModel, GetCustomerAttributeRequest>();
+            CreateMap<SearchCustomersByKeywordViewModel, SearchCustomersByKeywordRequest>();
         }
     }
 }

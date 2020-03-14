@@ -1,6 +1,7 @@
 ﻿using Crm.Domains.Notifications;
 using Crm.Domains.Request;
 using Crm.Domains.ViewModels;
+using Crm.Services.RequestHandlers;
 using DNI.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -54,9 +55,12 @@ namespace Crm.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> SearchCustomersByKeyword(string keyword)
+        public async Task<ActionResult> SearchCustomersByKeyword(SearchCustomersByKeywordViewModel model)
         {
-            var request = new SearchCustomersByKeywordRequest { Keyword = keyword };
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var request = Mapper.Map<SearchCustomersByKeywordViewModel, SearchCustomersByKeywordRequest>(model);
 
             var response = await Mediator.Send(request);
 

@@ -1,6 +1,7 @@
 ﻿using Crm.Contracts.Services;
 using Crm.Domains;
 using Crm.Domains.Contracts;
+using Crm.Domains.Data;
 using Crm.Domains.Request;
 using Crm.Domains.Response;
 using DNI.Core.Contracts;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CustomerDto = Crm.Domains.Dto.Customer;
 
 namespace Crm.Services.RequestHandlers
 {
@@ -41,9 +43,15 @@ namespace Crm.Services.RequestHandlers
 
             var customers = await _customerHashService
                 .GetCustomersByHash(characterHashes
-                    .Select(hash => hash.Value), cancellationToken);
+                    .Select(hash => hash.Value), cancellationToken, 
+                    configure => {  configure.PageNumber = request.PageNumber; 
+                                    configure.MaximumRowsPerPage = request.MaximumRowsPerPage;
+                                    configure.UseAsync = true;
+                    });
 
-            return Response.Success<SearchCustomersByKeywordResponse>(customers);
+            var decryptedCustomers = Encryption.Decrypt<Customer, CustomerDto>(customers);
+
+            return Response.Success<SearchCustomersByKeywordResponse>(decryptedCustomers);
         }
     }
 }
