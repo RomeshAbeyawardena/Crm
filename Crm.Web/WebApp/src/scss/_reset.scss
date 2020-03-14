@@ -1,0 +1,30 @@
+﻿@mixin reset {
+    padding: 0;
+    margin: 0;
+}
+
+@mixin setSize($width, $height) {
+    width: $width;
+    height: $height;
+}
+
+html {
+    @include reset;
+
+    body {
+        @include reset;
+        @include setSize(100, 100);
+        font-size: 14pt;
+        font-size: 100%;
+        background: none;
+
+        h1, h2, h3, h4,
+        h5, h6, p, span,
+        section, nav, a, ul, li,
+        code {
+            @include reset;
+            @include setSize(inherit, inherit);
+            list-style: none;
+        }
+    }
+}

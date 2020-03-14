@@ -66,7 +66,7 @@ namespace Crm.Web
             }
             
             app.UseRouting();
-            
+            app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
