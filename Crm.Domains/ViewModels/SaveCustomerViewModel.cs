@@ -26,7 +26,5 @@ namespace Crm.Domains.ViewModels
 
         [MinLength(3), MaxLength(16)]
         public string Password { get; set; }
-
-        public bool Active { get; set; }
     }
 }

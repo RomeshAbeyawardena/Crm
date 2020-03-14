@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Crm.Domains.Notifications
 {
-    public class CustomerAttributeNotification : INotification
+    public class AttributeSavedNotification : INotification
     {
-        
+        public bool IsNewAttribute { get; set; }
+        public int AttributeId { get; set; }
     }
 }

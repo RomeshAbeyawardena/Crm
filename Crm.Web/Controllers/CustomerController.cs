@@ -114,10 +114,14 @@ namespace Crm.Web.Controllers
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(ResponseHelper.IsSuccessful(response))
-                return Ok(response.Result);
+            if(!ResponseHelper.IsSuccessful(response))
+                return BadRequest(response.Errors);
 
-            return BadRequest(response.Errors);
+            await Mediator.Publish(new AttributeSavedNotification { 
+                IsNewAttribute = response.IsNewAttribute, 
+                AttributeId = response.AttributeId }, cancellationToken);
+
+            return Ok(response.Result);
         }
 
         [HttpGet]

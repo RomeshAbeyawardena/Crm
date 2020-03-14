@@ -1,4 +1,5 @@
-﻿using Crm.Contracts.Services;
+﻿using Crm.Contracts.Providers;
+using Crm.Contracts.Services;
 using Crm.Domains.Constants;
 using Crm.Domains.Data;
 using Crm.Domains.Request;
@@ -22,26 +23,33 @@ namespace Crm.Services.RequestHandlers
     {
         private readonly IAttributeService _attributeService;
         private readonly ICustomerAttributeService _customerAttributeService;
-        
+        private readonly ICrmCacheProvider _cacheProvider;
 
         public SaveCustomerAttribute(IMapperProvider mapperProvider, IEncryptionProvider encryptionProvider, 
-            IAttributeService attributeService,
+            IAttributeService attributeService, ICrmCacheProvider cacheProvider,
             ICustomerAttributeService customerAttributeService) 
             : base(mapperProvider, encryptionProvider)
         {
             _attributeService = attributeService;
             _customerAttributeService = customerAttributeService;
+            _cacheProvider = cacheProvider;
         }
 
         public override async Task<SaveCustomerAttributeResponse> Handle(SaveCustomerAttributeRequest request, CancellationToken cancellationToken)
         {
-            var attribute = await _attributeService.GetAttribute(request.Property, cancellationToken);
+            bool isNewAttribute = false;
+            var attribute = _attributeService.GetAttribute(
+                await _cacheProvider.GetAttributes(cancellationToken), request.Property);
+
             CustomerAttribute foundCustomerAttribute;
             
             if(attribute == null)
+            {
                 attribute = await _attributeService
-                    .SaveAttribute(new Domains.Data.Attribute { Key = request.Property }, false, cancellationToken);            
-            
+                    .SaveAttribute(new Domains.Data.Attribute { Key = request.Property }, false, cancellationToken);    
+                isNewAttribute = true;
+            }
+
             CustomerAttributeDto customerAttribute = new CustomerAttributeDto {
                 CustomerId = request.CustomerId,
                 Value = request.Value
@@ -61,11 +69,14 @@ namespace Crm.Services.RequestHandlers
 
             encryptedCustomerAttribute.Attribute = attribute;
 
-            var result = await _customerAttributeService.SaveCustomerAttribute(encryptedCustomerAttribute, cancellationToken);
+            var result = await _customerAttributeService
+                .SaveCustomerAttribute(encryptedCustomerAttribute, cancellationToken);
             
             customerAttribute = await Encryption.Decrypt<CustomerAttribute, CustomerAttributeDto>(result);
 
-            return Response.Success<SaveCustomerAttributeResponse>(customerAttribute);
+            return Response.Success<SaveCustomerAttributeResponse>(customerAttribute, config => { 
+                config.IsNewAttribute = isNewAttribute; 
+                config.AttributeId = attribute.Id; });
         }
     }
 }
