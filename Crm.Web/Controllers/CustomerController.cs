@@ -54,6 +54,19 @@ namespace Crm.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> SearchCustomersByKeyword(string keyword)
+        {
+            var request = new SearchCustomersByKeywordRequest { Keyword = keyword };
+
+            var response = await Mediator.Send(request);
+
+            if(ResponseHelper.IsSuccessful(response))
+                return Ok(response.Result);
+
+            return BadRequest(response.Errors);
+        }
+
+        [HttpGet]
         public async Task<ActionResult> GetCustomer(GetCustomerViewModel model, CancellationToken cancellationToken)
         {
             if(!ModelState.IsValid)

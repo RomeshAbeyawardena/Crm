@@ -13,13 +13,15 @@ namespace Crm.Services
     public class CustomerService : ICustomerService
     {
         private readonly IRepository<Customer> _customerRepository;
-        private IQueryable<Customer> DefaultCustomerQuery => _customerRepository.Query(customer => customer.Active);
-        private IQueryable<Customer> DefaultCustomerSearchQuery(Customer encryptedSearchCustomer) => from customer in DefaultCustomerQuery
-                                                                                                     where customer.FirstName == encryptedSearchCustomer.FirstName
-                                                                                                     || customer.MiddleName == encryptedSearchCustomer.MiddleName
-                                                                                                     || customer.LastName == encryptedSearchCustomer.LastName
-                                                                                                     || customer.EmailAddress == encryptedSearchCustomer.EmailAddress
-                                                                                                     select customer;
+        private IQueryable<Customer> DefaultCustomerQuery => _customerRepository
+            .Query(customer => customer.Active);
+        private IQueryable<Customer> DefaultCustomerSearchQuery(Customer encryptedSearchCustomer) 
+            => from customer in DefaultCustomerQuery
+                where customer.FirstName == encryptedSearchCustomer.FirstName
+                        || customer.MiddleName == encryptedSearchCustomer.MiddleName
+                        || customer.LastName == encryptedSearchCustomer.LastName
+                        || customer.EmailAddress == encryptedSearchCustomer.EmailAddress
+                select customer;
 
 
         public async Task<Customer> GetCustomerById(int value, CancellationToken cancellationToken)

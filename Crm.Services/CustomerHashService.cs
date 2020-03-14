@@ -1,6 +1,7 @@
 ﻿using Crm.Contracts.Services;
 using Crm.Domains.Data;
 using DNI.Core.Contracts;
+using DNI.Core.Contracts.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,9 @@ namespace Crm.Services
             return customerHashes.SingleOrDefault(customerHash => Convert.ToBase64String(customerHash.Hash) == hashedString);
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomersByHash(IEnumerable<IEnumerable<byte>> hashes, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Customer>> GetCustomersByHash(IEnumerable<IEnumerable<byte>> hashes, 
+            CancellationToken cancellationToken,
+            Action<IPagerResultOptions> configureOptions = default)
         {
             var hashBytes = hashes.Select(h => h.ToArray());
 
@@ -47,9 +50,16 @@ namespace Crm.Services
                         where hashes.Contains(customerHash.Hash)
                         select customerHash.Customer;
 
-            return await _customerHashRepository
-                    .For(query)
-                    .ToArrayAsync(cancellationToken);
+            if(configureOptions == null)
+                return await _customerHashRepository
+                        .For(query)
+                        .ToArrayAsync(cancellationToken);
+
+            var pager =_customerHashRepository
+                .For(query)
+                .AsPager();
+
+            return await pager.GetPagedItems(configureOptions, cancellationToken);
         }
 
         public async Task<int> CommitChanges(CancellationToken cancellationToken)

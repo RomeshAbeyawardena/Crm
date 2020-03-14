@@ -1,6 +1,7 @@
 ﻿using Crm.Domains.Contracts;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace Crm.Domains.ViewModels
 {
     public class SearchCustomerViewModel : ICustomerIdentifier, ICustomer, IPagedRequest
     {
+        [EmailAddress]
         public string EmailAddress { get; set; }
         public int? Id { get; set; }
         public string FirstName { get; set; }
