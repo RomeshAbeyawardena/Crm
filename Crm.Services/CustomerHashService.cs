@@ -1,5 +1,6 @@
 ﻿using Crm.Contracts.Services;
 using Crm.Domains.Data;
+using Crm.Domains.Dto;
 using DNI.Core.Contracts;
 using DNI.Core.Contracts.Options;
 using Microsoft.Data.SqlClient;
@@ -36,33 +37,37 @@ namespace Crm.Services
             return await _customerHashRepository.SaveChanges(customerHash, saveChanges, false, cancellationToken: cancellationToken);
         }
 
-        public CustomerHash GetCustomerHash(IEnumerable<CustomerHash> customerHashes, IEnumerable<byte> hash)
+        public CustomerHash GetCustomerHash(IEnumerable<CustomerHash> customerHashes, IEnumerable<byte> hash, int atIndex)
         {
             var hashByteArray = hash.ToArray();
             var hashedString = Convert.ToBase64String(hashByteArray);
-            return customerHashes.SingleOrDefault(customerHash => Convert.ToBase64String(customerHash.Hash) == hashedString);
+            return customerHashes.SingleOrDefault(customerHash => 
+                customerHash.Index == atIndex &&
+                Convert.ToBase64String(customerHash.Hash) == hashedString);
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomersByHash(IEnumerable<IEnumerable<byte>> hashes, 
+        public async Task<IEnumerable<Domains.Data.Customer>> GetCustomersByHash(IEnumerable<CharacterIndex> characterIndexes, 
             CancellationToken cancellationToken,
             Action<IPagerResultOptions> configureOptions = default)
         {
-            var hashBytes = hashes.Select(h => h.ToArray());
             var parameterList = new List<SqlParameter>();
-            var queryBuilder = new StringBuilder("DECLARE @hashValues [dbo].[Hash]\r\n\r\nINSERT INTO @hashValues ([Value])\r\n\tVALUES\r\n\t\t");
+            var queryBuilder = new StringBuilder("DECLARE @hashValues [dbo].[Hash]\r\n\r\n");
+            queryBuilder.Append("INSERT INTO @hashValues ([Value], [Index])\r\n\tVALUES\r\n\t\t");
             var parameterIndex = 0;
-            foreach(var hashByte in hashBytes)
+            foreach(var characterIndex in characterIndexes)
             {
                 if(parameterIndex > 0)
                     queryBuilder.Append(",");
 
-                queryBuilder.AppendFormat("(@p{0}) \r\n\t\t", parameterIndex);
-                parameterList.Add(new SqlParameter("p" + parameterIndex++, hashByte));
+                queryBuilder.AppendFormat("(@p{0}, @n{0}) \r\n\t\t", parameterIndex);
+                parameterList.Add(new SqlParameter("p" + parameterIndex, characterIndex.Hash.Value.ToArray()));
+                parameterList.Add(new SqlParameter("n" + parameterIndex++, characterIndex.Index));
             }
 
             var queryString = string.Concat(queryBuilder, "\r\nEXEC [dbo].[ContainsHash] @hashes = @hashValues");
 
-            var query = _customerHashRepository.FromQuery<Customer>(queryString, parameterList.ToArray());
+            var query = _customerHashRepository
+                .FromQuery<Domains.Data.Customer>(queryString, parameterList.ToArray());
 
             return await _customerHashRepository.For(query).ToArrayAsync(cancellationToken);
             //if(configureOptions == null)

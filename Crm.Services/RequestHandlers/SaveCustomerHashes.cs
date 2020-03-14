@@ -36,7 +36,8 @@ namespace Crm.Services.RequestHandlers
 
         public override async Task<SaveCustomerHashesResponse> Handle(SaveCustomerHashesRequest request, CancellationToken cancellationToken)
         {
-            async Task<IEnumerable<CustomerHash>> GetCustomerHashes() => await _customerHashService.GetCustomerHashes(request.CustomerId, cancellationToken);
+            async Task<IEnumerable<CustomerHash>> GetCustomerHashes() => 
+                await _customerHashService.GetCustomerHashes(request.CustomerId, cancellationToken);
 
             var customerHashes = await GetCustomerHashes();
 
@@ -46,7 +47,7 @@ namespace Crm.Services.RequestHandlers
 
             foreach (var characterHash in characterHashes)
             {
-                var customerHash = _customerHashService.GetCustomerHash(customerHashes, characterHash.Hash.Value);
+                var customerHash = _customerHashService.GetCustomerHash(customerHashes, characterHash.Hash.Value, characterHash.Index);
 
                 if (customerHash != null)
                     continue;

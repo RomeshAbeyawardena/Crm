@@ -1,4 +1,5 @@
 ﻿using Crm.Domains.Data;
+using Crm.Domains.Dto;
 using DNI.Core.Contracts.Options;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,9 @@ namespace Crm.Contracts.Services
         
         Task<CustomerHash> SaveCustomerHash(CustomerHash customerHash, bool saveChanges, CancellationToken cancellationToken);
 
-        CustomerHash GetCustomerHash(IEnumerable<CustomerHash> customerHashes, IEnumerable<byte> hash);
+        CustomerHash GetCustomerHash(IEnumerable<CustomerHash> customerHashes, IEnumerable<byte> hash, int atIndex);
 
-        Task<IEnumerable<Customer>> GetCustomersByHash(IEnumerable<IEnumerable<byte>> hashes, 
+        Task<IEnumerable<Domains.Data.Customer>> GetCustomersByHash(IEnumerable<CharacterIndex> hashes, 
             CancellationToken cancellationToken,
             Action<IPagerResultOptions> pagerResultOptions = default);
         Task<int> CommitChanges(CancellationToken cancellationToken);

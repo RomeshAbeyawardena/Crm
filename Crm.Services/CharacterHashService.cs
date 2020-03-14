@@ -20,8 +20,8 @@ namespace Crm.Services
         public IEnumerable<CharacterIndex> GetCharacters(string value)
         {
             var currentCharacterIndex = 0;
-            foreach(var character in value)
-            yield return new CharacterIndex { Character = character, Index = currentCharacterIndex++ };
+            foreach(var character in value.ToUpper())
+                yield return new CharacterIndex { Character = character, Index = currentCharacterIndex++ };
         }
 
         public IEnumerable<CharacterIndex> GetHashes(IHashes hashes, IEnumerable<CharacterIndex> characters)

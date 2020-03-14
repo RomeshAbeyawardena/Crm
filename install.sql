@@ -67,9 +67,8 @@ CREATE TABLE [dbo].[CustomerHash](
 		REFERENCES [dbo].[Customer]
 )
 
-
 CREATE TYPE [dbo].[Hash] AS TABLE
-([Value] VARBINARY(MAX))
+([Value] VARBINARY(MAX) NOT NULL, [Index] INT NOT NULL)
 GO
 
 ALTER PROC [dbo].[ContainsHash]
@@ -85,6 +84,7 @@ AS BEGIN
 		ON [dbo].[CustomerHash].[Hash] = h.[Value]
 		INNER JOIN [dbo].[Customer]
 		ON [Customer].[Id] = [CustomerHash].[CustomerId]
+		WHERE [h].[Index] = [dbo].[CustomerHash].[Index]
 END
 GO
 
