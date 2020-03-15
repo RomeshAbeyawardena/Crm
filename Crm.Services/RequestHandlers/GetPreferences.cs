@@ -47,7 +47,8 @@ namespace Crm.Services.RequestHandlers
                 return Response.Failed<GetPreferencesResponse>(new ValidationFailure(nameof(request.CategoryName), 
                     $"Unable to find a category named { request.CategoryName }"));
 
-            return Response.Success<GetPreferencesResponse>(_preferenceService.GetPreferencesByCategory(preferences, foundCategory.Id));
+            return Response.Success<GetPreferencesResponse>(_preferenceService
+                .GetPreferencesByCategory(preferences, foundCategory.Id));
         }
     }
 }

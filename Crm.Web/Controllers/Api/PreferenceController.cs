@@ -26,7 +26,10 @@ namespace Crm.Web.Controllers.Api
             var request = Mapper
                 .Map<GetPreferencesViewModel, GetPreferencesRequest>(model);
 
-            var response = Mediator.Send(request);
+            var response = await Mediator.Send(request);
+
+            if(IsResponseValid(response))
+                return BadRequest(response.Errors);
 
             return Ok();
         }

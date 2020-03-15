@@ -5,7 +5,6 @@ using DNI.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
-using ResponseHelper = DNI.Core.Domains.Response;
 
 namespace Crm.Web.Controllers.Api
 {
@@ -25,7 +24,7 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if (!ResponseHelper.IsSuccessful(response))
+            if (!IsResponseValid(response))
                 return BadRequest(response.Errors);
             
             await Mediator.Publish(new SaveCustomerNotification { SavedCustomer = response.Result }, cancellationToken);
@@ -42,7 +41,7 @@ namespace Crm.Web.Controllers.Api
             
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(ResponseHelper.IsSuccessful(response))
+            if(IsResponseValid(response))
                 return Ok(response.Result);
 
             return BadRequest(response.Errors);
@@ -57,7 +56,7 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request);
 
-            if(ResponseHelper.IsSuccessful(response))
+            if(IsResponseValid(response))
                 return Ok(response.Result);
 
             return BadRequest(response.Errors);
@@ -72,7 +71,7 @@ namespace Crm.Web.Controllers.Api
             
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(ResponseHelper.IsSuccessful(response))
+            if(IsResponseValid(response))
                 return Ok(response.Result);
 
             return BadRequest(response.Errors);
@@ -88,7 +87,7 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(ResponseHelper.IsSuccessful(response))
+            if(IsResponseValid(response))
                 return Ok(response.Result);
             
             return BadRequest(response.Errors);
@@ -103,7 +102,7 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(!ResponseHelper.IsSuccessful(response))
+            if(!IsResponseValid(response))
                 return BadRequest(response.Errors);
 
             await Mediator.Publish(new AttributeSavedNotification { 
@@ -122,7 +121,7 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(ResponseHelper.IsSuccessful(response))
+            if(IsResponseValid(response))
                 return Ok(response.Result);
 
             return BadRequest(response.Errors);
@@ -137,7 +136,7 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request);
 
-            if(ResponseHelper.IsSuccessful(response))
+            if(IsResponseValid(response))
                 return Ok(response.Result);
 
             return BadRequest(response.Errors);
@@ -152,7 +151,7 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request);
 
-            if(ResponseHelper.IsSuccessful(response))
+            if(IsResponseValid(response))
                 return Ok(response.Result);
 
             return BadRequest(response.Errors);
