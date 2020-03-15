@@ -1,6 +1,7 @@
 ﻿using Crm.Contracts.Services;
 using Crm.Domains.Data;
 using DNI.Core.Contracts;
+using DNI.Core.Services.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,11 @@ using System.Threading.Tasks;
 
 namespace Crm.Services
 {
-    public class CustomerService : ICustomerService
+    public class CustomerService : DataServiceBase<Domains.Data.Customer>, ICustomerService
     {
-        private readonly IRepository<Customer> _customerRepository;
-        private IQueryable<Customer> DefaultCustomerQuery => _customerRepository
-            .Query(customer => customer.Active);
+        
         private IQueryable<Customer> DefaultCustomerSearchQuery(Customer encryptedSearchCustomer) 
-            => from customer in DefaultCustomerQuery
+            => from customer in DefaultQuery
                 where customer.FirstName == encryptedSearchCustomer.FirstName
                         || customer.MiddleName == encryptedSearchCustomer.MiddleName
                         || customer.LastName == encryptedSearchCustomer.LastName
@@ -26,14 +25,14 @@ namespace Crm.Services
 
         public async Task<Customer> GetCustomerById(int value, CancellationToken cancellationToken)
         {
-            return await _customerRepository.Find(false, cancellationToken, value);
+            return await Repository.Find(false, cancellationToken, value);
         }
 
         public IPagerResult<Customer> SearchCustomers(Customer encryptedSearchCustomer)
         {
             var query = DefaultCustomerSearchQuery(encryptedSearchCustomer);
 
-            return _customerRepository
+            return Repository
                 .For(query)
                 .AsPager();
         }
@@ -42,11 +41,11 @@ namespace Crm.Services
         {
             var emailAddressArray = emailAddress.ToArray();
 
-            var query = from customer in DefaultCustomerQuery
+            var query = from customer in DefaultQuery
                         where customer.EmailAddress == emailAddressArray
                         select customer;
 
-            return await _customerRepository
+            return await Repository
                 .For(query)
                 .ToSingleOrDefaultAsync(cancellationToken);
         }
@@ -56,7 +55,7 @@ namespace Crm.Services
             if (encryptedCustomer == null)
                 throw new ArgumentNullException(nameof(encryptedCustomer));
 
-            return await _customerRepository.SaveChanges(encryptedCustomer, saveChange, detachAfterSave, cancellationToken: cancellationToken);
+            return await Repository.SaveChanges(encryptedCustomer, saveChange, detachAfterSave, cancellationToken: cancellationToken);
         }
 
         public bool PasswordIsValid(Customer foundCustomer, IEnumerable<byte> password)
@@ -75,14 +74,15 @@ namespace Crm.Services
         {
             var query = DefaultCustomerSearchQuery(encryptedSearchCustomer);
 
-            return _customerRepository
+            return Repository
                 .For(query)
                 .ToArrayAsync(cancellationToken);
         }
 
         public CustomerService(IRepository<Customer> customerRepository)
+            : base(customerRepository, false, customer => customer.Active)
         {
-            _customerRepository = customerRepository;
+
         }
     }
 }

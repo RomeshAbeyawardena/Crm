@@ -3,6 +3,7 @@ using Crm.Domains.Data;
 using Crm.Domains.Dto;
 using DNI.Core.Contracts;
 using DNI.Core.Contracts.Options;
+using DNI.Core.Services.Abstraction;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -15,26 +16,22 @@ using System.Threading.Tasks;
 
 namespace Crm.Services
 {
-    public class CustomerHashService : ICustomerHashService
+    public class CustomerHashService : DataServiceBase<Domains.Data.CustomerHash>, ICustomerHashService
     {
-        private readonly IRepository<CustomerHash> _customerHashRepository;
-
-        private IQueryable<CustomerHash> DefaultQuery => _customerHashRepository.Query();
-
         public async Task<IEnumerable<CustomerHash>> GetCustomerHashes(int customerId, CancellationToken cancellationToken)
         {
             var query = from customerHash in DefaultQuery
                         where customerHash.CustomerId == customerId
                         select customerHash;
 
-            return await _customerHashRepository
+            return await Repository
                     .For(query)
                     .ToArrayAsync(cancellationToken);
         }
 
         public async Task<CustomerHash> SaveCustomerHash(CustomerHash customerHash, bool saveChanges, CancellationToken cancellationToken)
         {
-            return await _customerHashRepository.SaveChanges(customerHash, saveChanges, false, cancellationToken: cancellationToken);
+            return await Repository.SaveChanges(customerHash, saveChanges, false, cancellationToken: cancellationToken);
         }
 
         public CustomerHash GetCustomerHash(IEnumerable<CustomerHash> customerHashes, IEnumerable<byte> hash, int atIndex)
@@ -66,10 +63,10 @@ namespace Crm.Services
 
             var queryString = string.Concat(queryBuilder, "\r\nEXEC [dbo].[ContainsHash] @hashes = @hashValues");
 
-            var query = _customerHashRepository
+            var query = Repository
                 .FromQuery<Domains.Data.Customer>(queryString, parameterList.ToArray());
 
-            return await _customerHashRepository.For(query).ToArrayAsync(cancellationToken);
+            return await Repository.For(query).ToArrayAsync(cancellationToken);
             //if(configureOptions == null)
             //    return await _customerHashRepository
             //            .For(query)
@@ -84,12 +81,13 @@ namespace Crm.Services
 
         public async Task<int> CommitChanges(CancellationToken cancellationToken)
         {
-            return await _customerHashRepository.Commit(true, cancellationToken);
+            return await Repository.Commit(true, cancellationToken);
         }
 
         public CustomerHashService(IRepository<CustomerHash> customerHashRepository)
+            : base(customerHashRepository, false)
         {
-            _customerHashRepository = customerHashRepository;
+            
         }
     }
 }

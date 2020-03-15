@@ -1,6 +1,7 @@
 ﻿using Crm.Contracts.Services;
 using Crm.Domains.Data;
 using DNI.Core.Contracts;
+using DNI.Core.Services.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +11,22 @@ using System.Threading.Tasks;
 
 namespace Crm.Services
 {
-    public class PreferenceService : IPreferenceService
+    public class PreferenceService : DataServiceBase<Domains.Data.Preference>, IPreferenceService
     {
-        private readonly IRepository<Preference> _preferenceRepository;
-        private IQueryable<Preference> DefaultQuery => _preferenceRepository.Query();
         public Preference GetPreference(IEnumerable<Preference> preferences, string key)
         {
             return preferences.SingleOrDefault(preference => preference.Name.Equals(key, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public Task<IEnumerable<Preference>> GetPreferences(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Preference>> GetPreferences(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await Repository.For(DefaultQuery).ToArrayAsync(cancellationToken);
         }
 
         public PreferenceService(IRepository<Preference> preferenceRepository)
+            : base(preferenceRepository, false)
         {
-            _preferenceRepository = preferenceRepository;
+            
         }
     }
 }
