@@ -139,5 +139,27 @@ namespace Crm.Web.Controllers
 
             return BadRequest(response.Errors);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetCustomerPreferences(GetCustomerPreferencesViewModel model)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var request = Mapper.Map<GetCustomerPreferencesViewModel, GetCustomerPreferencesRequest>(model);
+
+            var response = await Mediator.Send(request);
+
+            if(ResponseHelper.IsSuccessful(response))
+                return Ok(response.Result);
+
+            return BadRequest(response.Errors);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveCustomerPreferences()
+        {
+            return Ok();
+        }
     }
 }
