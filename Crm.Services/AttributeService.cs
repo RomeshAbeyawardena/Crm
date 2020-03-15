@@ -35,6 +35,11 @@ namespace Crm.Services
             return attributes.SingleOrDefault(attribute => attribute.Key.Equals(attributeKey, StringComparison.InvariantCultureIgnoreCase ));
         }
 
+        public Domains.Data.Attribute GetAttribute(IEnumerable<Domains.Data.Attribute> attributes, int id)
+        {
+            return attributes.SingleOrDefault(attribute => attribute.Id == id);
+        }
+
         public AttributeService(IRepository<Domains.Data.Attribute> attributeRepository)
         {
             _attributeRepository = attributeRepository;

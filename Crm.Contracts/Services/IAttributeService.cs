@@ -13,5 +13,6 @@ namespace Crm.Contracts.Services
         Task<Domains.Data.Attribute> SaveAttribute(Domains.Data.Attribute attribute, bool v, CancellationToken cancellationToken);
         Task<IEnumerable<Domains.Data.Attribute>> GetAttributes(CancellationToken cancellationToken);
         Domains.Data.Attribute GetAttribute(IEnumerable<Domains.Data.Attribute> attributes, string attributeKey);
+        Domains.Data.Attribute GetAttribute(IEnumerable<Domains.Data.Attribute> attributes, int id);
     }
 }

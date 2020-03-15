@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CustomerAttributeDto = Crm.Domains.Dto.CustomerAttribute;
-using System.Collections.Generic;
+using DNI.Core.Shared.Extensions;
 
 namespace Crm.Services.RequestHandlers
 {
@@ -21,13 +21,16 @@ namespace Crm.Services.RequestHandlers
     {
         private readonly ICustomerAttributeService _customerAttributeService;
         private readonly ICrmCacheProvider _cacheProvider;
+        private readonly IAttributeService _attributeService;
 
         public GetCustomerAttributes(IMapperProvider mapperProvider, IEncryptionProvider encryptionProvider, 
-            ICustomerAttributeService customerAttributeService, ICrmCacheProvider cacheProvider) 
+            ICustomerAttributeService customerAttributeService, ICrmCacheProvider cacheProvider,
+            IAttributeService attributeService) 
             : base(mapperProvider, encryptionProvider)
         {
             _customerAttributeService = customerAttributeService;
             _cacheProvider = cacheProvider;
+            _attributeService = attributeService;
         }
 
         public override async Task<GetCustomerAttributesResponse> Handle(GetCustomerAttributeRequest request, CancellationToken cancellationToken)
@@ -36,10 +39,11 @@ namespace Crm.Services.RequestHandlers
 
             var customerAttributes = await _customerAttributeService.GetCustomerAttributes(request.CustomerId, cancellationToken);
 
-            customerAttributes.ForEach(customerAttribute => customerAttribute.);
+            customerAttributes.ForEach(customerAttribute => customerAttribute.Attribute = _attributeService
+                .GetAttribute(attributes, customerAttribute.Id));
 
             var decryptedCustomAttributes = await Encryption.Decrypt<CustomerAttribute, CustomerAttributeDto>(customerAttributes);
-
+            
             return Response.Success<GetCustomerAttributesResponse>(decryptedCustomAttributes);
         }
     }
