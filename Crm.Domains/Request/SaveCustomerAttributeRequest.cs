@@ -1,8 +1,11 @@
-﻿using Crm.Domains.Response;
+﻿using AutoMapper;
+using Crm.Domains.Response;
+using Crm.Domains.ViewModels;
 using MediatR;
 
 namespace Crm.Domains.Request
 {
+    [AutoMap(typeof(SaveCustomerAttributeViewModel))]
     public class SaveCustomerAttributeRequest : IRequest<SaveCustomerAttributeResponse>
     {
         public int CustomerId { get; set; }

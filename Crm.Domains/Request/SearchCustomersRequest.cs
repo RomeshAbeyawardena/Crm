@@ -1,8 +1,11 @@
-﻿using Crm.Domains.Response;
+﻿using AutoMapper;
+using Crm.Domains.Response;
+using Crm.Domains.ViewModels;
 using MediatR;
 
 namespace Crm.Domains.Request
 {
+    [AutoMap(typeof(SearchCustomerViewModel))]
     public class SearchCustomersRequest : IRequest<SearchCustomersResponse>
     {
         public string EmailAddress { get; set; }

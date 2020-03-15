@@ -1,4 +1,5 @@
-﻿using Crm.Domains.Dto;
+﻿using AutoMapper;
+using Crm.Domains.Dto;
 using Crm.Domains.Response;
 using MediatR;
 using System.Collections.Generic;

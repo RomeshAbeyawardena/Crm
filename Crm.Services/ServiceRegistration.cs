@@ -51,7 +51,9 @@ namespace Crm.Services
 
         private void ConfigureAutoMapper(IServiceProvider serviceProvider, IMapperConfigurationExpression configuration)
         {
-            configuration.ConstructServicesUsing(serviceProvider.GetService);
+            configuration
+                .ConstructServicesUsing(serviceProvider.GetService);
+            
         }
 
         private void ConfigureCryptographicCredentialsFactory(ISwitch<string, ICryptographicCredentials> credentialsSwitch, ICryptographyProvider cryptographicProvider, IServiceProvider serviceProvider)

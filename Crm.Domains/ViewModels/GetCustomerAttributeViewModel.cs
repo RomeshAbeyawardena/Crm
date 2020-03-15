@@ -1,4 +1,6 @@
-﻿namespace Crm.Domains.ViewModels
+﻿using AutoMapper;
+
+namespace Crm.Domains.ViewModels
 {
     public class GetCustomerAttributeViewModel
     {
