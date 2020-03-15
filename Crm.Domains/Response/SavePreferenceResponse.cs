@@ -10,6 +10,7 @@ namespace Crm.Domains.Response
 {
     public class SavePreferenceResponse : ResponseBase<Preference>
     {
-        
+        public bool IsNewCategory { get; set; }
+        public int CategoryId { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System;
 
 namespace Crm.Domains.Data
 {
+    [MessagePack.MessagePackObject(true)]
     public class Preference
     {
         public int Id { get; set; }

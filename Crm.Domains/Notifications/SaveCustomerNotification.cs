@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Crm.Domains.Notifications
 {
-    public class SaveCustomerNotification : INotification
+    public class CustomerSavedNotification : INotification
     {
         public Customer SavedCustomer { get; set; }
     }

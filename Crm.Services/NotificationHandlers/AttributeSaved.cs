@@ -21,7 +21,7 @@ namespace Crm.Services.NotificationHandlers
         public async Task Handle(AttributeSavedNotification notification, CancellationToken cancellationToken)
         {
             if(notification.IsNewAttribute)
-                await _cacheEntryTracker.SetState(CacheConstants.AttributeCache, CacheEntryState.Invalid, cancellationToken);
+                await _cacheEntryTracker.SetState(CacheConstants.AttributeCache, CacheEntryState.New, cancellationToken);
         }
     }
 }

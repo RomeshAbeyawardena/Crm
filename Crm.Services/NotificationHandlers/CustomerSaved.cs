@@ -12,20 +12,20 @@ using System.Threading.Tasks;
 
 namespace Crm.Services.NotificationHandlers
 {
-    public class SaveCustomer : INotificationHandler<SaveCustomerNotification>
+    public class CustomerSaved : INotificationHandler<CustomerSavedNotification>
     {
         private readonly IClockProvider _clockProvider;
         private readonly ICustomerService _customerService;
         private readonly ICharacterHashService _characterHashService;
 
-        public SaveCustomer(IClockProvider clockProvider, ICustomerService customerService, ICharacterHashService characterHashService)
+        public CustomerSaved(IClockProvider clockProvider, ICustomerService customerService, ICharacterHashService characterHashService)
         {
             _clockProvider = clockProvider;
             _customerService = customerService;
             _characterHashService = characterHashService;
         }
 
-        public async Task Handle(SaveCustomerNotification notification, CancellationToken cancellationToken)
+        public async Task Handle(CustomerSavedNotification notification, CancellationToken cancellationToken)
         {
             var characters = _characterHashService.GetCharacters(notification.SavedCustomer.FirstName);
             characters =  characters.Append(_characterHashService.GetCharacters(notification.SavedCustomer.MiddleName));

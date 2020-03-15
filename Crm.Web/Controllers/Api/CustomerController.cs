@@ -27,7 +27,7 @@ namespace Crm.Web.Controllers.Api
             if (!IsResponseValid(response))
                 return BadRequest(response.Errors);
             
-            await Mediator.Publish(new SaveCustomerNotification { SavedCustomer = response.Result }, cancellationToken);
+            await Mediator.Publish(new CustomerSavedNotification { SavedCustomer = response.Result }, cancellationToken);
 
             return Ok(response.Result);
         }

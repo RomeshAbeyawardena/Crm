@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation.Results;
 
 namespace Crm.Services.RequestHandlers
 {
@@ -31,13 +32,16 @@ namespace Crm.Services.RequestHandlers
             _categoryService = categoryService;
         }
 
-        public override async Task<SavePreferenceResponse> Handle(SavePreferenceRequest request, CancellationToken cancellationToken)
+        public override async Task<SavePreferenceResponse> Handle(SavePreferenceRequest request, 
+            CancellationToken cancellationToken)
         {
+            var isNewCategory = false;
+
             var preferences = await _cacheProvider.GetPreferences(cancellationToken);
             var preference = _preferenceService.GetPreference(preferences, request.Name);
 
             if(preference != null)
-                return Response.Failed<SavePreferenceResponse>(new FluentValidation.Results.ValidationFailure(nameof(request.Name),
+                return Response.Failed<SavePreferenceResponse>(new ValidationFailure(nameof(request.Name),
                     "Preference already exists"));
 
             var categories = await _cacheProvider.GetCategories(cancellationToken);
@@ -49,10 +53,14 @@ namespace Crm.Services.RequestHandlers
             if(category == null)
             { 
                 if(string.IsNullOrWhiteSpace(request.CategoryName) )
-                    return Response.Failed<SavePreferenceResponse>(new FluentValidation.Results.ValidationFailure(nameof(request.CategoryId), "Unable to find category"));
+                    return Response.Failed<SavePreferenceResponse>(
+                        new ValidationFailure(nameof(request.CategoryId), 
+                        "Unable to find category"));
 
                 category = await _categoryService.Save(new Category { Name = request.CategoryName }, 
                     false, false, cancellationToken);
+
+                isNewCategory = true;
             }
 
             preference = await _preferenceService.Save(new Preference
@@ -61,7 +69,9 @@ namespace Crm.Services.RequestHandlers
                 Category = category
             }, true, true, cancellationToken);
 
-            return Response.Success<SavePreferenceResponse>(preference);
+            return Response.Success<SavePreferenceResponse>(preference, configure => { 
+                configure.IsNewCategory = isNewCategory;
+                configure.CategoryId = category.Id; });
         }
     }
 }
