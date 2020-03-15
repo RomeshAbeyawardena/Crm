@@ -31,17 +31,22 @@ namespace Crm.Services.Providers
         public async Task<IEnumerable<Attribute>> GetAttributes(CancellationToken cancellationToken)
         {
             return await _cacheProvider.GetOrSet(CacheType.DistributedMemoryCache, 
-                CacheConstants.AttributeCache, async(cT) => await _attributeService.GetAttributes(cT));
+                CacheConstants.AttributeCache, async(cT) => await _attributeService
+                    .GetAttributes(cT), cancellationToken: cancellationToken);
         }
 
         public async Task<IEnumerable<Category>> GetCategories(CancellationToken cancellationToken)
         {
-            return await _categoryService.GetCategories(cancellationToken);
+            return await _cacheProvider.GetOrSet(CacheType.DistributedMemoryCache, 
+                CacheConstants.CategoryCache, async(cT) => await _categoryService
+                    .GetCategories(cT), cancellationToken: cancellationToken);
         }
 
         public async Task<IEnumerable<Preference>> GetPreferences(CancellationToken cancellationToken)
         {
-            return await _preferenceService.GetPreferences(cancellationToken);
+            return await _cacheProvider.GetOrSet(CacheType.DistributedMemoryCache,
+                CacheConstants.PreferenceCache, async(cT) => await _preferenceService
+                    .GetPreferences(cT), cancellationToken: cancellationToken);
         }
     }
 }
