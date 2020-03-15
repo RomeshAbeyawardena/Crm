@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Crm.Domains.ViewModels
 {
-    [AutoMap(typeof(GetPreferencesRequest))]
     public class GetPreferencesViewModel
     {
         public string CategoryName { get; set; }

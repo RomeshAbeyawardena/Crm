@@ -22,6 +22,11 @@ namespace Crm.Services
             return await Repository.For(DefaultQuery).ToArrayAsync(cancellationToken);
         }
 
+        public IEnumerable<Preference> GetPreferencesByCategory(IEnumerable<Preference> preferences, int categoryId)
+        {
+            return preferences.Where(preference => preference.CategoryId == categoryId);
+        }
+
         public PreferenceService(IRepository<Preference> preferenceRepository)
             : base(preferenceRepository, false)
         {

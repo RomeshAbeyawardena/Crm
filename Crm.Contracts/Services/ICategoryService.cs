@@ -9,5 +9,6 @@ namespace Crm.Contracts.Services
     public interface ICategoryService : IDataService<Category>
     {
         Task<IEnumerable<Category>> GetCategories(CancellationToken cancellationToken);
+        Category GetCategory(IEnumerable<Category> categories, string categoryName);
     }
 }

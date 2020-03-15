@@ -10,5 +10,6 @@ namespace Crm.Contracts.Services
     {
         Preference GetPreference(IEnumerable<Preference> preferences, string key);
         Task<IEnumerable<Preference>> GetPreferences(CancellationToken cancellationToken);
+        IEnumerable<Preference> GetPreferencesByCategory(IEnumerable<Preference> preferences, int id);
     }
 }
