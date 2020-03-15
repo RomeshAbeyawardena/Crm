@@ -1,13 +1,8 @@
-﻿using AutoMapper.Configuration.Annotations;
-using Crm.Domains.Constants;
+﻿using Crm.Domains.Constants;
 using DNI.Core.Contracts.Enumerations;
 using DNI.Core.Services.Attributes;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crm.Domains.Data
 {

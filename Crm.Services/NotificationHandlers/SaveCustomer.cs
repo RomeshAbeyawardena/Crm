@@ -1,17 +1,12 @@
 ﻿using Crm.Contracts.Services;
 using Crm.Domains.Notifications;
 using Crm.Domains.Request;
-using Crm.Domains.Response;
-using Crm.Services.RequestHandlers;
 using DNI.Core.Contracts;
 using DNI.Core.Contracts.Providers;
 using DNI.Core.Shared.Extensions;
 using Hangfire;
 using MediatR;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

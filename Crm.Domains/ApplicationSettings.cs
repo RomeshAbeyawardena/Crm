@@ -2,9 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using DataConstants = Crm.Domains.Constants.Data;
 
 namespace Crm.Domains

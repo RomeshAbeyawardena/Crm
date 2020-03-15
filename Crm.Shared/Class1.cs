@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Crm.Shared
+﻿namespace Crm.Shared
 {
     public class Class1
     {

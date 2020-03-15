@@ -4,10 +4,7 @@ using Crm.Domains.Constants;
 using Crm.Domains.Data;
 using DNI.Core.Contracts.Enumerations;
 using DNI.Core.Contracts.Providers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,7 +28,7 @@ namespace Crm.Services.Providers
             _preferenceService = preferenceService;
         }
 
-        public async Task<IEnumerable<Domains.Data.Attribute>> GetAttributes(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Attribute>> GetAttributes(CancellationToken cancellationToken)
         {
             return await _cacheProvider.GetOrSet(CacheType.DistributedMemoryCache, 
                 CacheConstants.AttributeCache, async(cT) => await _attributeService.GetAttributes(cT));

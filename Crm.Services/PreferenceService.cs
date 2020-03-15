@@ -5,13 +5,12 @@ using DNI.Core.Services.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Crm.Services
 {
-    public class PreferenceService : DataServiceBase<Domains.Data.Preference>, IPreferenceService
+    public class PreferenceService : DataServiceBase<Preference>, IPreferenceService
     {
         public Preference GetPreference(IEnumerable<Preference> preferences, string key)
         {

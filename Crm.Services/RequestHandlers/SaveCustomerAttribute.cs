@@ -1,18 +1,11 @@
 ﻿using Crm.Contracts.Providers;
 using Crm.Contracts.Services;
-using Crm.Domains.Constants;
 using Crm.Domains.Data;
 using Crm.Domains.Request;
 using Crm.Domains.Response;
 using DNI.Core.Contracts;
-using DNI.Core.Contracts.Enumerations;
 using DNI.Core.Contracts.Providers;
 using DNI.Core.Domains;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CustomerAttributeDto = Crm.Domains.Dto.CustomerAttribute;
@@ -46,7 +39,7 @@ namespace Crm.Services.RequestHandlers
             if(attribute == null)
             {
                 attribute = await _attributeService
-                    .SaveAttribute(new Domains.Data.Attribute { Key = request.Property }, false, cancellationToken);    
+                    .SaveAttribute(new Attribute { Key = request.Property }, false, cancellationToken);    
                 isNewAttribute = true;
             }
 

@@ -3,10 +3,6 @@ using DNI.Core.Contracts;
 using DNI.Core.Services;
 using DNI.Core.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Crm.Web.ViewComponents

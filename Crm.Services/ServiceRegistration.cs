@@ -8,8 +8,6 @@ using AutoMapper;
 using Crm.Domains;
 using DNI.Core.Services.Extensions;
 using DNI.Core.Contracts.Providers;
-using Crm.Domains.Constants;
-using Microsoft.Extensions.Caching.Memory;
 using Hangfire;
 
 namespace Crm.Services

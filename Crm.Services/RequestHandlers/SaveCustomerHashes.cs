@@ -7,11 +7,8 @@ using Crm.Domains.Response;
 using DNI.Core.Contracts;
 using DNI.Core.Contracts.Providers;
 using DNI.Core.Domains;
-using FluentValidation.Results;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

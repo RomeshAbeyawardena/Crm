@@ -5,13 +5,12 @@ using DNI.Core.Services.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Crm.Services
 {
-    public class CustomerService : DataServiceBase<Domains.Data.Customer>, ICustomerService
+    public class CustomerService : DataServiceBase<Customer>, ICustomerService
     {
         
         private IQueryable<Customer> DefaultCustomerSearchQuery(Customer encryptedSearchCustomer) 

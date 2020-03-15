@@ -1,13 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Crm.Broker;
-using Crm.Contracts;
 using Crm.Domains;
-using Crm.Services;
 using DNI.Core.Services.Extensions;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;

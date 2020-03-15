@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Crm.Domains.Data
 {
-    #pragma warning disable CA1819
+#pragma warning disable CA1819
     public class CustomerHash
     {
         [Key]

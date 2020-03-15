@@ -1,19 +1,13 @@
 ﻿using Crm.Contracts.Services;
-using Crm.Domains.Contracts;
 using Crm.Domains.Data;
 using Crm.Domains.Request;
 using Crm.Domains.Response;
 using DNI.Core.Contracts;
 using DNI.Core.Contracts.Providers;
 using DNI.Core.Domains;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CustomerDto = Crm.Domains.Dto.Customer;
-using FluentValidation;
 using FluentValidation.Results;
 
 namespace Crm.Services.RequestHandlers

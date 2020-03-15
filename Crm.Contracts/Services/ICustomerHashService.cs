@@ -4,14 +4,12 @@ using DNI.Core.Contracts.Options;
 using DNI.Core.Contracts.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Crm.Contracts.Services
 {
-    public interface ICustomerHashService : IDataService<Domains.Data.CustomerHash>
+    public interface ICustomerHashService : IDataService<CustomerHash>
     {
         Task<IEnumerable<CustomerHash>> GetCustomerHashes(int customerId, CancellationToken cancellation);
         

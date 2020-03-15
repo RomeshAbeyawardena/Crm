@@ -5,8 +5,6 @@ using DNI.Core.Contracts;
 using DNI.Core.Contracts.Options;
 using DNI.Core.Services.Abstraction;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Crm.Services
 {
-    public class CustomerHashService : DataServiceBase<Domains.Data.CustomerHash>, ICustomerHashService
+    public class CustomerHashService : DataServiceBase<CustomerHash>, ICustomerHashService
     {
         public async Task<IEnumerable<CustomerHash>> GetCustomerHashes(int customerId, CancellationToken cancellationToken)
         {

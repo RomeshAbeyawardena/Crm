@@ -2,14 +2,10 @@
 using DNI.Core.Contracts.Enumerations;
 using DNI.Core.Services.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crm.Domains.Data
 {
-    #pragma warning disable CA1819
+#pragma warning disable CA1819
     public class CustomerAttribute
     {
         public int Id { get; set; }
