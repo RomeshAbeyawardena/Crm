@@ -29,7 +29,7 @@ namespace Crm.Services
                 .Scan(scan => scan
                     .FromAssemblyOf<ServiceRegistration>()
                     .AddClasses(implementation => implementation.Where(
-                        imp => imp.Name.EndsWith("Service") || imp.Name.EndsWith("Activator")))
+                        imp => imp.Name.EndsWith("Service") || imp.Name.EndsWith("Provider") || imp.Name.EndsWith("Activator")))
                     .AsImplementedInterfaces()
                     .WithTransientLifetime());
 

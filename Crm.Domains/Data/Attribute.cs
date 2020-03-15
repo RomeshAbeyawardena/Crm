@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Crm.Domains.Data
 {
+    [MessagePack.MessagePackObject(true)]
     public class Attribute
     {
         public int Id { get; set; }
