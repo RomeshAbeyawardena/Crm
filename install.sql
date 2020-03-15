@@ -16,6 +16,30 @@ CREATE DATABASE Crm
 GO
 USE Crm
 
+CREATE TABLE [dbo].[Category] (
+	[Id] INT NOT NULL IDENTITY(1,1)
+		CONSTRAINT PK_Category PRIMARY KEY
+	,[Name] VARCHAR(200) NOT NULL
+		CONSTRAINT IQ_Category UNIQUE
+	,[Created] DATETIMEOFFSET NOT NULL
+	,[Modified] DATETIMEOFFSET NOT NULL
+    ,INDEX IX_Category_Name NONCLUSTERED ([Name])
+)
+
+CREATE TABLE [dbo].[Preference] (
+	[Id] INT NOT NULL IDENTITY(1,1)
+		CONSTRAINT PK_Preference PRIMARY KEY
+	,[CategoryId] INT NULL
+		CONSTRAINT FK_Preference_Category
+		REFERENCES [dbo].[Category]
+	,[Name] VARCHAR(200) NOT NULL
+	,[Created] DATETIMEOFFSET NOT NULL
+	,[Modified] DATETIMEOFFSET NOT NULL
+	,CONSTRAINT IQ_Preference_Category
+		UNIQUE ([CategoryId], [Name])
+	,INDEX IX_Preference_Name NONCLUSTERED ([CategoryId],[Name])
+)
+
 CREATE TABLE [dbo].[Customer](
 	[Id] INT NOT NULL IDENTITY(1,1)
 		CONSTRAINT PK_Customer PRIMARY KEY
@@ -28,6 +52,21 @@ CREATE TABLE [dbo].[Customer](
 	,[Created] DATETIMEOFFSET NOT NULL
 	,[Modified] DATETIMEOFFSET NOT NULL
 	,[LastIndexed] DATETIMEOFFSET NULL
+)
+
+CREATE TABLE [dbo].[CustomerPreference] (
+	[Id] INT NOT NULL IDENTITY(1,1)
+		CONSTRAINT PK_CustomerPreference PRIMARY KEY
+	,[PreferenceId] INT NOT NULL
+		CONSTRAINT FK_CustomerPreference_Preference
+		REFERENCES [dbo].[Preference]
+	,[CustomerId] INT NOT NULL
+		CONSTRAINT FK_CustomerPreference_Customer
+		REFERENCES [dbo].[Customer]
+	,[OptInDate] DATETIMEOFFSET NULL
+	,[NextCheckInDate] DATETIMEOFFSET NOT NULL
+	,[Created] DATETIMEOFFSET NOT NULL
+	,[Modified] DATETIMEOFFSET NULL
 )
 
 CREATE TABLE [dbo].[Attribute] (

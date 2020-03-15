@@ -32,10 +32,19 @@ namespace Crm.Services
         public async Task<IEnumerable<CustomerPreference>> GetCustomerPreferences(int id, DateTimeOffset toDate, 
             CancellationToken cancellationToken, bool getAll = false)
         {
+            if(getAll)
+                return await Repository
+                            .For(DefaultQuery)
+                            .ToArrayAsync(cancellationToken);
+
+            //A customer qualifies as having a preference
+            //when the opt-in date is earlier than the next check in date.
+            //and when the next check in date is in the future.
+
             return await Repository.For(from customerPreference in DefaultQuery
-                   where (getAll || !customerPreference.OptInDate.HasValue 
-                    || customerPreference.OptInDate < toDate) 
-                   && getAll || customerPreference.NextCheckInDate > toDate
+                   where customerPreference.OptInDate.HasValue 
+                   && customerPreference.OptInDate < customerPreference.NextCheckInDate 
+                   && customerPreference.NextCheckInDate > toDate
                    select customerPreference).ToArrayAsync(cancellationToken);
         }
 
