@@ -10,5 +10,7 @@ namespace Crm.Contracts.Services
     {
         Task<IEnumerable<Category>> GetCategories(CancellationToken cancellationToken);
         Category GetCategory(IEnumerable<Category> categories, string categoryName);
+        Category GetCategory(IEnumerable<Category> categories, int categoryId);
+        Task<Category> Save(Category category, bool saveChanges, bool detachAfterSave, CancellationToken cancellationToken);
     }
 }

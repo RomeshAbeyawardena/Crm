@@ -27,6 +27,16 @@ namespace Crm.Services
             return preferences.Where(preference => preference.CategoryId == categoryId);
         }
 
+        public Preference GetPreference(IEnumerable<Preference> preferences, int preferenceId)
+        {
+            return preferences.SingleOrDefault(preference => preference.Id == preferenceId);
+        }
+
+        public async Task<Preference> Save(Preference preference, bool saveChanges, bool detachAfterSave, CancellationToken cancellationToken)
+        {
+            return await Repository.SaveChanges(preference, saveChanges, detachAfterSave, cancellationToken);
+        }
+
         public PreferenceService(IRepository<Preference> preferenceRepository)
             : base(preferenceRepository, false)
         {

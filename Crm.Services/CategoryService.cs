@@ -28,5 +28,15 @@ namespace Crm.Services
             return categories.SingleOrDefault(category => category.Name
                 .Equals(categoryName, StringComparison.InvariantCultureIgnoreCase));
         }
+
+        public Category GetCategory(IEnumerable<Category> categories, int categoryId)
+        {
+            return categories.SingleOrDefault(category => category.Id == categoryId);
+        }
+
+        public async Task <Category> Save(Category category, bool saveChanges, bool detachAfterSave, CancellationToken cancellationToken)
+        {
+            return await Repository.SaveChanges(category, saveChanges, detachAfterSave, cancellationToken);
+        }
     }
 }

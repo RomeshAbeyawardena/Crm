@@ -2,7 +2,7 @@
 using DNI.Core.Services.Attributes;
 using DNI.Core.Services.Exceptions;
 using Microsoft.AspNetCore.Mvc;
-using using ResponseHelper = DNI.Core.Domains.Response;
+using ResponseHelper = DNI.Core.Domains.Response;
 using DNI.Core.Domains;
 
 namespace Crm.Web.Controllers
