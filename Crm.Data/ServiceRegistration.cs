@@ -19,9 +19,12 @@ namespace Crm.Data
                 configure.DbContextServiceProviderOptions = ConfigureDbContext;
                 configure.EntityTypeDescriber = describer => describer
                     .Describe<Domains.Data.Attribute>()
+                    .Describe<Category>()
                     .Describe<Customer>()
                     .Describe<CustomerAttribute>()
-                    .Describe<CustomerHash>();
+                    .Describe<CustomerHash>()
+                    .Describe<CustomerPreference>()
+                    .Describe<Preference>();
                 configure.ServiceLifetime = ServiceLifetime.Transient;
             });
         }

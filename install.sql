@@ -102,6 +102,7 @@ TO [AppUser]
 
 GRANT EXECUTE ON TYPE::[dbo].[Hash]
 TO [AppUser]
+GO
 
 USE [master]
 
