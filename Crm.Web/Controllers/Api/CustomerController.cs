@@ -19,8 +19,7 @@ namespace Crm.Web.Controllers.Api
         [HttpPost]
         public async Task<ActionResult> SaveCustomer([FromForm] SaveCustomerViewModel model, CancellationToken cancellationToken)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+            EnsureModalStateIsValid();
 
             var request = Mapper.Map<SaveCustomerViewModel, SaveCustomerRequest>(model);
 
@@ -37,8 +36,7 @@ namespace Crm.Web.Controllers.Api
         [HttpGet]
         public async Task<ActionResult> SearchCustomers(SearchCustomerViewModel model, CancellationToken cancellationToken)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+            EnsureModalStateIsValid();
 
             var request = Mapper.Map<SearchCustomerViewModel, SearchCustomersRequest>(model);
             
@@ -53,8 +51,7 @@ namespace Crm.Web.Controllers.Api
         [HttpGet]
         public async Task<ActionResult> SearchCustomersByKeyword(SearchCustomersByKeywordViewModel model)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+            EnsureModalStateIsValid();
 
             var request = Mapper.Map<SearchCustomersByKeywordViewModel, SearchCustomersByKeywordRequest>(model);
 
@@ -69,8 +66,7 @@ namespace Crm.Web.Controllers.Api
         [HttpGet]
         public async Task<ActionResult> GetCustomer(GetCustomerViewModel model, CancellationToken cancellationToken)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+            EnsureModalStateIsValid();
 
             var request = Mapper.Map<GetCustomerViewModel, GetCustomerRequest>(model);
             
@@ -85,8 +81,7 @@ namespace Crm.Web.Controllers.Api
         [HttpPost]
         public async Task<ActionResult> VerifyCustomerCredentials([FromForm] VerifyCustomerCredentialsViewModel model, CancellationToken cancellationToken)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+            EnsureModalStateIsValid();
 
             var request = Mapper
                 .Map<VerifyCustomerCredentialsViewModel, VerifyCustomerCredentialsRequest>(model);
@@ -102,8 +97,7 @@ namespace Crm.Web.Controllers.Api
         [HttpPost]
         public async Task<ActionResult> SaveCustomerAttribute([FromForm] SaveCustomerAttributeViewModel model, CancellationToken cancellationToken)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+            EnsureModalStateIsValid();
 
             var request = Mapper.Map<SaveCustomerAttributeViewModel, SaveCustomerAttributeRequest>(model);
 
@@ -122,8 +116,7 @@ namespace Crm.Web.Controllers.Api
         [HttpGet]
         public async Task<ActionResult> GetCustomerAttributes(GetCustomerAttributeViewModel model, CancellationToken cancellationToken)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+            EnsureModalStateIsValid();
 
             var request = Mapper.Map<GetCustomerAttributeViewModel, GetCustomerAttributeRequest>(model);
 
@@ -138,8 +131,7 @@ namespace Crm.Web.Controllers.Api
         [HttpGet]
         public async Task<ActionResult> GetCustomerPreferences(GetCustomerPreferencesViewModel model)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+            EnsureModalStateIsValid();
 
             var request = Mapper.Map<GetCustomerPreferencesViewModel, GetCustomerPreferencesRequest>(model);
 
@@ -154,8 +146,7 @@ namespace Crm.Web.Controllers.Api
         [HttpPost]
         public async Task<ActionResult> SaveCustomerPreferences([FromForm] SaveCustomerPreferencesViewModel model)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+            EnsureModalStateIsValid();
 
             var request = Mapper.Map<SaveCustomerPreferencesViewModel, SaveCustomerPreferencesRequest>(model);
 

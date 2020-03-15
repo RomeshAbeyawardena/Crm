@@ -1,9 +1,11 @@
 ﻿using DNI.Core.Contracts;
+using DNI.Core.Services.Attributes;
 using DNI.Core.Services.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Web.Controllers
 {
+    [HandleException]
     public class ControllerBase : Controller
     {
         protected readonly IMediatorService Mediator;
@@ -15,10 +17,10 @@ namespace Crm.Web.Controllers
             Mapper = mapperProvider;
         }
 
-        bool EnsureModalStateIsValid()
+        protected void EnsureModalStateIsValid()
         {
             if (ModelState.IsValid)
-                return true;
+                return;
 
             throw new ModelStateException(ModelState);
         }

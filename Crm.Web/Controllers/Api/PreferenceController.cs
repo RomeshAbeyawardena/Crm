@@ -20,8 +20,9 @@ namespace Crm.Web.Controllers.Api
         [HttpGet]
         public async Task<ActionResult> GetPreferences(GetPreferencesViewModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            EnsureModalStateIsValid();
+
+            return Ok();
         }
     }
 }
