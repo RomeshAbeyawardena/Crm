@@ -65,7 +65,7 @@ namespace Crm.Services.RequestHandlers
                 customerPreference.NextCheckInDate = request.NextCheckInDate;
 
                 savedCustomerPreferences.Add(await _customerPreferenceService
-                    .Save(customerPreference, false, cancellationToken));
+                    .Save(customerPreference, false, false, cancellationToken));
             }
 
             if(savedCustomerPreferences.Count > 0)
