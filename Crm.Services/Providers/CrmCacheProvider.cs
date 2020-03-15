@@ -1,6 +1,7 @@
 ﻿using Crm.Contracts.Providers;
 using Crm.Contracts.Services;
 using Crm.Domains.Constants;
+using Crm.Domains.Data;
 using DNI.Core.Contracts.Enumerations;
 using DNI.Core.Contracts.Providers;
 using System;
@@ -27,6 +28,16 @@ namespace Crm.Services.Providers
         {
             return await _cacheProvider.GetOrSet(CacheType.DistributedMemoryCache, 
                 CacheConstants.AttributeCache, async(cT) => await _attributeService.GetAttributes(cT));
+        }
+
+        public Task<IEnumerable<Category>> GetCategories(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Preference>> GetPreferences(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

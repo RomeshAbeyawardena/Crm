@@ -10,5 +10,7 @@ namespace Crm.Contracts.Providers
     public interface ICrmCacheProvider
     {
         Task<IEnumerable<Domains.Data.Attribute>> GetAttributes(CancellationToken cancellationToken);
+        Task<IEnumerable<Domains.Data.Category>> GetCategories(CancellationToken cancellationToken);
+        Task<IEnumerable<Domains.Data.Preference>> GetPreferences(CancellationToken cancellationToken);
     }
 }

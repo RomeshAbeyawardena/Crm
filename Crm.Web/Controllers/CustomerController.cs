@@ -157,9 +157,19 @@ namespace Crm.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveCustomerPreferences()
+        public async Task<ActionResult> SaveCustomerPreferences([FromForm] SaveCustomerPreferencesViewModel model)
         {
-            return Ok();
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var request = Mapper.Map<SaveCustomerPreferencesViewModel, SaveCustomerPreferencesRequest>(model);
+
+            var response = await Mediator.Send(request);
+
+            if(ResponseHelper.IsSuccessful(response))
+                return Ok(response.Result);
+
+            return BadRequest(response.Errors);
         }
     }
 }

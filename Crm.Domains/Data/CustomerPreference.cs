@@ -17,7 +17,7 @@ namespace Crm.Domains.Data
         public int CustomerId { get; set; }
         
         public DateTimeOffset? OptInDate { get; set; }
-        public DateTimeOffset Expiry { get; set; }
+        public DateTimeOffset NextCheckInDate { get; set; }
         
         [Modifier(ModifierFlag.Created)]
         public DateTimeOffset Created { get; set; }

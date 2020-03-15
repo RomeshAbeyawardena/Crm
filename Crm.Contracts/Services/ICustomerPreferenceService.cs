@@ -12,5 +12,7 @@ namespace Crm.Contracts.Services
     {
         Task<IEnumerable<CustomerPreference>> GetCustomerPreferences(int id, DateTimeOffset toDate, 
             CancellationToken cancellationToken, bool getAll = false);
+        CustomerPreference GetCustomerPreference(IEnumerable<CustomerPreference> customerPreferences, int preferenceId);
+        Task<CustomerPreference> Save(CustomerPreference customerPreference, bool v, CancellationToken cancellationToken);
     }
 }
