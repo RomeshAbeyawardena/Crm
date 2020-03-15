@@ -1,4 +1,5 @@
 ﻿using Crm.Domains.Data;
+using DNI.Core.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Crm.Contracts.Services
 {
-    public interface ICategoryService
+    public interface ICategoryService : IDataService<Domains.Data.Category>
     {
         Task<IEnumerable<Category>> GetCategories(CancellationToken cancellationToken);
     }

@@ -1,5 +1,6 @@
 ﻿using Crm.Contracts.Services;
 using DNI.Core.Contracts;
+using DNI.Core.Services.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +10,19 @@ using System.Threading.Tasks;
 
 namespace Crm.Services
 {
-    public class AttributeService : IAttributeService
+    public class AttributeService : DataServiceBase<Domains.Data.Attribute>, IAttributeService
     {
-        private readonly IRepository<Domains.Data.Attribute> _attributeRepository;
-
-        private IQueryable<Domains.Data.Attribute> DefaultAttributeQuery => _attributeRepository.Query();
-        
         public async Task<Domains.Data.Attribute> SaveAttribute(Domains.Data.Attribute attribute, bool v, CancellationToken cancellationToken)
         {
-            return await _attributeRepository.SaveChanges(attribute, v, cancellationToken: cancellationToken);
+            return await Repository.SaveChanges(attribute, v, cancellationToken: cancellationToken);
         }
 
         public async Task<IEnumerable<Domains.Data.Attribute>> GetAttributes(CancellationToken cancellationToken)
         {
-            var query = from attribute in DefaultAttributeQuery
+            var query = from attribute in DefaultQuery
                         select attribute;
 
-            return await _attributeRepository
+            return await Repository
                 .For(query)
                 .ToArrayAsync(cancellationToken);
         }
@@ -41,8 +38,9 @@ namespace Crm.Services
         }
 
         public AttributeService(IRepository<Domains.Data.Attribute> attributeRepository)
+            : base(attributeRepository, false)
         {
-            _attributeRepository = attributeRepository;
+            
         }
     }
 }

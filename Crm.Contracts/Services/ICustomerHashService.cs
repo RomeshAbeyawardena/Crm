@@ -1,6 +1,7 @@
 ﻿using Crm.Domains.Data;
 using Crm.Domains.Dto;
 using DNI.Core.Contracts.Options;
+using DNI.Core.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Crm.Contracts.Services
 {
-    public interface ICustomerHashService
+    public interface ICustomerHashService : IDataService<Domains.Data.CustomerHash>
     {
         Task<IEnumerable<CustomerHash>> GetCustomerHashes(int customerId, CancellationToken cancellation);
         

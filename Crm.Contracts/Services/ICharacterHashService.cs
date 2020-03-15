@@ -1,6 +1,7 @@
 ﻿using Crm.Domains;
 using Crm.Domains.Contracts;
 using Crm.Domains.Dto;
+using DNI.Core.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

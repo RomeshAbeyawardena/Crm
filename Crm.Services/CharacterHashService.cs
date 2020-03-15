@@ -2,6 +2,7 @@
 using Crm.Domains;
 using Crm.Domains.Contracts;
 using Crm.Domains.Dto;
+using DNI.Core.Services.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
