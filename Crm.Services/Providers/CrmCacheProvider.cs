@@ -17,11 +17,18 @@ namespace Crm.Services.Providers
     {
         private readonly ICacheProvider _cacheProvider;
         private readonly IAttributeService _attributeService;
+        private readonly ICategoryService _categoryService;
+        private readonly IPreferenceService _preferenceService;
 
-        public CrmCacheProvider(ICacheProvider cacheProvider, IAttributeService attributeService)
+        public CrmCacheProvider(ICacheProvider cacheProvider, 
+            IAttributeService attributeService,
+            ICategoryService categoryService,
+            IPreferenceService preferenceService)
         {
             _cacheProvider = cacheProvider;
             _attributeService = attributeService;
+            _categoryService = categoryService;
+            _preferenceService = preferenceService;
         }
 
         public async Task<IEnumerable<Domains.Data.Attribute>> GetAttributes(CancellationToken cancellationToken)
@@ -30,14 +37,14 @@ namespace Crm.Services.Providers
                 CacheConstants.AttributeCache, async(cT) => await _attributeService.GetAttributes(cT));
         }
 
-        public Task<IEnumerable<Category>> GetCategories(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Category>> GetCategories(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _categoryService.GetCategories(cancellationToken);
         }
 
-        public Task<IEnumerable<Preference>> GetPreferences(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Preference>> GetPreferences(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _preferenceService.GetPreferences(cancellationToken);
         }
     }
 }

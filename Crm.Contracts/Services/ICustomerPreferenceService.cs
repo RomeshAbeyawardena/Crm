@@ -14,5 +14,6 @@ namespace Crm.Contracts.Services
             CancellationToken cancellationToken, bool getAll = false);
         CustomerPreference GetCustomerPreference(IEnumerable<CustomerPreference> customerPreferences, int preferenceId);
         Task<CustomerPreference> Save(CustomerPreference customerPreference, bool v, CancellationToken cancellationToken);
+        Task CommitChanges(CancellationToken cancellationToken);
     }
 }

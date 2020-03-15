@@ -70,7 +70,15 @@ namespace Crm.Services.RequestHandlers
                     .Save(customerPreference, false, cancellationToken));
             }
 
-            return Response.Success<SaveCustomerPreferencesResponse>(savedCustomerPreferences.ToArray(), model => { model.TotalOptedIn = optedInPreferences.Count() });
+            if(savedCustomerPreferences.Count > 0)
+                await _customerPreferenceService
+                    .CommitChanges(cancellationToken);
+
+            return Response.Success<SaveCustomerPreferencesResponse>(savedCustomerPreferences.ToArray(), model => { 
+                model.InalidPreferences = invalidPreferences.ToArray();
+                model.TotalOptedIn = optedInPreferences.Count();
+                model.TotalOptedOut = optedOutPreferences.Count();
+            });
         }
     }
 }
