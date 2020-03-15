@@ -48,6 +48,15 @@ namespace Crm.Services
                    select customerPreference).ToArrayAsync(cancellationToken);
         }
 
+        public async Task<IEnumerable<CustomerPreference>> GetElapsedCustomerPreferences(int customerId, DateTimeOffset toDate, CancellationToken cancellationToken)
+        {
+            return await Repository
+                            .For(from customerPreference in DefaultQuery
+                                        where customerPreference.NextCheckInDate < toDate
+                                        select customerPreference)
+                            .ToArrayAsync(cancellationToken);
+        }
+
         public async Task<CustomerPreference> Save(CustomerPreference customerPreference, bool saveChanges, 
             bool detach, CancellationToken cancellationToken)
         {
