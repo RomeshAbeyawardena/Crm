@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 using ResponseHelper = DNI.Core.Domains.Response;
-namespace Crm.Web.Controllers
+
+namespace Crm.Web.Controllers.Api
 {
-    [Route("api/[controller]/[action]")]
     public class CustomerController : ControllerBase
     {
         public CustomerController(IMediatorService mediatorService, IMapperProvider mapperProvider) 

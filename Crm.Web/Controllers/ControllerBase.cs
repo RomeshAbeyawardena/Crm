@@ -1,4 +1,5 @@
 ﻿using DNI.Core.Contracts;
+using DNI.Core.Services.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crm.Web.Controllers
@@ -12,6 +13,14 @@ namespace Crm.Web.Controllers
         {
             Mediator = mediatorService;
             Mapper = mapperProvider;
+        }
+
+        bool EnsureModalStateIsValid()
+        {
+            if (ModelState.IsValid)
+                return true;
+
+            throw new ModelStateException(ModelState);
         }
     }
 }
