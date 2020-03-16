@@ -18,8 +18,6 @@ namespace Crm.Services
         {
             services
                 .AddSingleton(ConfigureHangfire)
-                .AddSingleton<NetCoreJobActivator>()
-                .AddSingleton<NetCoreJobActivatorScope>()
                 .AddSingleton<ApplicationSettings>()
                 .AddAutoMapper(ConfigureAutoMapper, Assembly.GetAssembly(typeof(DomainProfile)))
                 .RegisterCryptographicCredentialsFactory<AppCryptographicCredentials>(ConfigureCryptographicCredentialsFactory)
@@ -39,11 +37,10 @@ namespace Crm.Services
             return (serviceProvider) =>
             {
                 var applicationSettings = serviceProvider.GetService<ApplicationSettings>();
-                var netCoreJobActivator = serviceProvider.GetService<NetCoreJobActivator>();
 
                 return GlobalConfiguration.Configuration
                     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                    .UseActivator(netCoreJobActivator)
+                    .UseDefaultDependencyInjectionActivator(serviceProvider)
                     .UseRecommendedSerializerSettings()
                     .UseSqlServerStorage(applicationSettings.HangfireConnectionString);
             };
