@@ -60,7 +60,10 @@ namespace Crm.Services.RequestHandlers
             var encryptedCustomerAttribute = await Encryption
                 .Encrypt<CustomerAttributeDto, CustomerAttribute>(customerAttribute);
 
-            encryptedCustomerAttribute.Attribute = attribute;
+            if(isNewAttribute)
+                encryptedCustomerAttribute.Attribute = attribute;
+            else
+                encryptedCustomerAttribute.AttributeId = attribute.Id;
 
             var result = await _customerAttributeService
                 .SaveCustomerAttribute(encryptedCustomerAttribute, cancellationToken);

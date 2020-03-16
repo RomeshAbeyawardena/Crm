@@ -50,7 +50,12 @@ namespace Crm.Services.RequestHandlers
                 ? _categoryService.GetCategory(categories, request.CategoryId)
                 : _categoryService.GetCategory(categories, request.CategoryName);
 
-            if(category == null)
+            preference = new Preference
+            {
+                Name = request.Name,
+            };
+
+            if (category == null)
             { 
                 if(string.IsNullOrWhiteSpace(request.CategoryName) )
                     return Response.Failed<SavePreferenceResponse>(
@@ -60,14 +65,14 @@ namespace Crm.Services.RequestHandlers
                 category = await _categoryService.Save(new Category { Name = request.CategoryName }, 
                     false, false, cancellationToken);
 
+                preference.Category = category;
+
                 isNewCategory = true;
             }
+            else
+                preference.CategoryId = category.Id;
 
-            preference = await _preferenceService.Save(new Preference
-            {
-                Name = request.Name,
-                Category = category
-            }, true, true, cancellationToken);
+            preference = await _preferenceService.Save(preference, true, true, cancellationToken);
 
             return Response.Success<SavePreferenceResponse>(preference, configure => { 
                 configure.IsNewCategory = isNewCategory;
