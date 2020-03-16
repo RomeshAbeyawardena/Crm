@@ -32,10 +32,7 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(!IsResponseValid(response))
-                return BadRequest(response.Errors);
-
-            return Ok(response.Result);
+            return await HandleResponse(response, cancellationToken);
         }
 
         [HttpPost]
@@ -49,16 +46,12 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(!IsResponseValid(response))
-                return BadRequest(response.Errors);
-
-            await Mediator.Publish(new PreferenceSavedNotification { 
-                CategoryId = response.CategoryId,
-                IsNewCategory = response.IsNewCategory,
-                PreferenceId = response.Result.Id 
-            }, cancellationToken);
-
-            return Ok(response.Result);
+            return await HandleResponse(response, cancellationToken, async(response, ct) => 
+                await Mediator.Publish(new PreferenceSavedNotification { 
+                    CategoryId = response.CategoryId,
+                    IsNewCategory = response.IsNewCategory,
+                    PreferenceId = response.Result.Id 
+                }, ct));
         }
     }
 }
