@@ -1,6 +1,7 @@
 ﻿using Crm.Domains.Request;
 using Crm.Domains.ViewModels;
 using Crm.Services.NotificationHandlers;
+using Crm.Services.Notifications;
 using DNI.Core.Contracts;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +52,7 @@ namespace Crm.Web.Controllers.Api
             if(!IsResponseValid(response))
                 return BadRequest(response.Errors);
 
-            await Mediator.Publish(new PreferenceSaved { 
+            await Mediator.Publish(new PreferenceSavedNotification { 
                 CategoryId = response.CategoryId,
                 IsNewCategory = response.IsNewCategory,
                 PreferenceId = response.Result.Id 
