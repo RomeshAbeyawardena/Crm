@@ -3,6 +3,7 @@ using Crm.Domains.ViewModels;
 using Crm.Services.NotificationHandlers;
 using Crm.Services.Notifications;
 using DNI.Core.Contracts;
+using DNI.Core.Services.Abstraction;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Crm.Web.Controllers.Api
 {
-    public class PreferenceController : ControllerBase
+    public class PreferenceController : DefaultApiControllerBase
     {
         public PreferenceController(IMediatorService mediatorService, IMapperProvider mapperProvider) 
             : base(mediatorService, mapperProvider)

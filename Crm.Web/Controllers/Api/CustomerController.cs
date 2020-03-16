@@ -2,13 +2,14 @@
 using Crm.Domains.Request;
 using Crm.Domains.ViewModels;
 using DNI.Core.Contracts;
+using DNI.Core.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Crm.Web.Controllers.Api
 {
-    public class CustomerController : ControllerBase
+    public class CustomerController : DefaultApiControllerBase
     {
         public CustomerController(IMediatorService mediatorService, IMapperProvider mapperProvider)
             : base(mediatorService, mapperProvider)

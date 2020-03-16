@@ -23,24 +23,27 @@ namespace Crm.Web
         {
             services
                 .AddDistributedMemoryCache(SetupDistributedCache)
-                .RegisterServiceBroker<ServiceBroker>(configure => { 
+                .RegisterServiceBroker<ServiceBroker>(configure =>
+                {
                     configure.RegisterAutoMappingProviders = true;
-                    configure.RegisterCacheProviders = true; 
+                    configure.RegisterCacheProviders = true;
                     configure.RegisterCryptographicProviders = true;
                     configure.RegisterExceptionHandlers = true;
                     configure.RegisterMediatorServices = true;
                     configure.RegisterMessagePackSerialisers = true;
-                    configure.RegisterJsonSerializerOptions((serviceProvider, options) => {
+                    configure.RegisterJsonSerializerOptions((serviceProvider, options) =>
+                    {
                         options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                     });
-                    configure.RegisterJsonFileCacheTrackerStore((serviceProvider, configuration) => { 
-                        var webHostEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>(); 
-                        configuration.FileName = Path.Combine(webHostEnvironment.ContentRootPath, "cache.json");  });
+                    configure.RegisterJsonFileCacheTrackerStore((serviceProvider, configuration) =>
+                    {
+                        var webHostEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
+                        configuration.FileName = Path.Combine(webHostEnvironment.ContentRootPath, "cache.json");
+                    });
                 }, out var serviceBroker)
                 .AddControllersWithViews();
 
         }
-
 
         private void SetupDistributedCache(MemoryDistributedCacheOptions options)
         {
@@ -59,13 +62,14 @@ namespace Crm.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseRouting();
             app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
             app.UseStatusCodePages();
             var configureGlobalConfiguration = serviceProvider
                 .GetRequiredService<Func<IServiceProvider, IGlobalConfiguration>>();
