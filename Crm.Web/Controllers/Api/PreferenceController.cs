@@ -57,6 +57,7 @@ namespace Crm.Web.Controllers.Api
                 IsNewCategory = response.IsNewCategory,
                 PreferenceId = response.Result.Id 
             }, cancellationToken);
+
             return Ok(response.Result);
         }
     }
