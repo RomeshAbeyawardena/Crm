@@ -10,7 +10,7 @@ namespace Crm.Web.Controllers.Api
 {
     public class CustomerController : ControllerBase
     {
-        public CustomerController(IMediatorService mediatorService, IMapperProvider mapperProvider) 
+        public CustomerController(IMediatorService mediatorService, IMapperProvider mapperProvider)
             : base(mediatorService, mapperProvider)
         {
         }
@@ -24,12 +24,8 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if (!IsResponseValid(response))
-                return BadRequest(response.Errors);
-            
-            await Mediator.Publish(new CustomerSavedNotification { SavedCustomer = response.Result }, cancellationToken);
-
-            return Ok(response.Result);
+            return await HandleResponse(response, cancellationToken, async (response, ct) => await Mediator
+                .Publish(new CustomerSavedNotification { SavedCustomer = response.Result }, ct));
         }
 
         [HttpGet]
@@ -38,28 +34,22 @@ namespace Crm.Web.Controllers.Api
             EnsureModalStateIsValid();
 
             var request = Mapper.Map<SearchCustomerViewModel, SearchCustomersRequest>(model);
-            
+
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(IsResponseValid(response))
-                return Ok(response.Result);
-
-            return BadRequest(response.Errors);
+            return await HandleResponse(response, cancellationToken);
         }
 
         [HttpGet]
-        public async Task<ActionResult> SearchCustomersByKeyword(SearchCustomersByKeywordViewModel model)
+        public async Task<ActionResult> SearchCustomersByKeyword(SearchCustomersByKeywordViewModel model, CancellationToken cancellationToken)
         {
             EnsureModalStateIsValid();
 
             var request = Mapper.Map<SearchCustomersByKeywordViewModel, SearchCustomersByKeywordRequest>(model);
 
-            var response = await Mediator.Send(request);
+            var response = await Mediator.Send(request, cancellationToken);
 
-            if(IsResponseValid(response))
-                return Ok(response.Result);
-
-            return BadRequest(response.Errors);
+            return await HandleResponse(response, cancellationToken);
         }
 
         [HttpGet]
@@ -68,13 +58,10 @@ namespace Crm.Web.Controllers.Api
             EnsureModalStateIsValid();
 
             var request = Mapper.Map<GetCustomerViewModel, GetCustomerRequest>(model);
-            
+
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(IsResponseValid(response))
-                return Ok(response.Result);
-
-            return BadRequest(response.Errors);
+            return await HandleResponse(response, cancellationToken);
         }
 
         [HttpPost]
@@ -87,10 +74,7 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(IsResponseValid(response))
-                return Ok(response.Result);
-            
-            return BadRequest(response.Errors);
+            return await HandleResponse(response, cancellationToken);
         }
 
         [HttpPost]
@@ -102,14 +86,10 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(!IsResponseValid(response))
-                return BadRequest(response.Errors);
+            return await HandleResponse(response, cancellationToken, async (response, cT) => await Mediator
+                .Publish(new AttributeSavedNotification { IsNewAttribute = response.IsNewAttribute, AttributeId = response.AttributeId })
+            );
 
-            await Mediator.Publish(new AttributeSavedNotification { 
-                IsNewAttribute = response.IsNewAttribute, 
-                AttributeId = response.AttributeId }, cancellationToken);
-
-            return Ok(response.Result);
         }
 
         [HttpGet]
@@ -121,40 +101,31 @@ namespace Crm.Web.Controllers.Api
 
             var response = await Mediator.Send(request, cancellationToken);
 
-            if(IsResponseValid(response))
-                return Ok(response.Result);
-
-            return BadRequest(response.Errors);
+            return await HandleResponse(response, cancellationToken);
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetCustomerPreferences(GetCustomerPreferencesViewModel model)
+        public async Task<ActionResult> GetCustomerPreferences(GetCustomerPreferencesViewModel model, CancellationToken cancellationToken)
         {
             EnsureModalStateIsValid();
 
             var request = Mapper.Map<GetCustomerPreferencesViewModel, GetCustomerPreferencesRequest>(model);
 
-            var response = await Mediator.Send(request);
+            var response = await Mediator.Send(request, cancellationToken);
 
-            if(IsResponseValid(response))
-                return Ok(response.Result);
-
-            return BadRequest(response.Errors);
+            return await HandleResponse(response, cancellationToken);
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveCustomerPreferences([FromForm] SaveCustomerPreferencesViewModel model)
+        public async Task<ActionResult> SaveCustomerPreferences([FromForm] SaveCustomerPreferencesViewModel model, CancellationToken cancellationToken)
         {
             EnsureModalStateIsValid();
 
             var request = Mapper.Map<SaveCustomerPreferencesViewModel, SaveCustomerPreferencesRequest>(model);
 
-            var response = await Mediator.Send(request);
+            var response = await Mediator.Send(request, cancellationToken);
 
-            if(IsResponseValid(response))
-                return Ok(response.Result);
-
-            return BadRequest(response.Errors);
+            return await HandleResponse(response, cancellationToken);
         }
     }
 }
