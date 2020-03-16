@@ -172,5 +172,5 @@ ADD MEMBER AppUser
 SELECT * FROM Crm.dbo.CustomerHash ch
 WHERE (SELECT COUNT(*) Id FROM Crm.dbo.CustomerHash ch1 WHERE ch1.Hash = ch.Hash) > 1
 
-SELECT * FROM Crm.dbo.Customer
-SELECT * FROM Crm.dbo.CustomerHash
+DELETE FROM dbo.Category
+DELETE FROM dbo.Preference

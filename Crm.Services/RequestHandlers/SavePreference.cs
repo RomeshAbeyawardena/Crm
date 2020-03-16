@@ -47,8 +47,8 @@ namespace Crm.Services.RequestHandlers
             var categories = await _cacheProvider.GetCategories(cancellationToken);
 
             var category = string.IsNullOrWhiteSpace(request.CategoryName) 
-                ? _categoryService.GetCategory(categories, request.CategoryName)
-                : _categoryService.GetCategory(categories, request.CategoryId);
+                ? _categoryService.GetCategory(categories, request.CategoryId)
+                : _categoryService.GetCategory(categories, request.CategoryName);
 
             if(category == null)
             { 
