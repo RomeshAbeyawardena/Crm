@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Crm.Web.Controllers.Api
 {
+    [ApiExplorerSettings(IgnoreApi = false, GroupName = nameof(PreferenceController))]
     public class PreferenceController : DefaultApiControllerBase
     {
         public PreferenceController(IMediatorService mediatorService, IMapperProvider mapperProvider) 

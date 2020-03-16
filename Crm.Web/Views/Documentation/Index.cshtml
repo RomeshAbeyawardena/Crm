@@ -1,0 +1,53 @@
+﻿@model ApiDescriptionGroupCollection
+
+    <div class="card bg-dark">
+        <h3>Version @Model.Version</h3>
+    </div>
+
+@{
+    string GetFullTypeName(string typeName)
+    {
+        var s = new List<string>(typeName.Split("."));
+        s.RemoveAt(s.Count - 1);
+        s.RemoveAt(s.Count - 1);
+        var value = string.Join('.', s);
+        
+        return value;
+    }
+
+    string GetAction(string actionDescriptor)
+    {
+        return actionDescriptor.Replace(GetFullTypeName(actionDescriptor), string.Empty);
+    }
+
+}
+
+@foreach(var item in Model.Items)
+{
+<div class="card bg-dark">
+    <div class="card-header">
+        <h4>@item.GroupName</h4>
+    </div>
+    <div class="card-body">
+        @{ var lastItem = string.Empty; }
+
+        @foreach(var subItem in item.Items.OrderBy(item => item.ActionDescriptor.DisplayName)) {
+
+            if(subItem.ActionDescriptor.DisplayName.Equals(lastItem))
+                continue;
+
+            lastItem = subItem.ActionDescriptor.DisplayName;
+
+            <ul class="list-group bg-dark" style="margin-bottom: 1rem">
+                <li class="list-group-item">@subItem.HttpMethod</li>
+                <li class="list-group-item">@(subItem.RelativePath
+                        .Replace("{controller}", subItem.GroupName.Replace("Controller", string.Empty))
+                        .Replace("{action}", GetAction(lastItem)).Replace(".", string.Empty))</li>
+
+                
+            </ul>
+            
+        }
+    </div>
+</div>
+}

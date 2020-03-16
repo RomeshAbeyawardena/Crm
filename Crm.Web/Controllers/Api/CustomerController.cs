@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Crm.Web.Controllers.Api
 {
+    [ApiExplorerSettings(IgnoreApi = false, GroupName = nameof(CustomerController))]
     public class CustomerController : DefaultApiControllerBase
     {
         public CustomerController(IMediatorService mediatorService, IMapperProvider mapperProvider)

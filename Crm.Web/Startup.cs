@@ -10,6 +10,8 @@ using Crm.Domains;
 using Hangfire;
 using System.IO;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using System.Threading.Tasks;
 
 namespace Crm.Web
 {
@@ -40,8 +42,12 @@ namespace Crm.Web
                         var webHostEnvironment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
                         configuration.FileName = Path.Combine(webHostEnvironment.ContentRootPath, "cache.json");
                     });
-                }, out var serviceBroker)
-                .AddControllersWithViews();
+                }, out var serviceBroker);
+
+                services
+                    .AddControllersWithViews();
+
+                //.AddApiExplorer();
 
         }
 
@@ -65,8 +71,11 @@ namespace Crm.Web
 
             app.UseRouting();
             app.UseStaticFiles();
+            //app.UseResponseCompression();
+            
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapControllers();
             });
 
@@ -76,5 +85,6 @@ namespace Crm.Web
 
             configureGlobalConfiguration(serviceProvider);
         }
+
     }
 }

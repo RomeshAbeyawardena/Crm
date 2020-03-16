@@ -1,5 +1,6 @@
 ﻿using DNI.Core.Contracts;
 using DNI.Core.Contracts.Providers;
+using DNI.Core.Domains;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

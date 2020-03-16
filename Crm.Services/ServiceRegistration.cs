@@ -9,6 +9,8 @@ using Crm.Domains;
 using DNI.Core.Services.Extensions;
 using DNI.Core.Contracts.Providers;
 using Hangfire;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Crm.Services
 {
@@ -16,7 +18,11 @@ namespace Crm.Services
     {
         public void RegisterServices(IServiceCollection services, IServiceRegistrationOptions options)
         {
-            services
+                services
+                .AddSingleton<IApiDescriptionGroupCollectionProvider, ApiDescriptionGroupCollectionProvider>()
+                .TryAddEnumerable(ServiceDescriptor.Transient<IApiDescriptionProvider, DefaultApiDescriptionProvider>());
+                
+                services.AddTransient<IApiDescriptionProvider, DefaultApiDescriptionProvider>()
                 .AddSingleton(ConfigureHangfire)
                 .AddSingleton<ApplicationSettings>()
                 .AddAutoMapper(ConfigureAutoMapper, Assembly.GetAssembly(typeof(DomainProfile)))
