@@ -8,6 +8,6 @@ namespace Crm.Domains.Contracts
 {
     public interface IServerInfo
     {
-        
+        string Url { get; set; }
     }
 }
