@@ -38,9 +38,9 @@
 
             lastItem = subItem.ActionDescriptor.DisplayName;
 
-            <ul class="list-group bg-dark" style="margin-bottom: 1rem">
-                <li class="list-group-item">@subItem.HttpMethod</li>
-                <li class="list-group-item">@(subItem.RelativePath
+            <ul class="list-group" style="margin-bottom: 1rem">
+                <li class="list-group-item list-group-item-primary">@subItem.HttpMethod</li>
+                <li class="list-group-item list-group-item-secondary">/@(subItem.RelativePath
                         .Replace("{controller}", subItem.GroupName.Replace("Controller", string.Empty))
                         .Replace("{action}", GetAction(lastItem)).Replace(".", string.Empty))</li>
 

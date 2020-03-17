@@ -34,7 +34,8 @@ namespace Crm.Services.RequestHandlers
                 return Response.Success<GetDocumentationResponse>(_apiExplorer.ApiDescriptionGroups);
 
             var foundGroup = _apiExplorer.ApiDescriptionGroups.Items
-                .Where(descriptionGroup => descriptionGroup.GroupName.Equals(request.GroupName, StringComparison.InvariantCultureIgnoreCase));
+                .Where(descriptionGroup => descriptionGroup.GroupName
+                    .StartsWith(request.GroupName, StringComparison.InvariantCultureIgnoreCase));
 
             if(foundGroup == null)
                 return Response.Failed<GetDocumentationResponse>(new ValidationFailure(nameof(request.GroupName), 
