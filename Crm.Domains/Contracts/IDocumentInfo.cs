@@ -8,6 +8,8 @@ namespace Crm.Domains.Contracts
 {
     public interface IDocumentInfo
     {
-        
+        string Version { get; set; } 
+        string Title { get; set; } 
+        string License { get; set; }
     }
 }

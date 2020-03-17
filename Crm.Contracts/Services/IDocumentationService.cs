@@ -1,4 +1,5 @@
 ﻿using Crm.Domains.Contracts;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace Crm.Contracts.Services
     {
         IDocumentInfo GetDocumentInfo(string version, string title, string license);
         IEnumerable<IServerInfo> GetServerInfo(params string[] hostUrls);
-        IEnumerable<IEndPoint> GetEndPoints();
+        IEnumerable<IEndPoint> GetEndPoints(IApiDescriptionGroupCollectionProvider apiExplorer, string controller = default);
     }
 }
